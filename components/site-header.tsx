@@ -10,10 +10,10 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-14 items-center">
-        <div className="mr-4 hidden md:flex">
+        <div className="mr-4 hidden md:flex md:pl-6">
           <Link href="/" className="mr-6 flex items-center space-x-2">
             <Palette className="h-6 w-6" />
-            <span className="font-bold inline-block">Brand Guidelines</span>
+            <span className="textbase font-light inline-block">Sandworm</span>
           </Link>
         </div>
         <Sheet>
@@ -28,7 +28,7 @@ export function SiteHeader() {
               <SheetTitle>
                 <div className="flex items-center space-x-2">
                   <Palette className="h-6 w-6" />
-                  <span className="font-bold">Brand Guidelines</span>
+                  <span className="textbase font-light">Sandworm</span>
                 </div>
               </SheetTitle>
             </SheetHeader>
@@ -38,7 +38,7 @@ export function SiteHeader() {
           </SheetContent>
         </Sheet>
         <Link href="/" className="mr-6 flex items-center space-x-2 md:hidden">
-          <span className="font-bold inline-block">Brand Guidelines</span>
+          <span className="textbase font-light inline-block">Sandworm</span>
         </Link>
         <div className="flex flex-1 items-center space-x-2 justify-end">
           <div className="w-full flex-1 md:w-auto md:flex-none">

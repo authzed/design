@@ -21,8 +21,8 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Brand Guidelines | Design System',
-  description: 'Comprehensive brand guidelines and design system documentation.',
+  title: 'Sandworm | AuthZed Design System',
+  description: 'AuthZed\'s unified design system, providing the structure and resources to create cohesive, scalable, and user-friendly experiences.',
 };
 
 export default function RootLayout({
