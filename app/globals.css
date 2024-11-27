@@ -1,0 +1,375 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  /* Base Color Tokens */
+  :root {
+    /* Stone Scale */
+    --stone-025: 300 6% 97%;
+    --stone-050: 285 5% 91%;
+    --stone-100: 280 4% 87%;
+    --stone-150: 278 4% 82%;
+    --stone-200: 276 5% 78%;
+    --stone-300: 283 4% 66%;
+    --stone-400: 280 4% 55%;
+    --stone-500: 278 5% 47%;
+    --stone-600: 280 6% 39%;
+    --stone-700: 279 9% 31%;
+    --stone-800: 279 11% 24%;
+    --stone-850: 276 18% 16%;
+    --stone-900: 276 27% 11%;
+    --stone-950: 283 35% 8%;
+    --stone-975: 280 47% 4%;
+
+    /* Red Scale */
+    --red-025: 0 100% 98%;
+    --red-050: 358 100% 97%;
+    --red-100: 357 100% 96%;
+    --red-150: 358 100% 94%;
+    --red-200: 359 100% 92%;
+    --red-300: 357 100% 85%;
+    --red-400: 355 91% 74%;
+    --red-500: 351 84% 64%;
+    --red-600: 351 55% 53%;
+    --red-700: 352 47% 44%;
+    --red-800: 352 45% 35%;
+    --red-850: 354 42% 26%;
+    --red-900: 355 37% 17%;
+    --red-950: 355 33% 8%;
+    --red-975: 355 33% 8%;
+
+    /* Sand Scale */
+    --sand-025: 28 89% 96%;
+    --sand-050: 30 95% 94%;
+    --sand-100: 32 100% 93%;
+    --sand-150: 32 100% 88%;
+    --sand-200: 31 100% 84%;
+    --sand-300: 28 100% 72%;
+    --sand-400: 25 65% 63%;
+    --sand-500: 22 44% 54%;
+    --sand-600: 20 36% 46%;
+    --sand-700: 18 34% 39%;
+    --sand-800: 16 32% 31%;
+    --sand-850: 13 30% 24%;
+    --sand-900: 14 28% 16%;
+    --sand-950: 24 32% 9%;
+    --sand-975: 20 35% 7%;
+
+    /* Teal Scale */
+    --teal-025: 158 36% 96%;
+    --teal-050: 166 32% 94%;
+    --teal-100: 174 29% 93%;
+    --teal-150: 174 28% 89%;
+    --teal-200: 174 28% 85%;
+    --teal-300: 175 28% 73%;
+    --teal-400: 176 29% 57%;
+    --teal-500: 177 28% 46%;
+    --teal-600: 177 26% 39%;
+    --teal-700: 177 25% 33%;
+    --teal-800: 176 24% 26%;
+    --teal-850: 177 22% 20%;
+    --teal-900: 175 19% 13%;
+    --teal-950: 163 24% 6%;
+    --teal-975: 163 24% 6%;
+
+    /* Violet Scale */
+    --violet-025: 253 82% 98%;
+    --violet-050: 254 84% 95%;
+    --violet-100: 255 85% 92%;
+    --violet-150: 256 83% 89%;
+    --violet-200: 256 81% 86%;
+    --violet-300: 255 79% 77%;
+    --violet-400: 253 76% 70%;
+    --violet-500: 253 73% 63%;
+    --violet-600: 252 72% 57%;
+    --violet-700: 255 58% 44%;
+    --violet-800: 259 56% 33%;
+    --violet-850: 263 50% 21%;
+    --violet-900: 265 42% 12%;
+    --violet-950: 272 40% 8%;
+    --violet-975: 272 40% 8%;
+
+    /* Magenta Scale */
+    --magenta-025: 320 43% 97%;
+    --magenta-050: 321 43% 93%;
+    --magenta-100: 321 43% 90%;
+    --magenta-150: 320 42% 85%;
+    --magenta-200: 319 42% 81%;
+    --magenta-300: 318 41% 70%;
+    --magenta-400: 317 40% 60%;
+    --magenta-500: 316 39% 51%;
+    --magenta-600: 314 54% 42%;
+    --magenta-700: 315 50% 33%;
+    --magenta-800: 315 46% 25%;
+    --magenta-850: 318 40% 17%;
+    --magenta-900: 318 32% 10%;
+    --magenta-950: 315 32% 7%;
+    --magenta-975: 315 32% 7%;
+
+    /* Blue Scale */
+    --blue-025: 195 82% 98%;
+    --blue-050: 195 84% 95%;
+    --blue-100: 195 85% 92%;
+    --blue-150: 195 83% 89%;
+    --blue-200: 195 81% 86%;
+    --blue-300: 195 79% 77%;
+    --blue-400: 195 76% 70%;
+    --blue-500: 195 73% 63%;
+    --blue-600: 195 72% 57%;
+    --blue-700: 195 58% 44%;
+    --blue-800: 195 56% 33%;
+    --blue-850: 195 50% 21%;
+    --blue-900: 195 42% 12%;
+    --blue-950: 195 40% 8%;
+    --blue-975: 195 40% 8%;
+
+    /* Semantic Tokens - Light Theme */
+    --background: var(--stone-025);
+    --foreground: var(--stone-975);
+
+    --card: var(--stone-025);
+    --card-foreground: var(--stone-975);
+
+    --popover: var(--stone-025);
+    --popover-foreground: var(--stone-975);
+
+    --primary: var(--stone-900);
+    --primary-foreground: var(--stone-025);
+
+    --secondary: var(--stone-050);
+    --secondary-foreground: var(--stone-975);
+
+    --muted: var(--stone-050);
+    --muted-foreground: var(--stone-700);
+
+    --accent: var(--stone-050);
+    --accent-foreground: var(--stone-900);
+
+    --success: var(--teal-050);
+    --success-foreground: var(--teal-900);
+
+    --warning: var(--sand-050);
+    --warning-foreground: var(--sand-900);
+
+    --error: var(--red-050);
+    --error-foreground: var(--red-900);
+
+    --creative: var(--violet-050);
+    --creative-foreground: var(--violet-900);
+
+    --destructive: var(--red-200);
+    --destructive-foreground: var(--red-800);
+
+    --border: var(--stone-150);
+    --input: var(--stone-150);
+    --ring: var(--stone-150);
+
+    /* Radius */
+    --radius: 0.5rem;
+    --radius-sm: 0.3rem;
+    --radius-md: 0.5rem;
+    --radius-lg: 0.8rem;
+    --radius-full: 9999px;
+  }
+
+  .dark {
+    --background: var(--stone-975);
+    --foreground: var(--stone-025);
+
+    --card: var(--stone-975);
+    --card-foreground: var(--stone-025);
+
+    --popover: var(--stone-975);
+    --popover-foreground: var(--stone-025);
+
+    --primary: var(--stone-025);
+    --primary-foreground: var(--stone-975);
+
+    --secondary: var(--stone-900);
+    --secondary-foreground: var(--stone-050);
+
+    --muted: var(--stone-850);
+    --muted-foreground: var(--stone-400);
+
+    --accent: var(--stone-900);
+    --accent-foreground: var(--stone-050);
+
+    --success: var(--teal-900);
+    --success-foreground: var(--teal-050);
+
+    --warning: var(--sand-900);
+    --warning-foreground: var(--sand-050);
+
+    --error: var(--red-900);
+    --error-foreground: var(--red-050);
+
+    --creative: var(--violet-900);
+    --creative-foreground: var(--violet-050);
+
+    --destructive: var(--red-800);
+    --destructive-foreground: var(--red-200);
+
+    --border: var(--stone-850);
+    --input: var(--stone-850);
+    --ring: var(--stone-800);
+  }
+}
+
+/* Typography Classes - Primary (Inter) */
+.textextrasmall {
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  line-height: 15.6px;
+}
+
+.textsmall {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  line-height: 18.2px;
+}
+
+.textbase {
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  line-height: 20.8px;
+}
+
+.textlarge {
+  font-family: 'Inter', sans-serif;
+  font-size: 18px;
+  line-height: 23.4px;
+}
+
+.textextralarge {
+  font-family: 'Inter', sans-serif;
+  font-size: 20px;
+  line-height: 24px;
+}
+
+.text2xlarge {
+  font-family: 'Inter', sans-serif;
+  font-size: 24px;
+  line-height: 28.8px;
+}
+
+.text3xlarge {
+  font-family: 'Inter', sans-serif;
+  font-size: 30px;
+  line-height: 30px;
+}
+
+.text4xlarge {
+  font-family: 'Inter', sans-serif;
+  font-size: 36px;
+  line-height: 36px;
+}
+
+.text5xlarge {
+  font-family: 'Inter', sans-serif;
+  font-size: 48px;
+  line-height: 48px;
+}
+
+.text6xlarge {
+  font-family: 'Inter', sans-serif;
+  font-size: 60px;
+  line-height: 57px;
+}
+
+.text7xlarge {
+  font-family: 'Inter', sans-serif;
+  font-size: 72px;
+  line-height: 64.8px;
+}
+
+.text8xlarge {
+  font-family: 'Inter', sans-serif;
+  font-size: 96px;
+  line-height: 86.4px;
+}
+
+.text9xlarge {
+  font-family: 'Inter', sans-serif;
+  font-size: 128px;
+  line-height: 115.2px;
+}
+
+/* Typography Classes - Mono (JetBrains Mono) */
+.mono-extrasmall {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  line-height: 15.6px;
+  font-weight: 300;
+}
+
+.mono-small {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  line-height: 18.2px;
+  font-weight: 300;
+}
+
+.mono-base {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 16px;
+  line-height: 20.8px;
+  font-weight: 300;
+}
+
+.mono-large {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 18px;
+  line-height: 23.4px;
+  font-weight: 300;
+}
+
+.mono-extralarge {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 20px;
+  line-height: 24px;
+  font-weight: 300;
+}
+
+/* Font Weights */
+.light {
+  font-weight: 300;
+}
+
+.regular {
+  font-weight: 400;
+}
+
+.medium {
+  font-weight: 500;
+}
+
+.semibold {
+  font-weight: 600;
+}
+
+.bold {
+  font-weight: 700;
+}
+
+/* Text Styles */
+.italic {
+  font-style: italic;
+}
+
+.underlined {
+  text-decoration: underline;
+}
+
+.strikethrough {
+  text-decoration: line-through;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
