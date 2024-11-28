@@ -1,0 +1,16 @@
+{
+  "name": "@authzed/design",
+  "private": true,
+  "workspaces": [
+    "sandworm"
+  ],
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "clean": "turbo run clean"
+  },
+  "devDependencies": {
+    "turbo": "^1.12.4"
+  }
+}
