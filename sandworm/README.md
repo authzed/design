@@ -88,15 +88,15 @@ pnpm start
 
 ### Quick Deploy
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fauthzed%2Fdesign&root-directory=sandworm)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/import/git?s=https%3A%2F%2Fgithub.com%2Fauthzed%2Fdesign&hasTrialAvailable=1&showOptionalTeamCreation=false&project-name=sandworm-design&framework=nextjs&totalProjects=1&remainingProjects=1&root-directory=sandworm)
 
 Once deployed, we can update this section with the deployment status badge.
 
 ### Manual Deployment
 
-1. Fork the repository
-2. Connect your Vercel account
-3. Import the project
+1. Go to [Vercel's Import page](https://vercel.com/import)
+2. Select "Import Git Repository"
+3. Choose the `authzed/design` repository
 4. Configure the deployment:
    - Root Directory: `sandworm`
    - Framework Preset: Next.js
