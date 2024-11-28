@@ -86,7 +86,24 @@ pnpm start
 
 ## 🚀 Deployment
 
-The project includes a `deploy.sh` script for easy deployment. Configure your deployment settings based on your hosting provider.
+### Quick Deploy
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fauthzed%2Fdesign&root-directory=sandworm)
+
+Once deployed, we can update this section with the deployment status badge.
+
+### Manual Deployment
+
+1. Fork the repository
+2. Connect your Vercel account
+3. Import the project
+4. Configure the deployment:
+   - Root Directory: `sandworm`
+   - Framework Preset: Next.js
+   - Build Command: `npm run build` (auto-detected)
+   - Output Directory: `.next` (auto-detected)
+
+The deployment will be configured automatically using the `vercel.json` file in this directory.
 
 ## 📝 License
 
