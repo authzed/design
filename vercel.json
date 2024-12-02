@@ -1,7 +1,8 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": "nextjs",
-  "buildCommand": "cd sandworm && pnpm build",
+  "root": "sandworm",
+  "buildCommand": "cd sandworm && npm install && npm run build",
   "outputDirectory": "sandworm/.next",
-  "installCommand": "pnpm install"
+  "installCommand": "npm install"
 }
