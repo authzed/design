@@ -33,3 +33,14 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# project specific
+brand-guidelines-site.zip
+.bolt/
+
+# IDEs and editors
+.idea/
+.vscode/
+*.swp
+*.swo
+*~

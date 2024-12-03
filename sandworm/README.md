@@ -18,12 +18,6 @@ Whether you're designing something new or enhancing an existing feature, Sandwor
 
 Explore Sandworm, and build with confidence knowing it's always there to support you.
 
-<div align="center">
-
-![Tech Stack](https://skillicons.dev/icons?i=ts,next,tailwind)
-
-</div>
-
 ## ✨ Features
 
 - 🚀 Lightning-fast performance with Next.js 13+ App Router
@@ -32,7 +26,6 @@ Explore Sandworm, and build with confidence knowing it's always there to support
 - 📱 Fully responsive design
 - 🛠 Type-safe development with TypeScript
 - 🎯 Utility-first CSS with Tailwind
-- 🔍 SEO optimized
 
 ## 🚀 Quick Start
 
@@ -50,17 +43,12 @@ pnpm dev
 
 Visit [http://localhost:3000](http://localhost:3000) to see the guidelines in action.
 
-## 🏗 Project Structure
+## 💻 Prerequisites
 
-```
-📦 design
-├── 🚪 app                 # Next.js app router pages
-├── 🧩 components         # Reusable UI components
-├── ⚙️ config            # Site configuration
-├── 🛠 lib               # Utility functions
-├── 🌍 public            # Static assets
-└── 🎣 hooks             # Custom React hooks
-```
+Before you begin, ensure you have the following installed:
+- Node.js 16.x or later
+- pnpm 7.x or later
+- Git
 
 ## 🛠 Development
 
@@ -73,6 +61,9 @@ pnpm build
 
 # Start production server
 pnpm start
+
+# Run linting
+pnpm lint
 ```
 
 ## 📦 Tech Stack
@@ -84,35 +75,19 @@ pnpm start
 - [ESLint](https://eslint.org/) – Linting
 - [Prettier](https://prettier.io/) – Code Formatting
 
-## 🚀 Deployment
+## 🤝 Contributing
 
-### Quick Deploy
+We love your input! We want to make contributing to Sandworm as easy and transparent as possible. Please see our [Contributing Guidelines](.github/CONTRIBUTING.md) for details on:
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/import/git?s=https%3A%2F%2Fgithub.com%2Fauthzed%2Fdesign&hasTrialAvailable=1&showOptionalTeamCreation=false&project-name=sandworm-design&framework=nextjs&totalProjects=1&remainingProjects=1&root-directory=sandworm)
-
-Once deployed, we can update this section with the deployment status badge.
-
-### Manual Deployment
-
-1. Go to [Vercel's Import page](https://vercel.com/import)
-2. Select "Import Git Repository"
-3. Choose the `authzed/design` repository
-4. Configure the deployment:
-   - Root Directory: `sandworm`
-   - Framework Preset: Next.js
-   - Build Command: `npm run build` (auto-detected)
-   - Output Directory: `.next` (auto-detected)
-
-The deployment will be configured automatically using the `vercel.json` file in this directory.
-
-## 📝 License
-
-Apache License 2.0 - See [LICENSE](https://github.com/authzed/design/blob/main/LICENSE) for more details.
+- Reporting bugs
+- Discussing the current state of the code
+- Submitting fixes
+- Proposing new features
 
 ---
 
 <div align="center">
 
-Made with ❤️ by the [AuthZed](https://authzed.com) team
+Made with ❤️ by the Design Team at [AuthZed](https://authzed.com) team
 
 </div>
