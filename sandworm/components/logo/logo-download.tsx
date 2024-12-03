@@ -13,7 +13,7 @@ interface LogoDownloadProps {
 export function LogoDownload({ logo, variant }: LogoDownloadProps) {
   const handleDownload = async (format: 'png' | 'svg') => {
     const path = logo.variants[variant];
-    const svgPath = path.replace('@2x.png', '.svg');
+    const svgPath = path.replace('.png', '.svg');
     const url = format === 'png' ? path : svgPath;
     const filename = `${logo.name}-${variant}.${format}`;
     

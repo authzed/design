@@ -20,10 +20,10 @@ export async function downloadFile(url: string, filename: string) {
 
 export function getBackgroundColor(variant: string) {
   switch (variant) {
-    case "color-dark":
+    case "color-light":
     case "slate-050":
       return "bg-stone-900";
-    case "color-light":
+    case "color-dark":
     case "slate-850":
       return "bg-stone-100";
     default:

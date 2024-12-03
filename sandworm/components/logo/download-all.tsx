@@ -40,7 +40,7 @@ export function DownloadAll({ logos }: DownloadAllProps) {
       const url = window.URL.createObjectURL(content);
       const link = document.createElement('a');
       link.href = url;
-      link.download = 'logos.zip';
+      link.download = 'AuthZed-Logos.zip';
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);

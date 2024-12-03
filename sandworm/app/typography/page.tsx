@@ -38,17 +38,17 @@ export default function TypographyPage() {
   ];
 
   return (
-    <div className="space-y-12">
-      <div>
-        <h1 className="text3xlarge font-light tracking-tight">Typography</h1>
-        <p className="textlarge text-muted-foreground mt-2">
+    <div className="space-y-8">
+      <div className="space-y-2">
+        <h1 className="text-3xl font-semibold tracking-tight">Typography</h1>
+        <p className="text-muted-foreground">
           Our typography system uses Inter as the primary font and JetBrains Mono Light as the monospace font, with carefully crafted sizes and styles.
         </p>
       </div>
 
-      <div className="space-y-12">
+      <div className="space-y-6">
         <section>
-          <h2 className="text2xlarge font-light mb-6">Primary Font (Inter)</h2>
+          <h2 className="text-2xl font-semibold mb-6">Primary Font (Inter)</h2>
           <div className="space-y-8">
             {sizes.map((size) => (
               <div key={size.class} className="border-b pb-4">

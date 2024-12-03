@@ -1,6 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export',
   images: { 
     unoptimized: true,
   },
@@ -11,7 +10,6 @@ const nextConfig = {
     ignoreBuildErrors: true
   },
   swcMinify: true,
-  trailingSlash: true,
   experimental: {
     optimizeCss: true
   }
