@@ -1,5 +1,4 @@
 # 🪱 Sandworm
-
 > **Note**
 > 🚧 This project is currently under active development and is not yet ready for production use.
 > Many features are still being implemented and the documentation is evolving.
@@ -90,4 +89,8 @@ We love your input! We want to make contributing to Sandworm as easy and transpa
 
 Made with ❤️ by the Design Team at [AuthZed](https://authzed.com) team
 
+</div>
+
+<div align="center">
+  <img src="public/images/Sandworm_Illustration.png" alt="Sandworm Illustration" width="600" />
 </div>
