@@ -11,13 +11,21 @@ const nextConfig = {
     ignoreBuildErrors: true
   },
   swcMinify: true,
-  experimental: {
-    optimizeCss: true
-  },
   output: 'standalone',
   poweredByHeader: false,
   compress: true,
-  assetPrefix: process.env.NODE_ENV === 'production' ? 'https://design-authzed.vercel.app' : ''
+  assetPrefix: process.env.NODE_ENV === 'production' ? 'https://design-authzed.vercel.app' : '',
+  experimental: {
+    optimizeCss: true,
+    forceSwcTransforms: true,
+  },
+  webpack: (config) => {
+    config.module.rules.push({
+      test: /\.css$/,
+      use: ['style-loader', 'css-loader', 'postcss-loader'],
+    });
+    return config;
+  },
 };
 
 module.exports = nextConfig;
