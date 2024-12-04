@@ -98,6 +98,15 @@ const sidebarNavItems = [
       },
     ],
   },
+  {
+    title: "Assets",
+    items: [
+      {
+        title: "Banners",
+        href: "/assets/banners",
+      },
+    ],
+  },
 ];
 
 interface SiteNavProps {
