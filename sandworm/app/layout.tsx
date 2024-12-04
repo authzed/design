@@ -11,18 +11,25 @@ import { Container } from '@/components/ui/container';
 const inter = Inter({
   subsets: ['latin'],
   variable: '--font-sans',
-  weight: ['300', '400', '500', '600', '700']
+  weight: ['300', '400', '500', '600', '700'],
+  display: 'swap',
+  preload: true,
+  fallback: ['system-ui', 'sans-serif']
 });
 
 const jetbrainsMono = JetBrains_Mono({
   subsets: ['latin'],
   variable: '--font-mono',
-  weight: ['300']
+  weight: ['300'],
+  display: 'swap',
+  preload: true,
+  fallback: ['monospace']
 });
 
 export const metadata: Metadata = {
   title: 'Sandworm | AuthZed Design System',
   description: 'AuthZed\'s unified design system, providing the structure and resources to create cohesive, scalable, and user-friendly experiences.',
+  metadataBase: new URL('https://design-authzed.vercel.app'),
 };
 
 export default function RootLayout({
