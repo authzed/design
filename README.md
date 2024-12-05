@@ -8,6 +8,14 @@ This repository serves as the central hub for AuthZed's design infrastructure, c
 
 ## Projects
 
+### [Basin](./basin)
+Modern UI component library and design system implementation.
+- React-based UI components
+- TypeScript support
+- Tailwind CSS styling
+- Radix UI primitives
+- Comprehensive design tokens
+
 ### [Sandworm](./sandworm)
 Design system documentation and component library.
 - Component showcase
@@ -24,8 +32,9 @@ Each project within this monorepo is self-contained with its own documentation a
 
 ```
 design/
-├── sandworm/        # Design system documentation
-└── [future-tools]/  # Additional design tools
+├── basin/          # UI component library
+├── sandworm/       # Design system documentation
+└── [future-tools]/ # Additional design tools
 ```
 
 ## Contributing
