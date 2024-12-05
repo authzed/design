@@ -54,8 +54,17 @@ export default function LogoPage() {
                   selectedVariant={selectedVariant}
                   onVariantChange={setSelectedVariant}
                 />
-                <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-                  {logoSets.map((logo) => (
+                <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-2">
+                  {logoSets.slice(0, 2).map((logo) => (
+                    <LogoPreview
+                      key={logo.name}
+                      logo={logo}
+                      variant={selectedVariant}
+                    />
+                  ))}
+                </div>
+                <div className="mt-8 grid gap-8 md:grid-cols-2 lg:grid-cols-2">
+                  {logoSets.slice(2).map((logo) => (
                     <LogoPreview
                       key={logo.name}
                       logo={logo}
@@ -87,6 +96,18 @@ export default function LogoPage() {
                       Digital: 100px width minimum
                       <br />
                       Print: 35mm width minimum
+                    </p>
+                  </div>
+                  <div>
+                    <h4 className="font-medium">Stacked Logo Usage</h4>
+                    <p className="text-muted-foreground">
+                      Use the stacked logo variation in space-constrained contexts, such as:
+                      <br />
+                      - Competitor landscapes
+                      <br />
+                      - Small UI elements
+                      <br />
+                      - Mobile displays
                     </p>
                   </div>
                 </div>

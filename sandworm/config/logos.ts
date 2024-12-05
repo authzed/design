@@ -28,4 +28,14 @@ export const logoSets: LogoSet[] = [
       "slate-850": "/logos/Logomark/AuthZed-LogoMark-Slate-Dark.png",
     },
   },
+  {
+    name: "Stacked",
+    description: "Compact stacked variation for small spaces",
+    variants: {
+      "color-dark": "/logos/Stacked/AuthZed/AuthZed-Wordmark-Stacked-Color-Light@2x.png",
+      "color-light": "/logos/Stacked/AuthZed/AuthZed-Wordmark-Stacked-Color-Dark@2x.png",
+      "slate-050": "/logos/Stacked/AuthZed/AuthZed-Wordmark-Stacked-Slate-Light@2x.png",
+      "slate-850": "/logos/Stacked/AuthZed/AuthZed-Wordmark-Stacked-Slate-Dark@2x.png",
+    },
+  },
 ];
