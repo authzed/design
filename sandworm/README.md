@@ -17,6 +17,13 @@ Whether you're designing something new or enhancing an existing feature, Sandwor
 
 Explore Sandworm, and build with confidence knowing it's always there to support you.
 
+
+<p align="left">
+  <a href="https://design-authzed.vercel.app" style="display: inline-block; padding: 10px 20px; background-color: #000; color: #fff; text-decoration: none; border-radius: 6px; font-weight: 500;">
+    View Sandworm Live →
+  </a>
+</p>
+
 ## ✨ Features
 
 - 🚀 Lightning-fast performance with Next.js 13+ App Router
