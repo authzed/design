@@ -2,7 +2,7 @@ import type { LogoSet } from "@/lib/types";
 
 export const logoSets: LogoSet[] = [
   {
-    name: "Authzed",
+    name: "AuthZed",
     variants: {
       "color-light": "/logos/Authzed/AuthZed-Wordmark-Color-Light.png",
       "color-dark": "/logos/Authzed/AuthZed-Wordmark-Color-Dark.png",
@@ -20,6 +20,16 @@ export const logoSets: LogoSet[] = [
     },
   },
   {
+    name: "AuthZedStacked",
+    description: "Compact stacked variation for small spaces",
+    variants: {
+      "color-dark": "/logos/Stacked/AuthZed/AuthZed-Wordmark-Stacked-Color-Light@2x.png",
+      "color-light": "/logos/Stacked/AuthZed/AuthZed-Wordmark-Stacked-Color-Dark@2x.png",
+      "slate-050": "/logos/Stacked/AuthZed/AuthZed-Wordmark-Stacked-Slate-Light@2x.png",
+      "slate-850": "/logos/Stacked/AuthZed/AuthZed-Wordmark-Stacked-Slate-Dark@2x.png",
+    },
+  },
+  {
     name: "Logomark",
     variants: {
       "color-light": "/logos/Logomark/AuthZed-LogoMark-Color.png",
@@ -29,13 +39,13 @@ export const logoSets: LogoSet[] = [
     },
   },
   {
-    name: "Stacked",
+    name: "SpiceDB Stacked",
     description: "Compact stacked variation for small spaces",
     variants: {
-      "color-dark": "/logos/Stacked/AuthZed/AuthZed-Wordmark-Stacked-Color-Light@2x.png",
-      "color-light": "/logos/Stacked/AuthZed/AuthZed-Wordmark-Stacked-Color-Dark@2x.png",
-      "slate-050": "/logos/Stacked/AuthZed/AuthZed-Wordmark-Stacked-Slate-Light@2x.png",
-      "slate-850": "/logos/Stacked/AuthZed/AuthZed-Wordmark-Stacked-Slate-Dark@2x.png",
+      "color-dark": "/logos/Stacked/SpiceDB/SpiceDB-Wordmark-Stacked-Color-Light@2x.png",
+      "color-light": "/logos/Stacked/SpiceDB/SpiceDB-Wordmark-Stacked-Color-Dark@2x.png",
+      "slate-050": "/logos/Stacked/SpiceDB/SpiceDB-Wordmark-Stacked-Slate-Light@2x.png",
+      "slate-850": "/logos/Stacked/SpiceDB/SpiceDB-Wordmark-Stacked-Slate-Dark@2x.png",
     },
   },
 ];

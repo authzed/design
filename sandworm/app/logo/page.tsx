@@ -63,7 +63,7 @@ export default function LogoPage() {
                     />
                   ))}
                 </div>
-                <div className="mt-8 grid gap-8 md:grid-cols-2 lg:grid-cols-2">
+                <div className="mt-8 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
                   {logoSets.slice(2).map((logo) => (
                     <LogoPreview
                       key={logo.name}
