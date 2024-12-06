@@ -39,89 +39,50 @@ export default function LogoPage() {
 
       <div className="space-y-6">
         <section>
-          <div className="mb-6 flex items-center justify-between">
-            <h2 className="text-2xl font-semibold">Logo Variations</h2>
-            <DownloadAll logos={logoSets} />
-          </div>
-          <Tabs defaultValue="variants" className="space-y-4">
-            <TabsList>
-              <TabsTrigger value="variants">Variants</TabsTrigger>
-              <TabsTrigger value="usage">Usage Guidelines</TabsTrigger>
-            </TabsList>
-            <TabsContent value="variants" className="space-y-6">
-              <Card className="p-6">
-                <LogoVariantSelector
-                  selectedVariant={selectedVariant}
-                  onVariantChange={setSelectedVariant}
-                />
-                <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-2">
-                  {logoSets.slice(0, 2).map((logo) => (
-                    <LogoPreview
-                      key={logo.name}
-                      logo={logo}
-                      variant={selectedVariant}
-                    />
-                  ))}
-                </div>
-                <div className="mt-8 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-                  {logoSets.slice(2).map((logo) => (
-                    <LogoPreview
-                      key={logo.name}
-                      logo={logo}
-                      variant={selectedVariant}
-                    />
-                  ))}
-                </div>
-              </Card>
-            </TabsContent>
-            <TabsContent value="usage" className="space-y-6">
-              <Card className="p-6">
-                <h3 className="mb-4 text-xl font-semibold">Usage Guidelines</h3>
-                <div className="space-y-4">
-                  <div>
-                    <h4 className="font-medium">Light Backgrounds</h4>
-                    <p className="text-muted-foreground">
-                      Use Color Light or Slate 850 variants on light backgrounds.
-                    </p>
-                  </div>
-                  <div>
-                    <h4 className="font-medium">Dark Backgrounds</h4>
-                    <p className="text-muted-foreground">
-                      Use Color Dark or Slate 050 variants on dark backgrounds.
-                    </p>
-                  </div>
-                  <div>
-                    <h4 className="font-medium">Minimum Size</h4>
-                    <p className="text-muted-foreground">
-                      Digital: 100px width minimum
-                      <br />
-                      Print: 35mm width minimum
-                    </p>
-                  </div>
-                  <div>
-                    <h4 className="font-medium">Stacked Logo Usage</h4>
-                    <p className="text-muted-foreground">
-                      Use the stacked logo variation in space-constrained contexts, such as:
-                      <br />
-                      - Competitor landscapes
-                      <br />
-                      - Small UI elements
-                      <br />
-                      - Mobile displays
-                    </p>
-                  </div>
-                </div>
-              </Card>
-            </TabsContent>
-          </Tabs>
+          <Card className="p-6">
+            <div className="mb-6">
+              <h2 className="text-2xl font-semibold">Logo Variations</h2>
+            </div>
+
+            <div className="mb-6 flex items-center justify-between">
+              <LogoVariantSelector
+                selectedVariant={selectedVariant}
+                onVariantChange={setSelectedVariant}
+              />
+              <DownloadAll logos={logoSets} />
+            </div>
+
+            <div className="space-y-8">
+              <div className="grid gap-8 md:grid-cols-2">
+                {logoSets.slice(0, 2).map((logo) => (
+                  <LogoPreview
+                    key={logo.name}
+                    logo={logo}
+                    variant={selectedVariant}
+                  />
+                ))}
+              </div>
+              <div className="grid gap-8 md:grid-cols-3">
+                {logoSets.slice(2).map((logo) => (
+                  <LogoPreview
+                    key={logo.name}
+                    logo={logo}
+                    variant={selectedVariant}
+                  />
+                ))}
+              </div>
+            </div>
+          </Card>
         </section>
 
         <section>
-          <h2 className="mb-6 text-2xl font-semibold">Do's and Don'ts</h2>
-          <div className="grid gap-6 md:grid-cols-2">
-            <GuidelinesCard type="do" items={doItems} />
-            <GuidelinesCard type="dont" items={dontItems} />
-          </div>
+          <Card className="p-6">
+            <h2 className="mb-6 text-2xl font-semibold">Usage Guidelines</h2>
+            <div className="grid gap-6 md:grid-cols-2">
+              <GuidelinesCard title="Do" items={doItems} type="do" />
+              <GuidelinesCard title="Don't" items={dontItems} type="dont" />
+            </div>
+          </Card>
         </section>
       </div>
     </div>
