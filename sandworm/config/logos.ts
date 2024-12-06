@@ -19,8 +19,8 @@ export const logoSets: LogoSet[] = [
       "slate-850": {
         png: "/logos/authzed/AuthZed-Wordmark-Slate-Dark.png",
         svg: "/logos/authzed/AuthZed-Wordmark-Slate-Dark.svg"
-      },
-    },
+      }
+    }
   },
   {
     name: "SpiceDB",
@@ -40,14 +40,12 @@ export const logoSets: LogoSet[] = [
       "slate-850": {
         png: "/logos/spicedb/SpiceDB-Wordmark-Slate-Dark.png",
         svg: "/logos/spicedb/SpiceDB-Wordmark-Slate-Dark.svg"
-      },
-    },
+      }
+    }
   },
   {
     name: "AuthZedStacked",
     description: "Compact stacked variation for small spaces",
-[update-logo-page bcca16c] fix: update logo paths to use correct case-sensitive directory structure
- 1 file changed, 80 insertions(+), 20 deletions(-)
     variants: {
       "color-light": {
         png: "/logos/authzed/stacked/AuthZed-Wordmark-Stacked-Color-Light.png",
@@ -64,8 +62,8 @@ export const logoSets: LogoSet[] = [
       "slate-850": {
         png: "/logos/authzed/stacked/AuthZed-Wordmark-Stacked-Slate-Dark.png",
         svg: "/logos/authzed/stacked/AuthZed-Wordmark-Stacked-Slate-Dark.svg"
-      },
-    },
+      }
+    }
   },
   {
     name: "Logomark",
@@ -85,8 +83,8 @@ export const logoSets: LogoSet[] = [
       "slate-850": {
         png: "/logos/logomark/AuthZed-LogoMark-Circle-Slate-Dark.png",
         svg: "/logos/logomark/AuthZed-LogoMark-Circle-Slate-Dark.svg"
-      },
-    },
+      }
+    }
   },
   {
     name: "SpiceDB Stacked",
@@ -107,7 +105,7 @@ export const logoSets: LogoSet[] = [
       "slate-850": {
         png: "/logos/spicedb/stacked/SpiceDB-Wordmark-Stacked-Slate-Dark.png",
         svg: "/logos/spicedb/stacked/SpiceDB-Wordmark-Stacked-Slate-Dark.svg"
-      },
-    },
-  },
+      }
+    }
+  }
 ];
