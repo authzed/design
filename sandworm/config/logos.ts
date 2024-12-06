@@ -5,20 +5,20 @@ export const logoSets: LogoSet[] = [
     name: "AuthZed",
     variants: {
       "color-light": {
-        png: "/logos/Authzed/AuthZed-Wordmark-Color-Light.png",
-        svg: "/logos/Authzed/AuthZed-Wordmark-Color-Light.svg"
+        png: "/logos/Authzed/Authzed-Wordmark-Color-Light.png",
+        svg: "/logos/Authzed/Authzed-Wordmark-Color-Light.svg"
       },
       "color-dark": {
-        png: "/logos/Authzed/AuthZed-Wordmark-Color-Dark.png",
-        svg: "/logos/Authzed/AuthZed-Wordmark-Color-Dark.svg"
+        png: "/logos/Authzed/Authzed-Wordmark-Color-Dark.png",
+        svg: "/logos/Authzed/Authzed-Wordmark-Color-Dark.svg"
       },
       "slate-050": {
-        png: "/logos/Authzed/AuthZed-Wordmark-Slate-Light.png",
-        svg: "/logos/Authzed/AuthZed-Wordmark-Slate-Light.svg"
+        png: "/logos/Authzed/Authzed-Wordmark-Slate-Light.png",
+        svg: "/logos/Authzed/Authzed-Wordmark-Slate-Light.svg"
       },
       "slate-850": {
-        png: "/logos/Authzed/AuthZed-Wordmark-Slate-Dark.png",
-        svg: "/logos/Authzed/AuthZed-Wordmark-Slate-Dark.svg"
+        png: "/logos/Authzed/Authzed-Wordmark-Slate-Dark.png",
+        svg: "/logos/Authzed/Authzed-Wordmark-Slate-Dark.svg"
       }
     }
   },
@@ -48,20 +48,20 @@ export const logoSets: LogoSet[] = [
     description: "Compact stacked variation for small spaces",
     variants: {
       "color-light": {
-        png: "/logos/Authzed/Stacked/AuthZed-Wordmark-Stacked-Color-Light.png",
-        svg: "/logos/Authzed/Stacked/AuthZed-Wordmark-Stacked-Color-Light.svg"
+        png: "/logos/Authzed/Stacked/Authzed-Wordmark-Stacked-Color-Light.png",
+        svg: "/logos/Authzed/Stacked/Authzed-Wordmark-Stacked-Color-Light.svg"
       },
       "color-dark": {
-        png: "/logos/Authzed/Stacked/AuthZed-Wordmark-Stacked-Color-Dark.png",
-        svg: "/logos/Authzed/Stacked/AuthZed-Wordmark-Stacked-Color-Dark.svg"
+        png: "/logos/Authzed/Stacked/Authzed-Wordmark-Stacked-Color-Dark.png",
+        svg: "/logos/Authzed/Stacked/Authzed-Wordmark-Stacked-Color-Dark.svg"
       },
       "slate-050": {
-        png: "/logos/Authzed/Stacked/AuthZed-Wordmark-Stacked-Slate-Light.png",
-        svg: "/logos/Authzed/Stacked/AuthZed-Wordmark-Stacked-Slate-Light.svg"
+        png: "/logos/Authzed/Stacked/Authzed-Wordmark-Stacked-Slate-Light.png",
+        svg: "/logos/Authzed/Stacked/Authzed-Wordmark-Stacked-Slate-Light.svg"
       },
       "slate-850": {
-        png: "/logos/Authzed/Stacked/AuthZed-Wordmark-Stacked-Slate-Dark.png",
-        svg: "/logos/Authzed/Stacked/AuthZed-Wordmark-Stacked-Slate-Dark.svg"
+        png: "/logos/Authzed/Stacked/Authzed-Wordmark-Stacked-Slate-Dark.png",
+        svg: "/logos/Authzed/Stacked/Authzed-Wordmark-Stacked-Slate-Dark.svg"
       }
     }
   },
@@ -91,20 +91,20 @@ export const logoSets: LogoSet[] = [
     name: "Logomark",
     variants: {
       "color-light": {
-        png: "/logos/Logomark/AuthZed-LogoMark-Circle-Color.png",
-        svg: "/logos/Logomark/AuthZed-LogoMark-Circle-Color.svg"
+        png: "/logos/Logomark/Authzed-LogoMark-Circle-Color.png",
+        svg: "/logos/Logomark/Authzed-LogoMark-Circle-Color.svg"
       },
       "color-dark": {
-        png: "/logos/Logomark/AuthZed-LogoMark-Circle-Color.png",
-        svg: "/logos/Logomark/AuthZed-LogoMark-Circle-Color.svg"
+        png: "/logos/Logomark/Authzed-LogoMark-Circle-Color.png",
+        svg: "/logos/Logomark/Authzed-LogoMark-Circle-Color.svg"
       },
       "slate-050": {
-        png: "/logos/Logomark/AuthZed-LogoMark-Circle-Slate-Light.png",
-        svg: "/logos/Logomark/AuthZed-LogoMark-Circle-Slate-Light.svg"
+        png: "/logos/Logomark/Authzed-LogoMark-Circle-Slate-Light.png",
+        svg: "/logos/Logomark/Authzed-LogoMark-Circle-Slate-Light.svg"
       },
       "slate-850": {
-        png: "/logos/Logomark/AuthZed-LogoMark-Circle-Slate-Dark.png",
-        svg: "/logos/Logomark/AuthZed-LogoMark-Circle-Slate-Dark.svg"
+        png: "/logos/Logomark/Authzed-LogoMark-Circle-Slate-Dark.png",
+        svg: "/logos/Logomark/Authzed-LogoMark-Circle-Slate-Dark.svg"
       }
     }
   }
