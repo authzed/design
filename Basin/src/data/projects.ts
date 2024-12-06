@@ -1,0 +1,132 @@
+import {
+  Palette,
+  Box,
+  Layers,
+  Sparkles,
+  Shapes,
+  Layout,
+  Paintbrush,
+  Component,
+  Pencil,
+} from 'lucide-react';
+import type { Project } from '../types';
+
+export const projects: Project[] = [
+  {
+    icon: Palette,
+    title: 'Tailwind CSS',
+    technology: 'CSS Framework',
+    description: 'A utility-first CSS framework packed with classes that can be composed to build any design, directly in your markup.',
+    color: 'text-blue-600',
+    demoUrl: 'https://tailwindcss.com',
+    previewUrl: 'https://opengraph.githubassets.com/1/tailwindlabs/tailwindcss',
+    sourceUrl: 'https://github.com/tailwindlabs/tailwindcss',
+    category: 'CSS Framework',
+    tags: ['CSS', 'Utility-First', 'PostCSS', 'Design System'],
+    createdAt: '2024-03-15'
+  },
+  {
+    icon: Box,
+    title: 'Chakra UI',
+    technology: 'React Component Library',
+    description: 'A simple, modular and accessible component library that gives you the building blocks to build React applications.',
+    color: 'text-green-600',
+    demoUrl: 'https://chakra-ui.com',
+    previewUrl: 'https://opengraph.githubassets.com/1/chakra-ui/chakra-ui',
+    sourceUrl: 'https://github.com/chakra-ui/chakra-ui',
+    category: 'Component Library',
+    tags: ['React', 'Accessible', 'Themeable', 'Components'],
+    createdAt: '2024-03-10'
+  },
+  {
+    icon: Layers,
+    title: 'Radix UI',
+    technology: 'Headless Components',
+    description: 'Unstyled, accessible components for building high‑quality design systems and web apps in React.',
+    color: 'text-purple-600',
+    demoUrl: 'https://www.radix-ui.com',
+    previewUrl: 'https://opengraph.githubassets.com/1/radix-ui/primitives',
+    sourceUrl: 'https://github.com/radix-ui/primitives',
+    category: 'Design System',
+    tags: ['Headless UI', 'Accessible', 'React', 'Primitives'],
+    createdAt: '2024-03-05'
+  },
+  {
+    icon: Sparkles,
+    title: 'Framer Motion',
+    technology: 'Animation Library',
+    description: 'A production-ready motion library for React. Utilize the power of animation to create engaging user interfaces.',
+    color: 'text-orange-600',
+    demoUrl: 'https://www.framer.com/motion',
+    previewUrl: 'https://opengraph.githubassets.com/1/framer/motion',
+    sourceUrl: 'https://github.com/framer/motion',
+    category: 'Animation',
+    tags: ['Animation', 'React', 'Motion', 'Gestures'],
+    createdAt: '2024-03-01'
+  },
+  {
+    icon: Shapes,
+    title: 'Storybook',
+    technology: 'Development Environment',
+    description: 'Build UI components and pages in isolation. It streamlines UI development, testing, and documentation.',
+    color: 'text-red-600',
+    demoUrl: 'https://storybook.js.org',
+    previewUrl: 'https://opengraph.githubassets.com/1/storybookjs/storybook',
+    sourceUrl: 'https://github.com/storybookjs/storybook',
+    category: 'Development Tools',
+    tags: ['Documentation', 'Testing', 'Components', 'Development'],
+    createdAt: '2024-02-28'
+  },
+  {
+    icon: Layout,
+    title: 'shadcn/ui',
+    technology: 'React Components',
+    description: 'Beautifully designed components built with Radix UI and Tailwind CSS. Copy and paste into your apps.',
+    color: 'text-indigo-600',
+    demoUrl: 'https://ui.shadcn.com',
+    previewUrl: 'https://opengraph.githubassets.com/1/shadcn-ui/ui',
+    sourceUrl: 'https://github.com/shadcn-ui/ui',
+    category: 'Component Library',
+    tags: ['React', 'Tailwind CSS', 'Radix UI', 'Components'],
+    createdAt: '2024-02-25'
+  },
+  {
+    icon: Paintbrush,
+    title: 'Material UI',
+    technology: 'React UI Framework',
+    description: 'A comprehensive suite of UI tools and components, implementing Google\'s Material Design.',
+    color: 'text-pink-600',
+    demoUrl: 'https://mui.com',
+    previewUrl: 'https://opengraph.githubassets.com/1/mui/material-ui',
+    sourceUrl: 'https://github.com/mui/material-ui',
+    category: 'Design System',
+    tags: ['Material Design', 'React', 'Components', 'Theme'],
+    createdAt: '2024-02-20'
+  },
+  {
+    icon: Component,
+    title: 'Mantine',
+    technology: 'React Components',
+    description: 'A fully featured React components library with 100+ customizable components and hooks.',
+    color: 'text-cyan-600',
+    demoUrl: 'https://mantine.dev',
+    previewUrl: 'https://opengraph.githubassets.com/1/mantinedev/mantine',
+    sourceUrl: 'https://github.com/mantinedev/mantine',
+    category: 'Component Library',
+    tags: ['React', 'TypeScript', 'Hooks', 'Theming'],
+    createdAt: '2024-02-15'
+  },
+  {
+    icon: Pencil,
+    title: 'Figma UI Kit',
+    technology: 'Design Resources',
+    description: 'Open-source UI kit for Figma with comprehensive design components and styles.',
+    color: 'text-yellow-600',
+    demoUrl: 'https://www.figma.com/community/file/768809027799962739',
+    previewUrl: 'https://opengraph.githubassets.com/1/figma/figma-api-demo',
+    sourceUrl: 'https://github.com/figma/figma-api-demo',
+    category: 'Design Tools',
+    tags: ['Figma', 'UI Kit', 'Design System', 'Resources'],
+    createdAt: '2024-02-10'
+  }
+];
