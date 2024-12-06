@@ -46,6 +46,8 @@ export const logoSets: LogoSet[] = [
   {
     name: "AuthZedStacked",
     description: "Compact stacked variation for small spaces",
+[update-logo-page bcca16c] fix: update logo paths to use correct case-sensitive directory structure
+ 1 file changed, 80 insertions(+), 20 deletions(-)
     variants: {
       "color-light": {
         png: "/logos/authzed/stacked/AuthZed-Wordmark-Stacked-Color-Light.png",
