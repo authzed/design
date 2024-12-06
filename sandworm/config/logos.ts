@@ -4,48 +4,108 @@ export const logoSets: LogoSet[] = [
   {
     name: "AuthZed",
     variants: {
-      "color-light": "/logos/Authzed/AuthZed-Wordmark-Color-Light.png",
-      "color-dark": "/logos/Authzed/AuthZed-Wordmark-Color-Dark.png",
-      "slate-050": "/logos/Authzed/AuthZed-Wordmark-Slate-Light.png",
-      "slate-850": "/logos/Authzed/AuthZed-Wordmark-Slate-Dark.png",
-    },
+      "color-light": {
+        png: "/AuthZed-Wordmark-Color-Light.png",
+        svg: "/AuthZed-Wordmark-Color-Light.svg"
+      },
+      "color-dark": {
+        png: "/AuthZed-Wordmark-Color-Dark.png",
+        svg: "/AuthZed-Wordmark-Color-Dark.svg"
+      },
+      "slate-050": {
+        png: "/AuthZed-Wordmark-Slate-Light.png",
+        svg: "/AuthZed-Wordmark-Slate-Light.svg"
+      },
+      "slate-850": {
+        png: "/AuthZed-Wordmark-Slate-Dark.png",
+        svg: "/AuthZed-Wordmark-Slate-Dark.svg"
+      }
+    }
   },
   {
     name: "SpiceDB",
     variants: {
-      "color-light": "/logos/SpiceDB/SpiceDB-Wordmark-Color-Light.png",
-      "color-dark": "/logos/SpiceDB/SpiceDB-Wordmark-Color-Dark.png",
-      "slate-050": "/logos/SpiceDB/SpiceDB-Wordmark-Slate-Light.png",
-      "slate-850": "/logos/SpiceDB/SpiceDB-Wordmark-Slate-Dark.png",
-    },
+      "color-light": {
+        png: "/SpiceDB-Wordmark-Color-Light.png",
+        svg: "/SpiceDB-Wordmark-Color-Light.svg"
+      },
+      "color-dark": {
+        png: "/SpiceDB-Wordmark-Color-Dark.png",
+        svg: "/SpiceDB-Wordmark-Color-Dark.svg"
+      },
+      "slate-050": {
+        png: "/SpiceDB-Wordmark-Slate-Light.png",
+        svg: "/SpiceDB-Wordmark-Slate-Light.svg"
+      },
+      "slate-850": {
+        png: "/SpiceDB-Wordmark-Slate-Dark.png",
+        svg: "/SpiceDB-Wordmark-Slate-Dark.svg"
+      }
+    }
   },
   {
     name: "AuthZedStacked",
     description: "Compact stacked variation for small spaces",
     variants: {
-      "color-dark": "/logos/Stacked/AuthZed/AuthZed-Wordmark-Stacked-Color-Light@2x.png",
-      "color-light": "/logos/Stacked/AuthZed/AuthZed-Wordmark-Stacked-Color-Dark@2x.png",
-      "slate-050": "/logos/Stacked/AuthZed/AuthZed-Wordmark-Stacked-Slate-Light@2x.png",
-      "slate-850": "/logos/Stacked/AuthZed/AuthZed-Wordmark-Stacked-Slate-Dark@2x.png",
-    },
+      "color-light": {
+        png: "/Stacked/AuthZed-Wordmark-Stacked-Color-Light.png",
+        svg: "/Stacked/AuthZed-Wordmark-Stacked-Color-Light.svg"
+      },
+      "color-dark": {
+        png: "/Stacked/AuthZed-Wordmark-Stacked-Color-Dark.png",
+        svg: "/Stacked/AuthZed-Wordmark-Stacked-Color-Dark.svg"
+      },
+      "slate-050": {
+        png: "/Stacked/AuthZed-Wordmark-Stacked-Slate-Light.png",
+        svg: "/Stacked/AuthZed-Wordmark-Stacked-Slate-Light.svg"
+      },
+      "slate-850": {
+        png: "/Stacked/AuthZed-Wordmark-Stacked-Slate-Dark.png",
+        svg: "/Stacked/AuthZed-Wordmark-Stacked-Slate-Dark.svg"
+      }
+    }
+  },
+  {
+    name: "SpiceDBStacked",
+    description: "Compact stacked variation for small spaces",
+    variants: {
+      "color-light": {
+        png: "/Stacked/SpiceDB-Wordmark-Stacked-Color-Light.png",
+        svg: "/Stacked/SpiceDB-Wordmark-Stacked-Color-Light.svg"
+      },
+      "color-dark": {
+        png: "/Stacked/SpiceDB-Wordmark-Stacked-Color-Dark.png",
+        svg: "/Stacked/SpiceDB-Wordmark-Stacked-Color-Dark.svg"
+      },
+      "slate-050": {
+        png: "/Stacked/SpiceDB-Wordmark-Stacked-Slate-Light.png",
+        svg: "/Stacked/SpiceDB-Wordmark-Stacked-Slate-Light.svg"
+      },
+      "slate-850": {
+        png: "/Stacked/SpiceDB-Wordmark-Stacked-Slate-Dark.png",
+        svg: "/Stacked/SpiceDB-Wordmark-Stacked-Slate-Dark.svg"
+      }
+    }
   },
   {
     name: "Logomark",
     variants: {
-      "color-light": "/logos/Logomark/AuthZed-LogoMark-Color.png",
-      "color-dark": "/logos/Logomark/AuthZed-LogoMark-Color.png",
-      "slate-050": "/logos/Logomark/AuthZed-LogoMark-Slate-Light.png",
-      "slate-850": "/logos/Logomark/AuthZed-LogoMark-Slate-Dark.png",
-    },
-  },
-  {
-    name: "SpiceDB Stacked",
-    description: "Compact stacked variation for small spaces",
-    variants: {
-      "color-dark": "/logos/Stacked/SpiceDB/SpiceDB-Wordmark-Stacked-Color-Light@2x.png",
-      "color-light": "/logos/Stacked/SpiceDB/SpiceDB-Wordmark-Stacked-Color-Dark@2x.png",
-      "slate-050": "/logos/Stacked/SpiceDB/SpiceDB-Wordmark-Stacked-Slate-Light@2x.png",
-      "slate-850": "/logos/Stacked/SpiceDB/SpiceDB-Wordmark-Stacked-Slate-Dark@2x.png",
-    },
-  },
+      "color-light": {
+        png: "/AuthZed-Logomark-Circle-Color.png",
+        svg: "/AuthZed-Logomark-Circle-Color.svg"
+      },
+      "color-dark": {
+        png: "/AuthZed-Logomark-Circle-Color.png",
+        svg: "/AuthZed-Logomark-Circle-Color.svg"
+      },
+      "slate-050": {
+        png: "/AuthZed-Logomark-Circle-Slate-Light.png",
+        svg: "/AuthZed-Logomark-Circle-Slate-Light.svg"
+      },
+      "slate-850": {
+        png: "/AuthZed-Logomark-Circle-Slate-Dark.png",
+        svg: "/AuthZed-Logomark-Circle-Slate-Dark.svg"
+      }
+    }
+  }
 ];

@@ -1,36 +1,39 @@
 "use client";
 
 import Image from "next/image";
-import { LogoSet, LogoVariant } from "@/lib/types";
+import type { LogoSet, LogoVariant } from "@/lib/types";
 import { LogoDownload } from "./logo-download";
+import { Card } from "@/components/ui/card";
 import { getBackgroundColor } from "./utils";
 
 interface LogoPreviewProps {
   logo: LogoSet;
   variant: LogoVariant;
+  preferSvg?: boolean;
 }
 
-export function LogoPreview({ logo, variant }: LogoPreviewProps) {
-  const isLogomark = logo.name === "Logomark";
-
+export function LogoPreview({ logo, variant, preferSvg = true }: LogoPreviewProps) {
+  const logoPath = preferSvg ? logo.variants[variant].svg : logo.variants[variant].png;
+  const isDark = variant.includes("dark") || variant === "slate-850";
+  
   return (
-    <div className="space-y-4">
-      <div className="flex items-center justify-between">
-        <h3 className="text-xl font-semibold">{logo.name}</h3>
+    <Card className="overflow-hidden">
+      <div className={`relative flex h-32 items-center justify-center p-6 ${
+        isDark ? "bg-slate-950" : "bg-background"
+      }`}>
+        <Image
+          src={logoPath}
+          alt={`${logo.name} ${variant} logo`}
+          className="h-auto max-h-full w-auto"
+          width={200}
+          height={100}
+          priority
+        />
+      </div>
+      <div className="flex items-center justify-between border-t bg-muted/10 px-4 py-2">
+        <h3 className="text-sm font-medium">{logo.name}</h3>
         <LogoDownload logo={logo} variant={variant} />
       </div>
-      <div className={`flex h-32 items-center justify-center rounded-lg p-8 ${getBackgroundColor(variant)}`}>
-        <div className={`relative ${isLogomark ? "h-16 w-16" : "h-16 w-full"}`}>
-          <Image
-            src={logo.variants[variant]}
-            alt={`${logo.name} ${variant} logo`}
-            fill
-            className="object-contain"
-            priority
-            unoptimized
-          />
-        </div>
-      </div>
-    </div>
+    </Card>
   );
 }

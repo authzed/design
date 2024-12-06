@@ -1,9 +1,14 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { Download } from "lucide-react";
-import { LogoSet, LogoVariant } from "@/lib/types";
-import { downloadFile } from "./utils";
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import type { LogoSet, LogoVariant } from "@/lib/types";
 
 interface LogoDownloadProps {
   logo: LogoSet;
@@ -11,39 +16,32 @@ interface LogoDownloadProps {
 }
 
 export function LogoDownload({ logo, variant }: LogoDownloadProps) {
-  const handleDownload = async (format: 'png' | 'svg') => {
-    const path = logo.variants[variant];
-    const svgPath = path.replace('.png', '.svg');
-    const url = format === 'png' ? path : svgPath;
-    const filename = `${logo.name}-${variant}.${format}`;
-    
-    try {
-      await downloadFile(url, filename);
-    } catch (error) {
-      console.error('Download failed:', error);
-    }
+  const downloadLogo = (format: 'png' | 'svg') => {
+    const path = logo.variants[variant][format];
+    const link = document.createElement("a");
+    link.href = path;
+    link.download = path.split("/").pop() || `${logo.name}-${variant}.${format}`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   return (
-    <div className="flex gap-2">
-      <Button
-        variant="outline"
-        size="sm"
-        onClick={() => handleDownload('png')}
-        className="flex items-center gap-2"
-      >
-        <Download className="h-4 w-4" />
-        PNG
-      </Button>
-      <Button
-        variant="outline"
-        size="sm"
-        onClick={() => handleDownload('svg')}
-        className="flex items-center gap-2"
-      >
-        <Download className="h-4 w-4" />
-        SVG
-      </Button>
-    </div>
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="ghost" size="icon">
+          <Download className="h-4 w-4" />
+          <span className="sr-only">Download logo</span>
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end">
+        <DropdownMenuItem onClick={() => downloadLogo('png')}>
+          Download PNG
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => downloadLogo('svg')}>
+          Download SVG
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }

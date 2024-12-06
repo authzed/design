@@ -1,7 +1,13 @@
 "use client";
 
+import { FileDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Download } from "lucide-react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import type { LogoSet } from "@/lib/types";
 import JSZip from "jszip";
 
@@ -12,51 +18,60 @@ interface DownloadAllProps {
 export function DownloadAll({ logos }: DownloadAllProps) {
   const handleDownloadAll = async () => {
     const zip = new JSZip();
-    
-    for (const logo of logos) {
-      const logoFolder = zip.folder(logo.name);
-      if (!logoFolder) continue;
+    const formats = ['png', 'svg'] as const;
 
-      for (const [variant, path] of Object.entries(logo.variants)) {
-        try {
-          // Download PNG
-          const pngResponse = await fetch(path);
-          const pngBlob = await pngResponse.blob();
-          logoFolder.file(`${logo.name}-${variant}.png`, pngBlob);
+    logos.forEach((logo) => {
+      const folderName = logo.name.replace(/\s+/g, '-');
+      const logoFolder = zip.folder(folderName);
+      if (!logoFolder) return;
 
-          // Download SVG
-          const svgPath = path.replace('@2x.png', '.svg');
-          const svgResponse = await fetch(svgPath);
-          const svgBlob = await svgResponse.blob();
-          logoFolder.file(`${logo.name}-${variant}.svg`, svgBlob);
-        } catch (error) {
-          console.error(`Failed to download ${logo.name} ${variant}:`, error);
-        }
-      }
-    }
+      // Create format-specific subfolders
+      const pngFolder = logoFolder.folder('png');
+      const svgFolder = logoFolder.folder('svg');
+      if (!pngFolder || !svgFolder) return;
+
+      Object.entries(logo.variants).forEach(([variant, paths]) => {
+        // Get filenames without path
+        const pngFileName = paths.png.split('/').pop() || `${folderName}-${variant}.png`;
+        const svgFileName = paths.svg.split('/').pop() || `${folderName}-${variant}.svg`;
+
+        // Add files to their respective format folders
+        pngFolder.file(pngFileName, fetch(paths.png).then(res => res.blob()));
+        svgFolder.file(svgFileName, fetch(paths.svg).then(res => res.blob()));
+      });
+    });
 
     try {
-      const content = await zip.generateAsync({ type: "blob" });
-      const url = window.URL.createObjectURL(content);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = 'AuthZed-Logos.zip';
+      const blob = await zip.generateAsync({ type: "blob" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = "authzed-logos.zip";
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-      window.URL.revokeObjectURL(url);
+      URL.revokeObjectURL(link.href);
     } catch (error) {
       console.error('Failed to generate zip:', error);
     }
   };
 
   return (
-    <Button
-      onClick={handleDownloadAll}
-      className="flex items-center gap-2"
-    >
-      <Download className="h-4 w-4" />
-      Download All Logos
-    </Button>
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Button 
+            onClick={handleDownloadAll}
+            variant="outline"
+            className="flex items-center gap-2"
+          >
+            <FileDown className="h-4 w-4" />
+            Download Full Logo Set
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent side="bottom" align="end" className="max-w-xs">
+          <p>Download all logo variations in both PNG and SVG formats, organized by brand and file type</p>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
   );
 }
