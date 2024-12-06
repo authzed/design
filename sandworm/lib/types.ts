@@ -1,11 +1,15 @@
 export type LogoVariant = "color-light" | "color-dark" | "slate-050" | "slate-850";
 
-export interface LogoSet {
+export type LogoFormat = {
+  png: string;
+  svg: string;
+};
+
+export type LogoSet = {
   name: string;
-  variants: {
-    [key in LogoVariant]: string;
-  };
-}
+  description?: string;
+  variants: Record<LogoVariant, LogoFormat>;
+};
 
 export interface GuidelineItem {
   text: string;
