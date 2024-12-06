@@ -5,12 +5,9 @@
     "sandworm"
   ],
   "scripts": {
-    "build": "turbo run build",
-    "dev": "turbo run dev",
-    "lint": "turbo run lint",
-    "clean": "turbo run clean"
-  },
-  "devDependencies": {
-    "turbo": "^1.12.4"
+    "build": "cd sandworm && npm run build",
+    "dev": "cd sandworm && npm run dev",
+    "lint": "cd sandworm && npm run lint",
+    "clean": "cd sandworm && npm run clean"
   }
 }

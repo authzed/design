@@ -14,8 +14,12 @@ const nextConfig = {
   output: 'standalone',
   poweredByHeader: false,
   compress: true,
+  generateBuildId: async () => {
+    // This ensures each deployment gets a unique build ID
+    return `build-${Date.now()}`
+  },
   webpack: (config, { isServer }) => {
-    // Increase chunk loading timeout
+    // Basic webpack configuration
     config.watchOptions = {
       aggregateTimeout: 300,
       poll: 1000,
