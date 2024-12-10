@@ -149,10 +149,13 @@
     --success: var(--teal-050);
     --success-foreground: var(--teal-900);
 
+    --info: var(--blue-050);
+    --info-foreground: var(--blue-900);
+
     --warning: var(--sand-050);
     --warning-foreground: var(--sand-900);
 
-    --error: var(--red-050);
+    --error: var(--red-100);
     --error-foreground: var(--red-900);
 
     --creative: var(--violet-050);
@@ -197,6 +200,9 @@
 
     --success: var(--teal-900);
     --success-foreground: var(--teal-050);
+
+    --info: var(--blue-900);
+    --info-foreground: var(--blue-050);
 
     --warning: var(--sand-900);
     --warning-foreground: var(--sand-050);

@@ -17,18 +17,22 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import { StatusBadge } from "@/components/ui/status-badge";
 
 export default function NavigationPage() {
   return (
     <div className="space-y-12">
       <div>
-        <h1 className="text-3xl font-bold tracking-tight">Navigation</h1>
-        <p className="text-lg text-muted-foreground mt-2">
-          Navigation components for building menus, breadcrumbs, and tabs.
+        <div className="flex items-center gap-3 mb-2">
+          <h1 className="text-3xl font-bold tracking-tight">Navigation</h1>
+          <StatusBadge status="coming-soon" />
+        </div>
+        <p className="text-lg text-muted-foreground">
+          Components for helping users navigate through the application.
         </p>
       </div>
 
-      <div className="space-y-8">
+      <div className="space-y-12">
         <section>
           <h2 className="text-2xl font-semibold mb-6">Navigation Menu</h2>
           <Card>

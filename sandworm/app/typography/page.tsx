@@ -1,4 +1,24 @@
+'use client';
+
+import { useState } from 'react';
+import { StatusBadge } from '@/components/ui/status-badge';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+import { ChevronDown, ChevronUp } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import Image from 'next/image';
+
 export default function TypographyPage() {
+  const [openSections, setOpenSections] = useState({
+    inter: true,
+    mono: true,
+    weights: true,
+    styles: true,
+  });
+
+  const toggleSection = (section: keyof typeof openSections) => {
+    setOpenSections((prev) => ({ ...prev, [section]: !prev[section] }));
+  };
+
   const sizes = [
     { name: 'Extra Small', class: 'textextrasmall', specs: '12px / 15.6px' },
     { name: 'Small', class: 'textsmall', specs: '14px / 18.2px' },
@@ -38,107 +58,268 @@ export default function TypographyPage() {
   ];
 
   return (
-    <div className="space-y-8">
-      <div className="space-y-2">
-        <h1 className="text-3xl font-semibold tracking-tight">Typography</h1>
-        <p className="text-muted-foreground">
-          Our typography system uses Inter as the primary font and JetBrains Mono Light as the monospace font, with carefully crafted sizes and styles.
+    <div className="space-y-12">
+      <div className="space-y-4">
+        <div className="flex items-center gap-4">
+          <h1 className="text-4xl font-bold">Typography</h1>
+          <StatusBadge status="ready" />
+        </div>
+        <h2 className="text-2xl">Clarity and Consistency Across Every Interface</h2>
+        <p className="text-lg text-muted-foreground">
+          Our typography system is designed to provide a clear, consistent reading experience in any
+          context. We rely on Inter as our primary font for all standard text, ensuring crisp
+          legibility, and JetBrains Mono Light as our monospace font for technical content. Each
+          size and style is thoughtfully chosen to maintain a comfortable reading rhythm, guiding
+          users through our interfaces with minimal friction.
         </p>
       </div>
 
-      <div className="space-y-6">
+      <div className="space-y-12">
         <section>
-          <h2 className="text-2xl font-semibold mb-6">Primary Font (Inter)</h2>
-          <div className="space-y-8">
-            {sizes.map((size) => (
-              <div key={size.class} className="border-b pb-4">
-                <div className={size.class}>
-                  The quick brown fox jumps over the lazy dog
-                </div>
-                <div className="mt-2 text-sm text-muted-foreground">
-                  <code className="bg-muted px-1 py-0.5 rounded">.{size.class}</code>
-                  <span className="ml-2">{size.specs}</span>
-                </div>
-              </div>
-            ))}
+          <div className="mb-6">
+            <h2 className="text-2xl font-semibold">Primary Font (Inter)</h2>
+            <p className="mt-2 text-muted-foreground">
+              Inter is the primary typeface, versatile and modern. It supports a full range of text
+              sizes, from small descriptors to large, attention-grabbing headlines.
+            </p>
           </div>
+          <Collapsible open={openSections.inter} onOpenChange={() => toggleSection('inter')}>
+            <div className="flex items-center justify-between mb-4">
+              <p className="text-sm text-muted-foreground">
+                Click to {openSections.inter ? 'hide' : 'show'} all sizes
+              </p>
+              <CollapsibleTrigger asChild>
+                <Button variant="ghost" size="sm">
+                  {openSections.inter ? (
+                    <ChevronUp className="h-4 w-4" />
+                  ) : (
+                    <ChevronDown className="h-4 w-4" />
+                  )}
+                </Button>
+              </CollapsibleTrigger>
+            </div>
+            <CollapsibleContent>
+              <div className="space-y-8">
+                {sizes.map((size) => (
+                  <div key={size.class} className="border-b pb-4">
+                    <div className={size.class}>The quick brown fox jumps over the lazy dog</div>
+                    <div className="mt-2 text-sm text-muted-foreground">
+                      <code className="bg-muted px-1 py-0.5 rounded">.{size.class}</code>
+                      <span className="ml-2">{size.specs}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CollapsibleContent>
+          </Collapsible>
         </section>
 
         <section>
-          <h2 className="text-2xl font-semibold mb-6">Monospace Font (JetBrains Mono Light)</h2>
-          <div className="space-y-8">
-            {monoSizes.map((size) => (
-              <div key={size.class} className="border-b pb-4">
-                <div className={size.class}>
-                  The quick brown fox jumps over the lazy dog
-                </div>
-                <div className="mt-2 text-sm text-muted-foreground">
-                  <code className="bg-muted px-1 py-0.5 rounded">.{size.class}</code>
-                  <span className="ml-2">{size.specs}</span>
-                </div>
-              </div>
-            ))}
+          <div className="mb-6">
+            <h2 className="text-2xl font-semibold">Monospace Font (JetBrains Mono Light)</h2>
+            <p className="mt-2 text-muted-foreground">
+              For code snippets and technical information, we use JetBrains Mono Light. Its clean
+              shapes and balanced spacing ensure legibility, clearly distinguishing it from our
+              primary text.
+            </p>
           </div>
+          <Collapsible open={openSections.mono} onOpenChange={() => toggleSection('mono')}>
+            <div className="flex items-center justify-between mb-4">
+              <p className="text-sm text-muted-foreground">
+                Click to {openSections.mono ? 'hide' : 'show'} all sizes
+              </p>
+              <CollapsibleTrigger asChild>
+                <Button variant="ghost" size="sm">
+                  {openSections.mono ? (
+                    <ChevronUp className="h-4 w-4" />
+                  ) : (
+                    <ChevronDown className="h-4 w-4" />
+                  )}
+                </Button>
+              </CollapsibleTrigger>
+            </div>
+            <CollapsibleContent>
+              <div className="space-y-8">
+                {monoSizes.map((size) => (
+                  <div key={size.class} className="border-b pb-4">
+                    <div className={size.class}>The quick brown fox jumps over the lazy dog</div>
+                    <div className="mt-2 text-sm text-muted-foreground">
+                      <code className="bg-muted px-1 py-0.5 rounded">.{size.class}</code>
+                      <span className="ml-2">{size.specs}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CollapsibleContent>
+          </Collapsible>
         </section>
 
         <section>
-          <h2 className="text-2xl font-semibold mb-6">Font Weights</h2>
-          <div className="space-y-6">
-            {weights.map((weight) => (
-              <div key={weight.class} className="border-b pb-4">
-                <div className={`text2xlarge ${weight.class}`}>
-                  The quick brown fox jumps over the lazy dog
-                </div>
-                <div className="mt-2 text-sm text-muted-foreground">
-                  <code className="bg-muted px-1 py-0.5 rounded">.{weight.class}</code>
-                  <span className="ml-2">Font Weight: {weight.weight}</span>
-                </div>
-              </div>
-            ))}
+          <div className="mb-6">
+            <h2 className="text-2xl font-semibold">Font Weights</h2>
+            <p className="mt-2 text-muted-foreground">
+              A variety of font weights—from light to bold—create typographic hierarchy, helping
+              users distinguish important content at a glance.
+            </p>
           </div>
+          <Collapsible open={openSections.weights} onOpenChange={() => toggleSection('weights')}>
+            <div className="flex items-center justify-between mb-4">
+              <p className="text-sm text-muted-foreground">
+                Click to {openSections.weights ? 'hide' : 'show'} all weights
+              </p>
+              <CollapsibleTrigger asChild>
+                <Button variant="ghost" size="sm">
+                  {openSections.weights ? (
+                    <ChevronUp className="h-4 w-4" />
+                  ) : (
+                    <ChevronDown className="h-4 w-4" />
+                  )}
+                </Button>
+              </CollapsibleTrigger>
+            </div>
+            <CollapsibleContent>
+              <div className="space-y-6">
+                {weights.map((weight) => (
+                  <div key={weight.class} className="border-b pb-4">
+                    <div className={`text2xlarge ${weight.class}`}>
+                      The quick brown fox jumps over the lazy dog
+                    </div>
+                    <div className="mt-2 text-sm text-muted-foreground">
+                      <code className="bg-muted px-1 py-0.5 rounded">.{weight.class}</code>
+                      <span className="ml-2">Font Weight: {weight.weight}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CollapsibleContent>
+          </Collapsible>
         </section>
 
         <section>
-          <h2 className="text-2xl font-semibold mb-6">Text Styles</h2>
-          <div className="space-y-6">
-            {styles.map((style) => (
-              <div key={style.class} className="border-b pb-4">
-                <div className={`text2xlarge ${style.class}`}>
-                  The quick brown fox jumps over the lazy dog
-                </div>
-                <div className="mt-2 text-sm text-muted-foreground">
-                  <code className="bg-muted px-1 py-0.5 rounded">.{style.class}</code>
-                </div>
-              </div>
-            ))}
+          <div className="mb-6">
+            <h2 className="text-2xl font-semibold">Text Styles</h2>
+            <p className="mt-2 text-muted-foreground">
+              Italics, underlines, and strikethroughs provide subtle emphasis, highlight interactive
+              elements, or convey revisions.
+            </p>
           </div>
+          <Collapsible open={openSections.styles} onOpenChange={() => toggleSection('styles')}>
+            <div className="flex items-center justify-between mb-4">
+              <p className="text-sm text-muted-foreground">
+                Click to {openSections.styles ? 'hide' : 'show'} all styles
+              </p>
+              <CollapsibleTrigger asChild>
+                <Button variant="ghost" size="sm">
+                  {openSections.styles ? (
+                    <ChevronUp className="h-4 w-4" />
+                  ) : (
+                    <ChevronDown className="h-4 w-4" />
+                  )}
+                </Button>
+              </CollapsibleTrigger>
+            </div>
+            <CollapsibleContent>
+              <div className="space-y-6">
+                {styles.map((style) => (
+                  <div key={style.class} className="border-b pb-4">
+                    <div className={`text2xlarge ${style.class}`}>
+                      The quick brown fox jumps over the lazy dog
+                    </div>
+                    <div className="mt-2 text-sm text-muted-foreground">
+                      <code className="bg-muted px-1 py-0.5 rounded">.{style.class}</code>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CollapsibleContent>
+          </Collapsible>
         </section>
 
         <section>
-          <h2 className="text-2xl font-semibold mb-6">Combined Examples</h2>
-          <div className="space-y-6">
-            <div className="border-b pb-4">
-              <div className="text4xlarge light">
-                Light Heading Example
-              </div>
-              <div className="mt-2 text-sm text-muted-foreground">
-                <code className="bg-muted px-1 py-0.5 rounded">.text4xlarge.light</code>
+          <div className="mb-6">
+            <h2 className="text-2xl font-semibold">Expressive Typography</h2>
+            <h3 className="text-xl mt-2 mb-4">Setting the Tone Beyond the Product</h3>
+            <p className="text-lg text-muted-foreground">
+              When we move beyond product interfaces—such as in presentations, marketing materials,
+              and our website—typography becomes a more expressive tool. It can capture attention,
+              set a mood, and communicate personality at a glance. In these contexts, we lean into
+              the flexibility of our type system to highlight key messages, evoke emotion, and
+              establish a distinct brand presence.
+            </p>
+          </div>
+
+          <div className="mt-8 space-y-8">
+            <div className="rounded-lg border bg-card p-8 space-y-8">
+              <h3 className="text-xl font-semibold mb-4">Key Considerations</h3>
+              <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                <div className="space-y-3">
+                  <h4 className="font-semibold text-primary">Playful Scale & Rhythm</h4>
+                  <p className="text-sm text-muted-foreground">
+                    Allow more generous spacing, larger headlines, and tiered sizing to create a
+                    sense of depth and hierarchy.
+                  </p>
+                </div>
+                <div className="space-y-3">
+                  <h4 className="font-semibold text-primary">Color & Contrast</h4>
+                  <p className="text-sm text-muted-foreground">
+                    Incorporate our accent colors more prominently in headings and display text,
+                    making critical points stand out while retaining readability.
+                  </p>
+                </div>
+                <div className="space-y-3">
+                  <h4 className="font-semibold text-primary">Type Pairings</h4>
+                  <p className="text-sm text-muted-foreground">
+                    Use both Inter and JetBrains Mono Light in tandem. For example, a bold, colorful
+                    Inter headline can be paired with a more reserved JetBrains Mono subheading,
+                    adding subtle visual texture.
+                  </p>
+                </div>
+                <div className="space-y-3">
+                  <h4 className="font-semibold text-primary">Contextual Adaptability</h4>
+                  <p className="text-sm text-muted-foreground">
+                    Tailor the typography to the medium. A high-impact presentation slide might
+                    feature a bold, dynamic headline, while a website hero section may use softer
+                    gradients and gently emphasized headings to draw users in.
+                  </p>
+                </div>
+                <div className="space-y-3">
+                  <h4 className="font-semibold text-primary">Legibility Remains Paramount</h4>
+                  <p className="text-sm text-muted-foreground">
+                    Even in expressive applications, ensure all text can be read easily. Good
+                    typography maintains its clarity, no matter how large, colorful, or stylized it
+                    becomes.
+                  </p>
+                </div>
               </div>
             </div>
-            <div className="border-b pb-4">
-              <div className="text2xlarge medium italic">
-                Subheading Example
-              </div>
-              <div className="mt-2 text-sm text-muted-foreground">
-                <code className="bg-muted px-1 py-0.5 rounded">.text2xlarge.medium.italic</code>
-              </div>
+
+            <div>
+              <h3 className="text-xl font-semibold mb-4">Example Applications</h3>
+              <p className="text-muted-foreground">
+                By applying these principles, we transform typography from a simple means of
+                conveying information into a powerful storytelling device—engaging viewers,
+                reinforcing our brand, and making a lasting impression outside of everyday product
+                interactions.
+              </p>
             </div>
-            <div className="border-b pb-4">
-              <div className="mono-base">
-                Code Example: const greeting = "Hello, World!";
+
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-4 auto-rows-[160px]">
+              <div className="md:col-span-8 md:row-span-2 relative overflow-hidden  rounded-lg">
+                <Image
+                  src="/images/Examples/Typography/LinkedIn-Transaction_Metadata@2x.png"
+                  alt="Typography example showing technical typography in a transaction context"
+                  fill
+                  className="object-cover object-left"
+                />
               </div>
-              <div className="mt-2 text-sm text-muted-foreground">
-                <code className="bg-muted px-1 py-0.5 rounded">.mono-base</code>
+
+              <div className="row-span-4 md:col-span-4 relative overflow-hidden rounded-lg">
+                <Image
+                  src="/images/Examples/Typography/AuthZed-Popup_33x78.png"
+                  alt="Typography example showing UI typography in a popup context"
+                  fill
+                  className="object-cover object-top"
+                />
               </div>
             </div>
           </div>

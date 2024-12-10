@@ -3,22 +3,21 @@
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import type { SemanticColor } from "@/lib/semantic-colors";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
-interface ColorCardProps {
-  label: string;
-  variable: string;
-  className?: string;
-  showSemanticValue?: boolean;
-  semanticMapping?: Pick<SemanticColor, 'token' | 'darkToken'>;
+interface ColorTableProps {
+  colors: SemanticColor[];
+  showModes?: boolean;
 }
 
-export function ColorCard({ 
-  label, 
-  variable, 
-  className, 
-  showSemanticValue = false,
-  semanticMapping 
-}: ColorCardProps) {
+function useColorValues(variable: string) {
   const [colorValues, setColorValues] = useState<{
     hsl: string;
     hex: string;
@@ -87,50 +86,59 @@ export function ColorCard({
     return () => observer.disconnect();
   }, [variable]);
 
+  return colorValues;
+}
+
+export function ColorTable({ colors, showModes = false }: ColorTableProps) {
   return (
-    <div className="rounded-lg border p-4">
-      <div className="mb-4">
-        <div className="font-medium">{label}</div>
-        <div className="font-mono text-sm text-muted-foreground">
-          var({variable})
-          {semanticMapping && (
+    <Table>
+      <TableHeader>
+        <TableRow>
+          <TableHead className="w-[240px]">Variable</TableHead>
+          {showModes && (
             <>
-              <br />
-              <span className="text-xs">
-                Light: {semanticMapping.token}
-                <br />
-                Dark: {semanticMapping.darkToken}
-              </span>
+              <TableHead>Light Mode</TableHead>
+              <TableHead>Dark Mode</TableHead>
             </>
           )}
-        </div>
-      </div>
-      <div className="space-y-2">
-        <div
-          className={cn("h-16 rounded-md", className)}
-          style={{
-            backgroundColor: showSemanticValue 
-              ? `hsl(var(${variable}))` 
-              : `hsl(${colorValues?.hsl || '0 0% 100%'})`
-          }}
-        />
-        {colorValues && (
-          <div className="mt-2 space-y-1 font-mono text-xs">
-            <div className="flex justify-between">
-              <span className="text-muted-foreground">HSL:</span>
-              <span>{colorValues.hsl}</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-muted-foreground">HEX:</span>
-              <span>{colorValues.hex}</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-muted-foreground">RGB:</span>
-              <span>{colorValues.rgb}</span>
-            </div>
-          </div>
-        )}
-      </div>
-    </div>
+          <TableHead>HSL</TableHead>
+          <TableHead>HEX</TableHead>
+          <TableHead>RGB</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {colors.map((color) => {
+          const colorValues = useColorValues(color.variable);
+          // Get the color name and shade from the token instead of the variable
+          const [colorName, shade] = color.token.split('-');
+          const isDark = parseInt(shade) >= 600;
+          
+          return (
+            <TableRow key={color.variable}>
+              <TableCell className="p-0">
+                <div
+                  className="px-2 py-2 flex items-center font-mono text-sm w-full h-full min-h-full"
+                  style={{
+                    backgroundColor: `hsl(var(${color.variable}))`,
+                    color: `hsl(var(--${colorName}-${isDark ? '025' : '975'}))`
+                  }}
+                >
+                  {color.variable}
+                </div>
+              </TableCell>
+              {showModes && (
+                <>
+                  <TableCell className="font-mono text-sm">var(--{color.token})</TableCell>
+                  <TableCell className="font-mono text-sm">var(--{color.darkToken})</TableCell>
+                </>
+              )}
+              <TableCell className="font-mono text-sm">{colorValues?.hsl || '-'}</TableCell>
+              <TableCell className="font-mono text-sm">{colorValues?.hex || '-'}</TableCell>
+              <TableCell className="font-mono text-sm">{colorValues?.rgb || '-'}</TableCell>
+            </TableRow>
+          );
+        })}
+      </TableBody>
+    </Table>
   );
 }

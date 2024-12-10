@@ -8,6 +8,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
 import { useState } from "react";
+import { StatusBadge } from "@/components/ui/status-badge";
 
 export default function DataEntryPage() {
   const [date, setDate] = useState<Date | undefined>(new Date());
@@ -17,13 +18,16 @@ export default function DataEntryPage() {
   return (
     <div className="space-y-12">
       <div>
-        <h1 className="text-3xl font-bold tracking-tight">Data Entry</h1>
-        <p className="text-lg text-muted-foreground mt-2">
-          Components for entering and editing different types of data.
+        <div className="flex items-center gap-3 mb-2">
+          <h1 className="text-3xl font-bold tracking-tight">Data Entry</h1>
+          <StatusBadge status="coming-soon" />
+        </div>
+        <p className="text-lg text-muted-foreground">
+          Form input components for collecting and validating user data.
         </p>
       </div>
 
-      <div className="space-y-8">
+      <div className="space-y-12">
         <section>
           <h2 className="text-2xl font-semibold mb-6">Calendar</h2>
           <Card>
