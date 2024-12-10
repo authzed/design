@@ -1,4 +1,5 @@
 import { Card } from "@/components/ui/card";
+import { StatusBadge } from "@/components/ui/status-badge";
 import { Activity, AlertCircle, Archive, ArrowRight, Bell, Bookmark, Calendar, Check, ChevronDown, ChevronRight, Circle, Copy, Edit, ExternalLink, File, FileText, Filter, Flag, Folder, Heart, Home, Image, Info, Link, Mail, MapPin, Menu, MessageCircle, MoreHorizontal, MoreVertical, Package, PenTool, Plus, Search, Send, Settings, Share, Star, Tag, Trash, User, X } from "lucide-react";
 
 const icons = [
@@ -50,13 +51,16 @@ export default function IconsPage() {
   return (
     <div className="space-y-12">
       <div>
-        <h1 className="text-3xl font-bold tracking-tight">Icons</h1>
-        <p className="text-lg text-muted-foreground mt-2">
-          Our icon system uses Lucide React, providing a consistent and accessible set of icons across the platform.
+        <div className="flex items-center gap-3 mb-2">
+          <h1 className="text-3xl font-bold tracking-tight">Icons</h1>
+          <StatusBadge status="coming-soon" />
+        </div>
+        <p className="text-lg text-muted-foreground">
+          Our icon library and guidelines for usage.
         </p>
       </div>
 
-      <div className="space-y-8">
+      <div className="space-y-12">
         <div>
           <h2 className="text-2xl font-semibold mb-6">Icon Library</h2>
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">

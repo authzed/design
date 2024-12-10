@@ -17,14 +17,9 @@ export function GuidelinesCard({ type, items }: GuidelinesCardProps) {
   
   return (
     <Alert 
-      variant={isDo ? "success" : "destructive"}
-      className="relative border-2"
+      variant={isDo ? "success" : "error"}
+      className=""
     >
-      {isDo ? (
-        <Check className="h-5 w-5" />
-      ) : (
-        <X className="h-5 w-5" />
-      )}
       <AlertTitle className="text-xl">
         {isDo ? "Do" : "Don't"}
       </AlertTitle>
@@ -36,7 +31,7 @@ export function GuidelinesCard({ type, items }: GuidelinesCardProps) {
               className="flex items-start gap-2"
             >
               <span 
-                className={`mt-1.5 h-2 w-2 rounded-full ${
+                className={`mt-1.5 h-1 w-1 rounded-full ${
                   isDo 
                     ? "bg-teal-600 dark:bg-teal-400" 
                     : "bg-red-600 dark:bg-red-400"

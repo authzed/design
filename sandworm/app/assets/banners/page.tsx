@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { Container } from "@/components/ui/container";
 import { BannerPreview } from "@/components/banner/banner-preview";
 import { BannerVariantSelector } from "@/components/banner/banner-variant-selector";
+import { StatusBadge } from "@/components/ui/status-badge";
 import { bannerSets } from "@/config/banners";
 import type { BannerVariant } from "@/lib/types";
 
@@ -11,35 +11,30 @@ export default function BannersPage() {
   const [selectedVariant, setSelectedVariant] = useState<BannerVariant>("light");
 
   return (
-    <Container>
-      <div className="space-y-8">
-        <div>
+    <div className="space-y-12">
+      <div>
+        <div className="flex items-center gap-3 mb-2">
           <h1 className="text-3xl font-bold tracking-tight">Banners</h1>
-          <p className="text-muted-foreground">
-            Official AuthZed banners for marketing and promotional materials.
-          </p>
+          <StatusBadge status="coming-soon" />
         </div>
+        <p className="text-lg text-muted-foreground">
+          Official AuthZed banners for marketing and promotional materials.
+        </p>
+      </div>
 
-        <div className="space-y-6">
-          <div className="flex items-center justify-between">
-            <h2 className="text-2xl font-semibold">Banner Collection</h2>
-            <BannerVariantSelector
-              variant={selectedVariant}
-              onChange={setSelectedVariant}
-            />
+      <div className="space-y-12">
+        <section>
+          <h2 className="text-2xl font-semibold mb-6">Banner Collection</h2>
+          <div className="flex items-center justify-between mb-6">
+            <BannerVariantSelector variant={selectedVariant} onVariantChange={setSelectedVariant} />
           </div>
-
           <div className="grid gap-6">
             {bannerSets.map((banner) => (
-              <BannerPreview
-                key={banner.name}
-                banner={banner}
-                variant={selectedVariant}
-              />
+              <BannerPreview key={banner.name} banner={banner} variant={selectedVariant} />
             ))}
           </div>
-        </div>
+        </section>
       </div>
-    </Container>
+    </div>
   );
 }
