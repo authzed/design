@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import Image from "next/image";
-import type { LogoSet, LogoVariant } from "@/lib/types";
-import { LogoDownload } from "./logo-download";
-import { Card } from "@/components/ui/card";
-import { getBackgroundColor } from "./utils";
+import Image from 'next/image';
+import type { LogoSet, LogoVariant } from '@/lib/types';
+import { LogoDownload } from './logo-download';
+import { Card } from '@/components/ui/card';
+import { getBackgroundColor } from './utils';
 
 interface LogoPreviewProps {
   logo: LogoSet;
@@ -14,13 +14,12 @@ interface LogoPreviewProps {
 
 export function LogoPreview({ logo, variant, preferSvg = true }: LogoPreviewProps) {
   const logoPath = preferSvg ? logo.variants[variant].svg : logo.variants[variant].png;
-  const isDark = variant.includes("dark") || variant === "slate-850";
-  
+
   return (
     <Card className="overflow-hidden">
-      <div className={`relative flex h-32 items-center justify-center p-6 ${
-        isDark ? "bg-slate-950" : "bg-background"
-      }`}>
+      <div
+        className={`relative flex h-32 items-center justify-center p-6 ${getBackgroundColor(variant)}`}
+      >
         <Image
           src={logoPath}
           alt={`${logo.name} ${variant} logo`}
