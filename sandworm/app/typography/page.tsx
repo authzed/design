@@ -64,13 +64,11 @@ export default function TypographyPage() {
           <h1 className="text-4xl font-bold">Typography</h1>
           <StatusBadge status="ready" />
         </div>
-        <h2 className="text-2xl">Clarity and Consistency Across Every Interface</h2>
+        <h2 className="text-2xl">Clear Communication Through Type</h2>
         <p className="text-lg text-muted-foreground">
-          Our typography system is designed to provide a clear, consistent reading experience in any
-          context. We rely on Inter as our primary font for all standard text, ensuring crisp
-          legibility, and JetBrains Mono Light as our monospace font for technical content. Each
-          size and style is thoughtfully chosen to maintain a comfortable reading rhythm, guiding
-          users through our interfaces with minimal friction.
+          Our typography system is built on Inter for its exceptional readability and JetBrains Mono for code. 
+          This combination delivers optimal legibility across all screen sizes while maintaining a professional, 
+          modern aesthetic that aligns with our brand identity.
         </p>
       </div>
 
