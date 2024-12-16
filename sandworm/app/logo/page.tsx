@@ -25,11 +25,20 @@ const dontItems = [
 
 export default function LogoPage() {
   const [selectedLogoSet, setSelectedLogoSet] = useState(LogoSets[0]);
-  const [selectedVariant, setSelectedVariant] = useState(
-    Object.keys(LogoSets[0].variants)[0],
+  const [selectedVariant, setSelectedVariant] = useState<LogoVariant>(
+    Object.keys(selectedLogoSet.variants)[0] as LogoVariant
   );
 
-  const variantKeys = Object.keys(LogoSets[0].variants);
+  // Get all unique variant keys from all logo sets
+  const allVariantKeys = Array.from(new Set(
+    LogoSets.flatMap(logoSet => Object.keys(logoSet.variants))
+  )) as LogoVariant[];
+
+  // Handle variant change
+  const handleVariantChange = (variant: LogoVariant) => {
+    setSelectedVariant(variant);
+  };
+
   const logoSetNames = LogoSets.map((logoSet) => logoSet.name);
 
   return (
@@ -75,7 +84,7 @@ export default function LogoPage() {
           <div className="mb-6 flex items-center justify-between">
             <LogoVariantSelector
               selectedVariant={selectedVariant}
-              onVariantChange={setSelectedVariant}
+              onVariantChange={handleVariantChange}
             />
             <DownloadAll logos={LogoSets} />
           </div>

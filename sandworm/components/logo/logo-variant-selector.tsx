@@ -11,6 +11,7 @@ interface LogoVariantSelectorProps {
 
 export function LogoVariantSelector({ selectedVariant, onVariantChange }: LogoVariantSelectorProps) {
   const variants: { value: LogoVariant; label: string; icon?: React.ReactNode }[] = [
+    { value: "color", label: "Color", icon: <Sun className="h-4 w-4" /> },
     { value: "color-light", label: "Color Light", icon: <Sun className="h-4 w-4" /> },
     { value: "color-dark", label: "Color Dark", icon: <Moon className="h-4 w-4" /> },
     { value: "slate-050", label: "Slate Light", icon: <Sun className="h-4 w-4" /> },
@@ -23,7 +24,7 @@ export function LogoVariantSelector({ selectedVariant, onVariantChange }: LogoVa
         <Button
           key={value}
           variant={selectedVariant === value ? "secondary" : "ghost"}
-          onClick={() => onVariantChange(value)}
+          onClick={() => onVariantChange(value as LogoVariant)}
           size="sm"
           className="gap-2"
         >

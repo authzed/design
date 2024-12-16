@@ -20,6 +20,7 @@ export async function downloadFile(url: string, filename: string) {
 
 export function getBackgroundColor(variant: string) {
   switch (variant) {
+    case 'color':
     case 'color-light':
     case 'slate-050':
       return 'bg-[hsl(var(--stone-025))] dark:bg-[hsl(var(--stone-025))]';
