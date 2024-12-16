@@ -27,6 +27,8 @@ export function LogoPreview({ logo, variant, preferSvg = true }: LogoPreviewProp
           width={200}
           height={100}
           priority
+          loading="eager"
+          unoptimized
         />
       </div>
       <div className="flex items-center justify-between border-t bg-muted/10 px-4 py-2">

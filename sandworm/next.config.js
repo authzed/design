@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: { 
-    unoptimized: false,
+    unoptimized: true, // Set to true for static exports
     remotePatterns: [
       {
         protocol: 'https',
@@ -16,7 +16,7 @@ const nextConfig = {
     ignoreBuildErrors: true
   },
   swcMinify: false, // Temporarily disable swcMinify
-  output: 'standalone',
+  output: 'export', // Change to 'export' for static site generation
   poweredByHeader: false,
   compress: true,
   generateBuildId: async () => {
