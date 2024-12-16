@@ -2,23 +2,19 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { StatusBadge } from "@/components/ui/status-badge";
 import { ArrowRight, Heart, MessageCircle, Share } from "lucide-react";
 
 export default function CardsPage() {
   return (
     <div className="space-y-12">
       <div>
-        <div className="flex items-center gap-3 mb-2">
-          <h1 className="text-3xl font-bold tracking-tight">Cards</h1>
-          <StatusBadge status="coming-soon" />
-        </div>
-        <p className="text-lg text-muted-foreground">
-          Container components for organizing and presenting content.
+        <h1 className="text-3xl font-bold tracking-tight">Cards</h1>
+        <p className="text-lg text-muted-foreground mt-2">
+          Card components for displaying content in a contained format with various layouts and styles.
         </p>
       </div>
 
-      <div className="space-y-12">
+      <div className="space-y-8">
         <section>
           <h2 className="text-2xl font-semibold mb-6">Basic Cards</h2>
           <div className="grid gap-6 md:grid-cols-2">

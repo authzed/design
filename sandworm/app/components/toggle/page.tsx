@@ -4,22 +4,18 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Toggle } from "@/components/ui/toggle";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { Bold, Italic, Underline, AlignLeft, AlignCenter, AlignRight, AlignJustify } from "lucide-react";
-import { StatusBadge } from "@/components/ui/status-badge";
 
 export default function TogglePage() {
   return (
     <div className="space-y-12">
       <div>
-        <div className="flex items-center gap-3 mb-2">
-          <h1 className="text-3xl font-bold tracking-tight">Toggle</h1>
-          <StatusBadge status="coming-soon" />
-        </div>
-        <p className="text-lg text-muted-foreground">
-          Toggle components for switching between two states.
+        <h1 className="text-3xl font-bold tracking-tight">Toggle</h1>
+        <p className="text-lg text-muted-foreground mt-2">
+          Toggle components for switching between different states and options.
         </p>
       </div>
 
-      <div className="space-y-12">
+      <div className="space-y-8">
         <section>
           <h2 className="text-2xl font-semibold mb-6">Basic Toggle</h2>
           <Card>

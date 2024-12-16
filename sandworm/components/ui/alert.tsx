@@ -3,15 +3,15 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const alertVariants = cva(
-  "relative w-full rounded-lg border p-4 [&>svg~*]:pl-7 [&>svg+div]:translate-y-[-3px] [&>svg]:absolute [&>svg]:left-4 [&>svg]:top-4",
+  "relative w-full rounded-lg border p-4 [&>svg~*]:pl-7 [&>svg+div]:translate-y-[-3px] [&>svg]:absolute [&>svg]:left-4 [&>svg]:top-4 [&>svg]:text-foreground",
   {
     variants: {
       variant: {
-        default: "bg-background text-foreground border-border [&>svg]:text-foreground",
-        info: "bg-[hsl(var(--info))] text-[hsl(var(--info-foreground))] border-[hsl(var(--info-foreground)/0.4)] [&>svg]:text-[hsl(var(--info-foreground))]",
-        error: "bg-[hsl(var(--error))] text-[hsl(var(--error-foreground))] border-[hsl(var(--error-foreground)/0.4)] [&>svg]:text-[hsl(var(--error-foreground))]",
-        warning: "bg-[hsl(var(--warning))] text-[hsl(var(--warning-foreground))] border-[hsl(var(--warning-foreground)/0.4)] [&>svg]:text-[hsl(var(--warning-foreground))]",
-        success: "bg-[hsl(var(--success))] text-[hsl(var(--success-foreground))] border-[hsl(var(--success-foreground)/0.4)] [&>svg]:text-[hsl(var(--success-foreground))]",
+        default: "bg-background text-foreground",
+        info: "bg-blue-50 border-blue-200 text-blue-900 dark:bg-blue-900/10 dark:border-blue-900/20 dark:text-blue-100 [&>svg]:text-blue-600 dark:[&>svg]:text-blue-100",
+        error: "bg-red-50 border-red-200 text-red-900 dark:bg-red-900/10 dark:border-red-900/20 dark:text-red-100 [&>svg]:text-red-600 dark:[&>svg]:text-red-100",
+        warning: "bg-yellow-50 border-yellow-200 text-yellow-900 dark:bg-yellow-900/10 dark:border-yellow-900/20 dark:text-yellow-100 [&>svg]:text-yellow-600 dark:[&>svg]:text-yellow-100",
+        success: "bg-green-50 border-green-200 text-green-900 dark:bg-green-900/10 dark:border-green-900/20 dark:text-green-100 [&>svg]:text-green-600 dark:[&>svg]:text-green-100",
       },
     },
     defaultVariants: {
