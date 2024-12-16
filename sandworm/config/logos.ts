@@ -5,20 +5,20 @@ export const LogoSets: LogoSet[] = [
     name: 'AuthZed',
     variants: {
       'color-light': {
-        png: '/images/logos/AuthZed/AuthZed-Wordmark-Color-Light.png',
-        svg: '/images/logos/AuthZed/Authzed-Wordmark-Color-Light.svg',
+        png: '/images/logos/authzed/authzed-wordmark-color-light.png',
+        svg: '/images/logos/authzed/authzed-wordmark-color-light.svg',
       },
       'color-dark': {
-        png: '/images/logos/AuthZed/AuthZed-Wordmark-Color-Dark.png',
-        svg: '/images/logos/AuthZed/Authzed-Wordmark-Color-Dark.svg',
+        png: '/images/logos/authzed/authzed-wordmark-color-dark.png',
+        svg: '/images/logos/authzed/authzed-wordmark-color-dark.svg',
       },
       'slate-050': {
-        png: '/images/logos/AuthZed/AuthZed-Wordmark-Slate-Light.png',
-        svg: '/images/logos/AuthZed/AuthZed-Wordmark-Slate-Light.svg',
+        png: '/images/logos/authzed/authzed-wordmark-slate-light.png',
+        svg: '/images/logos/authzed/authzed-wordmark-slate-light.svg',
       },
       'slate-850': {
-        png: '/images/logos/AuthZed/AuthZed-Wordmark-Slate-Dark.png',
-        svg: '/images/logos/AuthZed/AuthZed-Wordmark-Slate-Dark.svg',
+        png: '/images/logos/authzed/authzed-wordmark-slate-dark.png',
+        svg: '/images/logos/authzed/authzed-wordmark-slate-dark.svg',
       },
     },
   },
@@ -26,20 +26,20 @@ export const LogoSets: LogoSet[] = [
     name: 'SpiceDB',
     variants: {
       'color-light': {
-        png: '/images/logos/SpiceDB/SpiceDB-Wordmark-Color-Light.png',
-        svg: '/images/logos/SpiceDB/SpiceDB-Wordmark-Color-Light.svg',
+        png: '/images/logos/spicedb/spicedb-wordmark-color-light.png',
+        svg: '/images/logos/spicedb/spicedb-wordmark-color-light.svg',
       },
       'color-dark': {
-        png: '/images/logos/SpiceDB/SpiceDB-Wordmark-Color-Dark.png',
-        svg: '/images/logos/SpiceDB/SpiceDB-Wordmark-Color-Dark.svg',
+        png: '/images/logos/spicedb/spicedb-wordmark-color-dark.png',
+        svg: '/images/logos/spicedb/spicedb-wordmark-color-dark.svg',
       },
       'slate-050': {
-        png: '/images/logos/SpiceDB/SpiceDB-Wordmark-Slate-Light.png',
-        svg: '/images/logos/SpiceDB/SpiceDB-Wordmark-Slate-Light.svg',
+        png: '/images/logos/spicedb/spicedb-wordmark-slate-light.png',
+        svg: '/images/logos/spicedb/spicedb-wordmark-slate-light.svg',
       },
       'slate-850': {
-        png: '/images/logos/SpiceDB/SpiceDB-Wordmark-Slate-Dark.png',
-        svg: '/images/logos/SpiceDB/SpiceDB-Wordmark-Slate-Dark.svg',
+        png: '/images/logos/spicedb/spicedb-wordmark-slate-dark.png',
+        svg: '/images/logos/spicedb/spicedb-wordmark-slate-dark.svg',
       },
     },
   },
@@ -48,20 +48,20 @@ export const LogoSets: LogoSet[] = [
     description: 'Compact stacked variation for small spaces',
     variants: {
       'color-light': {
-        png: '/images/logos/AuthZed/Stacked/AuthZed-Wordmark-Stacked-Color-Light.png',
-        svg: '/images/logos/AuthZed/Stacked/AuthZed-Wordmark-Stacked-Color-Light.svg',
+        png: '/images/logos/authzed/authzed-wordmark-stacked-color-light.png',
+        svg: '/images/logos/authzed/authzed-wordmark-stacked-color-light.svg',
       },
       'color-dark': {
-        png: '/images/logos/AuthZed/Stacked/AuthZed-Wordmark-Stacked-Color-Dark.png',
-        svg: '/images/logos/AuthZed/Stacked/AuthZed-Wordmark-Stacked-Color-Dark.svg',
+        png: '/images/logos/authzed/authzed-wordmark-stacked-color-dark.png',
+        svg: '/images/logos/authzed/authzed-wordmark-stacked-color-dark.svg',
       },
       'slate-050': {
-        png: '/images/logos/AuthZed/Stacked/AuthZed-Wordmark-Stacked-Slate-Light.png',
-        svg: '/images/logos/AuthZed/Stacked/AuthZed-Wordmark-Stacked-Slate-Light.svg',
+        png: '/images/logos/authzed/authzed-wordmark-stacked-slate-light.png',
+        svg: '/images/logos/authzed/authzed-wordmark-stacked-slate-light.svg',
       },
       'slate-850': {
-        png: '/images/logos/AuthZed/Stacked/AuthZed-Wordmark-Stacked-Slate-Dark.png',
-        svg: '/images/logos/AuthZed/Stacked/AuthZed-Wordmark-Stacked-Slate-Dark.svg',
+        png: '/images/logos/authzed/authzed-wordmark-stacked-slate-dark.png',
+        svg: '/images/logos/authzed/authzed-wordmark-stacked-slate-dark.svg',
       },
     },
   },
@@ -70,41 +70,37 @@ export const LogoSets: LogoSet[] = [
     description: 'Compact stacked variation for small spaces',
     variants: {
       'color-light': {
-        png: '/images/logos/SpiceDB/Stacked/SpiceDB-Wordmark-Stacked-Color-Light.png',
-        svg: '/images/logos/SpiceDB/Stacked/SpiceDB-Wordmark-Stacked-Color-Light.svg',
+        png: '/images/logos/spicedb/spicedb-wordmark-stacked-color-light.png',
+        svg: '/images/logos/spicedb/spicedb-wordmark-stacked-color-light.svg',
       },
       'color-dark': {
-        png: '/images/logos/SpiceDB/Stacked/SpiceDB-Wordmark-Stacked-Color-Dark.png',
-        svg: '/images/logos/SpiceDB/Stacked/SpiceDB-Wordmark-Stacked-Color-Dark.svg',
+        png: '/images/logos/spicedb/spicedb-wordmark-stacked-color-dark.png',
+        svg: '/images/logos/spicedb/spicedb-wordmark-stacked-color-dark.svg',
       },
       'slate-050': {
-        png: '/images/logos/SpiceDB/Stacked/SpiceDB-Wordmark-Stacked-Slate-Light.png',
-        svg: '/images/logos/SpiceDB/Stacked/SpiceDB-Wordmark-Stacked-Slate-Light.svg',
+        png: '/images/logos/spicedb/spicedb-wordmark-stacked-slate-light.png',
+        svg: '/images/logos/spicedb/spicedb-wordmark-stacked-slate-light.svg',
       },
       'slate-850': {
-        png: '/images/logos/SpiceDB/Stacked/SpiceDB-Wordmark-Stacked-Slate-Dark.png',
-        svg: '/images/logos/SpiceDB/Stacked/SpiceDB-Wordmark-Stacked-Slate-Dark.svg',
+        png: '/images/logos/spicedb/spicedb-wordmark-stacked-slate-dark.png',
+        svg: '/images/logos/spicedb/spicedb-wordmark-stacked-slate-dark.svg',
       },
     },
   },
   {
     name: 'LogoMark',
     variants: {
-      'color-light': {
-        png: '/images/logos/LogoMark/AuthZed-Logomark-Circle-Color.png',
-        svg: '/images/logos/LogoMark/AuthZed-Logomark-Circle-Color.svg',
-      },
-      'color-dark': {
-        png: '/images/logos/LogoMark/AuthZed-Logomark-Circle-Color.png',
-        svg: '/images/logos/LogoMark/AuthZed-Logomark-Circle-Color.svg',
+      'color': {
+        png: '/images/logos/logomark/authzed-logomark-circle-color.png',
+        svg: '/images/logos/logomark/authzed-logomark-circle-color.svg',
       },
       'slate-050': {
-        png: '/images/logos/LogoMark/AuthZed-Logomark-Circle-Slate-Light.png',
-        svg: '/images/logos/LogoMark/AuthZed-Logomark-Circle-Slate-Light.svg',
+        png: '/images/logos/logomark/authzed-logomark-circle-slate-light.png',
+        svg: '/images/logos/logomark/authzed-logomark-circle-slate-light.svg',
       },
       'slate-850': {
-        png: '/images/logos/LogoMark/AuthZed-Logomark-Circle-Slate-Dark.png',
-        svg: '/images/logos/LogoMark/AuthZed-Logomark-Circle-Slate-Dark.svg',
+        png: '/images/logos/logomark/authzed-logomark-circle-slate-dark.png',
+        svg: '/images/logos/logomark/authzed-logomark-circle-slate-dark.svg',
       },
     },
   },
