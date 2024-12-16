@@ -6,11 +6,11 @@ export const logoSets: LogoSet[] = [
     variants: {
       "color-light": {
         png: "/logos/authzed/AuthZed-Wordmark-Color-Light.png",
-        svg: "/logos/authzed/AuthZed-Wordmark-Color-Light.svg"
+        svg: "/logos/authzed/Authzed-Wordmark-Color-Light.svg"
       },
       "color-dark": {
         png: "/logos/authzed/AuthZed-Wordmark-Color-Dark.png",
-        svg: "/logos/authzed/AuthZed-Wordmark-Color-Dark.svg"
+        svg: "/logos/authzed/Authzed-Wordmark-Color-Dark.svg"
       },
       "slate-050": {
         png: "/logos/authzed/AuthZed-Wordmark-Slate-Light.png",
