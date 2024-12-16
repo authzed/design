@@ -6,11 +6,11 @@ export const logoSets: LogoSet[] = [
     variants: {
       "color-light": {
         png: "/logos/authzed/AuthZed-Wordmark-Color-Light.png",
-        svg: "/logos/authzed/AuthZed-Wordmark-Color-Light.svg"
+        svg: "/logos/authzed/Authzed-Wordmark-Color-Light.svg"
       },
       "color-dark": {
         png: "/logos/authzed/AuthZed-Wordmark-Color-Dark.png",
-        svg: "/logos/authzed/AuthZed-Wordmark-Color-Dark.svg"
+        svg: "/logos/authzed/Authzed-Wordmark-Color-Dark.svg"
       },
       "slate-050": {
         png: "/logos/authzed/AuthZed-Wordmark-Slate-Light.png",
@@ -27,11 +27,11 @@ export const logoSets: LogoSet[] = [
     variants: {
       "color-light": {
         png: "/logos/spicedb/SpiceDB-Wordmark-Color-Light.png",
-        svg: "/logos/spicedb/SpiceDB-Wordmark-Color-Light.svg"
+        svg: "/logos/spicedb/Spicedb-Wordmark-Color-Light.svg"
       },
       "color-dark": {
         png: "/logos/spicedb/SpiceDB-Wordmark-Color-Dark.png",
-        svg: "/logos/spicedb/SpiceDB-Wordmark-Color-Dark.svg"
+        svg: "/logos/spicedb/Spicedb-Wordmark-Color-Dark.svg"
       },
       "slate-050": {
         png: "/logos/spicedb/SpiceDB-Wordmark-Slate-Light.png",
@@ -49,11 +49,11 @@ export const logoSets: LogoSet[] = [
     variants: {
       "color-light": {
         png: "/logos/authzed/Stacked/AuthZed-Wordmark-Stacked-Color-Light.png",
-        svg: "/logos/authzed/Stacked/AuthZed-Wordmark-Stacked-Color-Light.svg"
+        svg: "/logos/authzed/Stacked/Authzed-Wordmark-Stacked-Color-Light.svg"
       },
       "color-dark": {
         png: "/logos/authzed/Stacked/AuthZed-Wordmark-Stacked-Color-Dark.png",
-        svg: "/logos/authzed/Stacked/AuthZed-Wordmark-Stacked-Color-Dark.svg"
+        svg: "/logos/authzed/Stacked/Authzed-Wordmark-Stacked-Color-Dark.svg"
       },
       "slate-050": {
         png: "/logos/authzed/Stacked/AuthZed-Wordmark-Stacked-Slate-Light.png",
@@ -71,11 +71,11 @@ export const logoSets: LogoSet[] = [
     variants: {
       "color-light": {
         png: "/logos/spicedb/Stacked/SpiceDB-Wordmark-Stacked-Color-Light.png",
-        svg: "/logos/spicedb/Stacked/SpiceDB-Wordmark-Stacked-Color-Light.svg"
+        svg: "/logos/spicedb/Stacked/Spicedb-Wordmark-Stacked-Color-Light.svg"
       },
       "color-dark": {
         png: "/logos/spicedb/Stacked/SpiceDB-Wordmark-Stacked-Color-Dark.png",
-        svg: "/logos/spicedb/Stacked/SpiceDB-Wordmark-Stacked-Color-Dark.svg"
+        svg: "/logos/spicedb/Stacked/Spicedb-Wordmark-Stacked-Color-Dark.svg"
       },
       "slate-050": {
         png: "/logos/spicedb/Stacked/SpiceDB-Wordmark-Stacked-Slate-Light.png",
@@ -92,11 +92,11 @@ export const logoSets: LogoSet[] = [
     variants: {
       "color-light": {
         png: "/logos/logomark/AuthZed-Logomark-Circle-Color.png",
-        svg: "/logos/logomark/AuthZed-Logomark-Circle-Color.svg"
+        svg: "/logos/logomark/Authzed-Logomark-Circle-Color.svg"
       },
       "color-dark": {
         png: "/logos/logomark/AuthZed-Logomark-Circle-Color.png",
-        svg: "/logos/logomark/AuthZed-Logomark-Circle-Color.svg"
+        svg: "/logos/logomark/Authzed-Logomark-Circle-Color.svg"
       },
       "slate-050": {
         png: "/logos/logomark/AuthZed-Logomark-Circle-Slate-Light.png",
