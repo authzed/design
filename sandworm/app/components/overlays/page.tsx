@@ -29,22 +29,18 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
-import { StatusBadge } from "@/components/ui/status-badge";
 
 export default function OverlaysPage() {
   return (
     <div className="space-y-12">
       <div>
-        <div className="flex items-center gap-3 mb-2">
-          <h1 className="text-3xl font-bold tracking-tight">Overlays</h1>
-          <StatusBadge status="coming-soon" />
-        </div>
-        <p className="text-lg text-muted-foreground">
-          Components that float above the page content.
+        <h1 className="text-3xl font-bold tracking-tight">Overlays</h1>
+        <p className="text-lg text-muted-foreground mt-2">
+          Modal dialogs, popovers, and other overlay components.
         </p>
       </div>
 
-      <div className="space-y-12">
+      <div className="space-y-8">
         <section>
           <h2 className="text-2xl font-semibold mb-6">Dialog</h2>
           <Card>

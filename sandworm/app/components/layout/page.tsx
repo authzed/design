@@ -6,22 +6,18 @@ import {
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { StatusBadge } from "@/components/ui/status-badge";
 
 export default function LayoutPage() {
   return (
     <div className="space-y-12">
       <div>
-        <div className="flex items-center gap-3 mb-2">
-          <h1 className="text-3xl font-bold tracking-tight">Layout</h1>
-          <StatusBadge status="coming-soon" />
-        </div>
-        <p className="text-lg text-muted-foreground">
+        <h1 className="text-3xl font-bold tracking-tight">Layout</h1>
+        <p className="text-lg text-muted-foreground mt-2">
           Components for structuring and organizing page content.
         </p>
       </div>
 
-      <div className="space-y-12">
+      <div className="space-y-8">
         <section>
           <h2 className="text-2xl font-semibold mb-6">Resizable Panels</h2>
           <Card>
