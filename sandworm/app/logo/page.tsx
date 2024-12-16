@@ -6,7 +6,7 @@ import { LogoVariantSelector } from '@/components/logo/logo-variant-selector';
 import { DownloadAll } from '@/components/logo/download-all';
 import { GuidelinesCard } from '@/components/logo/guidelines-card';
 import { StatusBadge } from '@/components/ui/status-badge';
-import { logoSets } from '@/config/logos';
+import { LogoSets } from '@/config/logos';
 import type { LogoVariant } from '@/lib/types';
 
 const doItems = [
@@ -24,7 +24,13 @@ const dontItems = [
 ];
 
 export default function LogoPage() {
-  const [selectedVariant, setSelectedVariant] = useState<LogoVariant>('color-light');
+  const [selectedLogoSet, setSelectedLogoSet] = useState(LogoSets[0]);
+  const [selectedVariant, setSelectedVariant] = useState(
+    Object.keys(LogoSets[0].variants)[0],
+  );
+
+  const variantKeys = Object.keys(LogoSets[0].variants);
+  const logoSetNames = LogoSets.map((logoSet) => logoSet.name);
 
   return (
     <div className="space-y-12">
@@ -71,17 +77,17 @@ export default function LogoPage() {
               selectedVariant={selectedVariant}
               onVariantChange={setSelectedVariant}
             />
-            <DownloadAll logos={logoSets} />
+            <DownloadAll logos={LogoSets} />
           </div>
 
           <div className="space-y-4">
             <div className="grid gap-4 md:grid-cols-2">
-              {logoSets.slice(0, 2).map((logo) => (
+              {LogoSets.slice(0, 2).map((logo) => (
                 <LogoPreview key={logo.name} logo={logo} variant={selectedVariant} />
               ))}
             </div>
             <div className="grid gap-4 md:grid-cols-3">
-              {logoSets.slice(2).map((logo) => (
+              {LogoSets.slice(2).map((logo) => (
                 <LogoPreview key={logo.name} logo={logo} variant={selectedVariant} />
               ))}
             </div>
