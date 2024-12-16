@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { ArrowRight, Mail, Loader2 } from "lucide-react";
 import { useState } from "react";
+import { StatusBadge } from "@/components/ui/status-badge";
+import { usePageStatus } from "@/hooks/use-page-status";
 
 export default function ButtonsPage() {
   const [loading, setLoading] = useState(false);
@@ -15,8 +17,11 @@ export default function ButtonsPage() {
 
   return (
     <div className="space-y-12">
-      <div>
-        <h1 className="text-3xl font-bold tracking-tight">Buttons</h1>
+      <div className="space-y-4">
+        <div className="flex items-center gap-4">
+          <h1 className="text-4xl font-bold">Buttons</h1>
+          <StatusBadge status={usePageStatus()} />
+        </div>
         <p className="text-lg text-muted-foreground mt-2">
           Interactive button components with different variants, sizes, and states.
         </p>

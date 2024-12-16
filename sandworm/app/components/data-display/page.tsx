@@ -1,13 +1,20 @@
+'use client';
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { TableExample } from "./table-example";
 import { AccordionExample } from "./accordion-example";
 import { ScrollExample } from "./scroll-example";
+import { StatusBadge } from "@/components/ui/status-badge";
+import { usePageStatus } from '@/hooks/use-page-status';
 
 export default function DataDisplayPage() {
   return (
     <div className="space-y-12">
-      <div>
-        <h1 className="text-3xl font-bold tracking-tight">Data Display</h1>
+      <div className="space-y-4">
+        <div className="flex items-center gap-4">
+          <h1 className="text-4xl font-bold">Data Display</h1>
+          <StatusBadge status={usePageStatus()} />
+        </div>
         <p className="text-lg text-muted-foreground mt-2">
           Components for displaying data in tables, lists, and other formats.
         </p>

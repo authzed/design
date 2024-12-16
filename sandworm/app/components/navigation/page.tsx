@@ -1,3 +1,5 @@
+'use client';
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
@@ -17,12 +19,17 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import { StatusBadge } from "@/components/ui/status-badge";
+import { usePageStatus } from '@/hooks/use-page-status';
 
 export default function NavigationPage() {
   return (
     <div className="space-y-12">
-      <div>
-        <h1 className="text-3xl font-bold tracking-tight">Navigation</h1>
+      <div className="space-y-4">
+        <div className="flex items-center gap-4">
+          <h1 className="text-4xl font-bold">Navigation</h1>
+          <StatusBadge status={usePageStatus()} />
+        </div>
         <p className="text-lg text-muted-foreground mt-2">
           Navigation components for building menus, breadcrumbs, and tabs.
         </p>

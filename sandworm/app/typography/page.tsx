@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { StatusBadge } from '@/components/ui/status-badge';
+import { usePageStatus } from '@/hooks/use-page-status';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -62,7 +63,7 @@ export default function TypographyPage() {
       <div className="space-y-4">
         <div className="flex items-center gap-4">
           <h1 className="text-4xl font-bold">Typography</h1>
-          <StatusBadge status="ready" />
+          <StatusBadge status={usePageStatus()} />
         </div>
         <h2 className="text-2xl">Clear Communication Through Type</h2>
         <p className="text-lg text-muted-foreground">

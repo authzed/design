@@ -1,3 +1,5 @@
+'use client';
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Progress } from "@/components/ui/progress";
@@ -6,12 +8,17 @@ import { CodePreview } from "@/components/code-preview";
 import { ToastExamples } from "./toast-examples";
 import { ProgressExample } from "./progress-example";
 import { AlertDialogExample } from "./alert-dialog-example";
+import { StatusBadge } from "@/components/ui/status-badge";
+import { usePageStatus } from '@/hooks/use-page-status';
 
 export default function FeedbackPage() {
   return (
     <div className="space-y-12">
-      <div>
-        <h1 className="text-3xl font-bold tracking-tight">Feedback</h1>
+      <div className="space-y-4">
+        <div className="flex items-center gap-4">
+          <h1 className="text-4xl font-bold">Feedback</h1>
+          <StatusBadge status={usePageStatus()} />
+        </div>
         <p className="text-lg text-muted-foreground mt-2">
           Components for providing feedback to users through alerts, toasts, and progress indicators.
         </p>

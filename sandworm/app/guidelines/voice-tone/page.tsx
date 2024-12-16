@@ -1,6 +1,10 @@
+'use client';
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Check, AlertTriangle } from "lucide-react";
+import { StatusBadge } from "@/components/ui/status-badge";
+import { usePageStatus } from '@/hooks/use-page-status';
 
 export default function VoiceAndTonePage() {
   const principles = [
@@ -63,8 +67,11 @@ export default function VoiceAndTonePage() {
 
   return (
     <div className="container mx-auto space-y-12 px-4 md:px-6">
-      <div>
-        <h1 className="text-3xl font-bold tracking-tight">Voice & Tone</h1>
+      <div className="space-y-4">
+        <div className="flex items-center gap-4">
+          <h1 className="text-4xl font-bold">Voice & Tone</h1>
+          <StatusBadge status={usePageStatus()} />
+        </div>
         <p className="text-lg text-muted-foreground mt-2">
           Guidelines for maintaining consistent and effective communication across our platform.
         </p>

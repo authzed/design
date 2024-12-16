@@ -5,7 +5,9 @@ import { LogoPreview } from '@/components/logo/logo-preview';
 import { LogoVariantSelector } from '@/components/logo/logo-variant-selector';
 import { DownloadAll } from '@/components/logo/download-all';
 import { GuidelinesCard } from '@/components/logo/guidelines-card';
+import { Card, CardContent } from '@/components/ui/card';
 import { StatusBadge } from '@/components/ui/status-badge';
+import { usePageStatus } from '@/hooks/use-page-status';
 import { LogoSets } from '@/config/logos';
 import type { LogoVariant } from '@/lib/types';
 
@@ -46,7 +48,7 @@ export default function LogoPage() {
       <div className="space-y-4">
         <div className="flex items-center gap-4">
           <h1 className="text-4xl font-bold">Logo</h1>
-          <StatusBadge status="ready" />
+          <StatusBadge status={usePageStatus()} />
         </div>
         <h2 className="text-2xl">Our Steady Reference Point</h2>
         <p className="text-lg text-muted-foreground">

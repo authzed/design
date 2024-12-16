@@ -1,5 +1,9 @@
+'use client';
+
 import { ColorCard } from '@/components/color-card';
 import { semanticColors } from '@/lib/semantic-colors';
+import { StatusBadge } from '@/components/ui/status-badge';
+import { usePageStatus } from '@/hooks/use-page-status';
 
 interface ColorSwatch {
   label: string;
@@ -177,7 +181,7 @@ export default function ColorsPage() {
       <div className="space-y-4">
         <div className="flex items-center gap-4">
           <h1 className="text-4xl font-bold">Colors</h1>
-          <StatusBadge status="ready" />
+          <StatusBadge status={usePageStatus()} />
         </div>
         <h2 className="text-2xl">A Desert-Inspired Palette</h2>
         <p className="text-lg text-muted-foreground">
