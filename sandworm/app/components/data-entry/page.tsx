@@ -7,7 +7,9 @@ import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
+import { StatusBadge } from "@/components/ui/status-badge";
 import { useState } from "react";
+import { usePageStatus } from '@/hooks/use-page-status';
 
 export default function DataEntryPage() {
   const [date, setDate] = useState<Date | undefined>(new Date());
@@ -16,8 +18,11 @@ export default function DataEntryPage() {
 
   return (
     <div className="space-y-12">
-      <div>
-        <h1 className="text-3xl font-bold tracking-tight">Data Entry</h1>
+      <div className="space-y-4">
+        <div className="flex items-center gap-4">
+          <h1 className="text-4xl font-bold">Data Entry</h1>
+          <StatusBadge status={usePageStatus()} />
+        </div>
         <p className="text-lg text-muted-foreground mt-2">
           Components for entering and editing different types of data.
         </p>

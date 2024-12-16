@@ -9,8 +9,20 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { StatusDot } from "@/components/ui/status-dot";
+import { pageStatus } from "@/config/page-status";
 
-const sidebarNavItems = [
+interface NavItem {
+  title: string;
+  href: string;
+}
+
+interface NavSection {
+  title: string;
+  items: NavItem[];
+}
+
+const sidebarNavItems: NavSection[] = [
   {
     title: "Foundations",
     items: [
@@ -142,13 +154,14 @@ export function SiteNav({ className }: SiteNavProps) {
                       key={item.href}
                       href={item.href}
                       className={cn(
-                        "block rounded-md px-3 py-2 text-sm hover:bg-accent hover:text-accent-foreground",
+                        "flex items-center gap-2 rounded-md px-3 py-2 text-sm hover:bg-accent hover:text-accent-foreground",
                         pathname === item.href
                           ? "bg-accent text-accent-foreground"
                           : "transparent"
                       )}
                     >
-                      {item.title}
+                      <span className="flex-1">{item.title}</span>
+                      <StatusDot status={pageStatus[item.href]} />
                     </Link>
                   ))}
                 </div>

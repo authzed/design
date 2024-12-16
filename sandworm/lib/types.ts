@@ -1,14 +1,27 @@
-export type LogoVariant = "color-light" | "color-dark" | "slate-050" | "slate-850";
+export type LogoVariant = "color" | "color-light" | "color-dark" | "slate-050" | "slate-850";
 
 export type LogoFormat = {
   png: string;
   svg: string;
 };
 
+export type WordmarkVariants = {
+  'color-light': LogoFormat;
+  'color-dark': LogoFormat;
+  'slate-050': LogoFormat;
+  'slate-850': LogoFormat;
+};
+
+export type LogoMarkVariants = {
+  'color': LogoFormat;
+  'slate-050': LogoFormat;
+  'slate-850': LogoFormat;
+};
+
 export type LogoSet = {
   name: string;
   description?: string;
-  variants: Record<LogoVariant, LogoFormat>;
+  variants: WordmarkVariants | LogoMarkVariants;
 };
 
 export interface GuidelineItem {

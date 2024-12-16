@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 export async function downloadFile(url: string, filename: string) {
   try {
@@ -20,13 +20,18 @@ export async function downloadFile(url: string, filename: string) {
 
 export function getBackgroundColor(variant: string) {
   switch (variant) {
-    case "color-light":
-    case "slate-050":
-      return "bg-stone-900";
-    case "color-dark":
-    case "slate-850":
-      return "bg-stone-100";
+    case 'color':
+    case 'color-light':
+    case 'slate-050':
+      return 'bg-[hsl(var(--stone-025))] dark:bg-[hsl(var(--stone-025))]';
+    case 'color-dark':
+    case 'slate-850':
+      return 'bg-[hsl(var(--stone-975))] dark:bg-[hsl(var(--stone-975))]';
+    case 'sand-050':
+      return 'bg-[hsl(var(--sand-050))] dark:bg-[hsl(var(--sand-050))]';
+    case 'sand-850':
+      return 'bg-[hsl(var(--sand-850))] dark:bg-[hsl(var(--sand-850))]';
     default:
-      return "bg-stone-100";
+      return 'bg-[hsl(var(--stone-025))] dark:bg-[hsl(var(--stone-025))]';
   }
 }

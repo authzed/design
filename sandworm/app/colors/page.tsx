@@ -1,5 +1,9 @@
+'use client';
+
 import { ColorCard } from '@/components/color-card';
 import { semanticColors } from '@/lib/semantic-colors';
+import { StatusBadge } from '@/components/ui/status-badge';
+import { usePageStatus } from '@/hooks/use-page-status';
 
 interface ColorSwatch {
   label: string;
@@ -174,6 +178,19 @@ function SemanticColorGrid({ colors }: { colors: typeof semanticColors }) {
 export default function ColorsPage() {
   return (
     <div className="space-y-12">
+      <div className="space-y-4">
+        <div className="flex items-center gap-4">
+          <h1 className="text-4xl font-bold">Colors</h1>
+          <StatusBadge status={usePageStatus()} />
+        </div>
+        <h2 className="text-2xl">A Desert-Inspired Palette</h2>
+        <p className="text-lg text-muted-foreground">
+          Our color system draws inspiration from the subtle hues of desert landscapes, 
+          featuring warm sand tones and cool stone grays. This palette ensures excellent 
+          contrast and accessibility while maintaining visual harmony across light and dark themes.
+        </p>
+      </div>
+
       <div>
         <h1 className="text-3xl font-bold tracking-tight">Colors</h1>
         <p className="text-lg text-muted-foreground mt-2">

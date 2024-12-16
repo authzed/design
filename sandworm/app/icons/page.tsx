@@ -1,4 +1,8 @@
+'use client';
+
 import { Card } from "@/components/ui/card";
+import { StatusBadge } from "@/components/ui/status-badge";
+import { usePageStatus } from '@/hooks/use-page-status';
 import { Activity, AlertCircle, Archive, ArrowRight, Bell, Bookmark, Calendar, Check, ChevronDown, ChevronRight, Circle, Copy, Edit, ExternalLink, File, FileText, Filter, Flag, Folder, Heart, Home, Image, Info, Link, Mail, MapPin, Menu, MessageCircle, MoreHorizontal, MoreVertical, Package, PenTool, Plus, Search, Send, Settings, Share, Star, Tag, Trash, User, X } from "lucide-react";
 
 const icons = [
@@ -49,8 +53,11 @@ const icons = [
 export default function IconsPage() {
   return (
     <div className="space-y-12">
-      <div>
-        <h1 className="text-3xl font-bold tracking-tight">Icons</h1>
+      <div className="space-y-4">
+        <div className="flex items-center gap-4">
+          <h1 className="text-4xl font-bold">Icons</h1>
+          <StatusBadge status={usePageStatus()} />
+        </div>
         <p className="text-lg text-muted-foreground mt-2">
           Our icon system uses Lucide React, providing a consistent and accessible set of icons across the platform.
         </p>
