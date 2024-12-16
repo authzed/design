@@ -20,7 +20,6 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
-import { StatusBadge } from "@/components/ui/status-badge";
 
 const formSchema = z.object({
   username: z.string().min(2).max(50),
@@ -53,11 +52,8 @@ export default function FormsPage() {
   return (
     <div className="space-y-12">
       <div>
-        <div className="flex items-center gap-3 mb-2">
-          <h1 className="text-3xl font-bold tracking-tight">Forms</h1>
-          <StatusBadge status="wip" />
-        </div>
-        <p className="text-lg text-muted-foreground">
+        <h1 className="text-3xl font-bold tracking-tight">Forms</h1>
+        <p className="text-lg text-muted-foreground mt-2">
           Form components and validation examples using React Hook Form and Zod.
         </p>
       </div>
