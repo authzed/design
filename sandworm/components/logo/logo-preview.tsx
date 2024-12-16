@@ -15,11 +15,12 @@ interface LogoPreviewProps {
 export function LogoPreview({ logo, variant, preferSvg = true }: LogoPreviewProps) {
   const logoPath = preferSvg ? logo.variants[variant].svg : logo.variants[variant].png;
   const isDark = variant.includes("dark") || variant === "slate-850";
+  const isLight = variant.includes("light") || variant === "slate-050";
   
   return (
     <Card className="overflow-hidden">
       <div className={`relative flex h-32 items-center justify-center p-6 ${
-        isDark ? "bg-slate-950" : "bg-background"
+        isDark ? "bg-slate-950" : isLight ? "bg-white" : "bg-background"
       }`}>
         <Image
           src={logoPath}
