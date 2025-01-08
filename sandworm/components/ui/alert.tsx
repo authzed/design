@@ -3,15 +3,15 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const alertVariants = cva(
-  "relative w-full rounded-lg border p-4 [&>svg~*]:pl-7 [&>svg+div]:translate-y-[-3px] [&>svg]:absolute [&>svg]:left-4 [&>svg]:top-4 [&>svg]:text-foreground",
+  "relative w-full rounded-lg border p-4 [&>svg~*]:pl-7 [&>svg+div]:translate-y-[-3px] [&>svg]:absolute [&>svg]:left-4 [&>svg]:top-4 [&>svg]:text-foreground backdrop-blur-xl relative overflow-hidden",
   {
     variants: {
       variant: {
         default: "bg-background text-foreground",
-        info: "bg-blue-50 border-blue-200 text-blue-900 dark:bg-blue-900/10 dark:border-blue-900/20 dark:text-blue-100 [&>svg]:text-blue-600 dark:[&>svg]:text-blue-100",
-        error: "bg-red-50 border-red-200 text-red-900 dark:bg-red-900/10 dark:border-red-900/20 dark:text-red-100 [&>svg]:text-red-600 dark:[&>svg]:text-red-100",
-        warning: "bg-yellow-50 border-yellow-200 text-yellow-900 dark:bg-yellow-900/10 dark:border-yellow-900/20 dark:text-yellow-100 [&>svg]:text-yellow-600 dark:[&>svg]:text-yellow-100",
-        success: "bg-green-50 border-green-200 text-green-900 dark:bg-green-900/10 dark:border-green-900/20 dark:text-green-100 [&>svg]:text-green-600 dark:[&>svg]:text-green-100",
+        info: "border-[hsl(var(--blue-700)_/_0.2)] bg-[hsl(var(--blue-700)_/_0.05)] text-[hsl(var(--blue-700))] [&>svg]:text-[hsl(var(--blue-700))] before:absolute before:inset-0 before:-z-10 before:bg-[hsl(var(--blue-100)_/_0.3)] after:absolute after:inset-0 after:-z-20 after:bg-[hsl(var(--background)_/_0.8)] dark:border-[hsl(var(--blue-400)_/_0.2)] dark:bg-[hsl(var(--blue-900)_/_0.05)] dark:text-[hsl(var(--blue-400))] dark:[&>svg]:text-[hsl(var(--blue-400))] dark:before:bg-[hsl(var(--blue-900)_/_0.3)]",
+        error: "border-[hsl(var(--red-600)_/_0.2)] bg-[hsl(var(--red-600)_/_0.05)] text-[hsl(var(--red-600))] [&>svg]:text-[hsl(var(--red-600))] before:absolute before:inset-0 before:-z-10 before:bg-[hsl(var(--red-100)_/_0.3)] after:absolute after:inset-0 after:-z-20 after:bg-[hsl(var(--background)_/_0.8)] dark:border-[hsl(var(--red-400)_/_0.2)] dark:bg-[hsl(var(--red-900)_/_0.05)] dark:text-[hsl(var(--red-400))] dark:[&>svg]:text-[hsl(var(--red-400))] dark:before:bg-[hsl(var(--red-900)_/_0.3)]",
+        warning: "border-[hsl(var(--sand-500)_/_0.2)] bg-[hsl(var(--sand-500)_/_0.05)] text-[hsl(var(--sand-500))] [&>svg]:text-[hsl(var(--sand-500))] before:absolute before:inset-0 before:-z-10 before:bg-[hsl(var(--sand-100)_/_0.3)] after:absolute after:inset-0 after:-z-20 after:bg-[hsl(var(--background)_/_0.8)] dark:border-[hsl(var(--sand-400)_/_0.2)] dark:bg-[hsl(var(--sand-900)_/_0.05)] dark:text-[hsl(var(--sand-400))] dark:[&>svg]:text-[hsl(var(--sand-400))] dark:before:bg-[hsl(var(--sand-900)_/_0.3)]",
+        success: "border-[hsl(var(--teal-600)_/_0.2)] bg-[hsl(var(--teal-600)_/_0.05)] text-[hsl(var(--teal-600))] [&>svg]:text-[hsl(var(--teal-600))] before:absolute before:inset-0 before:-z-10 before:bg-[hsl(var(--teal-100)_/_0.3)] after:absolute after:inset-0 after:-z-20 after:bg-[hsl(var(--background)_/_0.8)] dark:border-[hsl(var(--teal-400)_/_0.2)] dark:bg-[hsl(var(--teal-900)_/_0.05)] dark:text-[hsl(var(--teal-400))] dark:[&>svg]:text-[hsl(var(--teal-400))] dark:before:bg-[hsl(var(--teal-900)_/_0.3)]",
       },
     },
     defaultVariants: {

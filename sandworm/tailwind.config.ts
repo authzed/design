@@ -65,6 +65,35 @@ const config: Config = {
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
       },
+      keyframes: {
+        "accordion-down": {
+          from: { height: "0" },
+          to: { height: "var(--radix-accordion-content-height)" },
+        },
+        "accordion-up": {
+          from: { height: "var(--radix-accordion-content-height)" },
+          to: { height: "0" },
+        },
+        glow: {
+          '0%': { 
+            filter: 'brightness(100%) blur(0px)',
+            boxShadow: '0 0 0 0 rgba(255,255,255,0)'
+          },
+          '50%': { 
+            filter: 'brightness(150%) blur(1px)',
+            boxShadow: '0 0 20px 2px rgba(255,255,255,0.3)'
+          },
+          '100%': { 
+            filter: 'brightness(100%) blur(0px)',
+            boxShadow: '0 0 0 0 rgba(255,255,255,0)'
+          }
+        }
+      },
+      animation: {
+        "accordion-down": "accordion-down 0.2s ease-out",
+        "accordion-up": "accordion-up 0.2s ease-out",
+        "glow": "glow 2s ease-in-out infinite"
+      },
     },
   },
   plugins: [require('tailwindcss-animate')],
