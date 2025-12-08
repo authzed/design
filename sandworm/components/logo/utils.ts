@@ -23,9 +23,11 @@ export function getBackgroundColor(variant: string) {
     case 'color':
     case 'color-light':
     case 'slate-050':
+    case 'light':
       return 'bg-[hsl(var(--stone-025))] dark:bg-[hsl(var(--stone-025))]';
     case 'color-dark':
     case 'slate-850':
+    case 'dark':
       return 'bg-[hsl(var(--stone-975))] dark:bg-[hsl(var(--stone-975))]';
     case 'sand-050':
       return 'bg-[hsl(var(--sand-050))] dark:bg-[hsl(var(--sand-050))]';

@@ -44,3 +44,17 @@ export interface BannerSet {
     height: number;
   };
 }
+
+export type LockupVariant = "light" | "dark";
+
+export type LockupVariants = {
+  light: LogoFormat;
+  dark: LogoFormat;
+};
+
+export type LockupSet = {
+  name: string;
+  description?: string;
+  brand: "authzed" | "spicedb";
+  variants: LockupVariants;
+};
