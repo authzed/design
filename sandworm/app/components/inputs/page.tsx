@@ -5,7 +5,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { StatusBadge } from "@/components/ui/status-badge";
-import { useState } from "react";
 import { usePageStatus } from '@/hooks/use-page-status';
 
 export default function InputsPage() {

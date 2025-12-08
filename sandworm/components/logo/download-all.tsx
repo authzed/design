@@ -18,7 +18,6 @@ interface DownloadAllProps {
 export function DownloadAll({ logos }: DownloadAllProps) {
   const handleDownloadAll = async () => {
     const zip = new JSZip();
-    const formats = ['png', 'svg'] as const;
 
     logos.forEach((logo) => {
       const folderName = logo.name.replace(/\s+/g, '-');

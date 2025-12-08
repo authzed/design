@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
@@ -139,7 +138,7 @@ export default function OverlaysPage() {
                   <div className="space-y-2">
                     <h3 className="font-medium">Hover Card Title</h3>
                     <p className="text-sm text-muted-foreground">
-                      This card appears when you hover over the trigger element. It's great for showing additional information without requiring a click.
+                      This card appears when you hover over the trigger element. It&apos;s great for showing additional information without requiring a click.
                     </p>
                   </div>
                 </HoverCardContent>

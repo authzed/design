@@ -13,14 +13,14 @@ export default function Home() {
         </h1>
         <div className="space-y-6">
           <p className="text2xlarge font-light text-muted-foreground">
-            The foundation of AuthZed's design.
+            The foundation of AuthZed&apos;s design.
           </p>
           <p className="textlarge text-muted-foreground">
-            Like the sandworms of Arrakis, it's always there—just beneath the surface—providing the structure 
+            Like the sandworms of Arrakis, it&apos;s always there—just beneath the surface—providing the structure
             and resources we need to create cohesive, scalable, and user-friendly experiences.
           </p>
           <p className="textlarge text-muted-foreground">
-            Whether you're designing something new or enhancing an existing feature, Sandworm ensures 
+            Whether you&apos;re designing something new or enhancing an existing feature, Sandworm ensures
             consistency and simplicity every step of the way.
           </p>
         </div>
