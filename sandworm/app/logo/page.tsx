@@ -5,11 +5,13 @@ import { LogoPreview } from '@/components/logo/logo-preview';
 import { LogoVariantSelector } from '@/components/logo/logo-variant-selector';
 import { DownloadAll } from '@/components/logo/download-all';
 import { GuidelinesCard } from '@/components/logo/guidelines-card';
-import { Card, CardContent } from '@/components/ui/card';
+import { LockupPreview } from '@/components/lockup/lockup-preview';
+import { LockupVariantSelector } from '@/components/lockup/lockup-variant-selector';
 import { StatusBadge } from '@/components/ui/status-badge';
 import { usePageStatus } from '@/hooks/use-page-status';
 import { LogoSets } from '@/config/logos';
-import type { LogoVariant } from '@/lib/types';
+import { LockupSets } from '@/config/lockups';
+import type { LogoVariant, LockupVariant } from '@/lib/types';
 
 const doItems = [
   { text: "Use approved logo files only. Keep the logo consistent with our brand standards." },
@@ -30,6 +32,7 @@ export default function LogoPage() {
   const [selectedVariant, setSelectedVariant] = useState<LogoVariant>(
     Object.keys(selectedLogoSet.variants)[0] as LogoVariant
   );
+  const [selectedLockupVariant, setSelectedLockupVariant] = useState<LockupVariant>('light');
 
   // Get all unique variant keys from all logo sets
   const allVariantKeys = Array.from(new Set(
@@ -102,6 +105,32 @@ export default function LogoPage() {
                 <LogoPreview key={logo.name} logo={logo} variant={selectedVariant} />
               ))}
             </div>
+          </div>
+        </section>
+
+        <section id="product-lockups">
+          <div className="mb-6">
+            <h2 className="text-2xl font-semibold">Product Logo Lockups</h2>
+            <p className="mt-2 text-muted-foreground">
+              Partner and product logo lockups for co-branded materials.
+            </p>
+          </div>
+
+          <div className="mb-6">
+            <LockupVariantSelector
+              selectedVariant={selectedLockupVariant}
+              onVariantChange={setSelectedLockupVariant}
+            />
+          </div>
+
+          <div className="grid gap-4 md:grid-cols-3">
+            {LockupSets.map((lockup) => (
+              <LockupPreview
+                key={lockup.name}
+                lockup={lockup}
+                variant={selectedLockupVariant}
+              />
+            ))}
           </div>
         </section>
 
