@@ -119,6 +119,15 @@ const sidebarNavItems: NavSection[] = [
       },
     ],
   },
+  {
+    title: "Tools",
+    items: [
+      {
+        title: "Slack Theme",
+        href: "/tools/slack-theme",
+      },
+    ],
+  },
 ];
 
 interface SiteNavProps {
@@ -127,11 +136,6 @@ interface SiteNavProps {
 
 export function SiteNav({ className }: SiteNavProps) {
   const pathname = usePathname();
-
-  // Find which section contains the current path
-  const defaultSection = sidebarNavItems.findIndex(section =>
-    section.items.some(item => pathname?.startsWith(item.href))
-  );
 
   return (
     <div className={cn(

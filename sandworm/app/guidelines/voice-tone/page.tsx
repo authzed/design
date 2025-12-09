@@ -94,7 +94,7 @@ export default function VoiceAndTonePage() {
                 </Alert>
                 <Alert variant="destructive">
                   <AlertTriangle className="h-4 w-4" />
-                  <AlertTitle>Don't</AlertTitle>
+                  <AlertTitle>Don&apos;t</AlertTitle>
                   <AlertDescription>{principle.examples.dont}</AlertDescription>
                 </Alert>
               </CardContent>
@@ -114,7 +114,7 @@ export default function VoiceAndTonePage() {
               </CardHeader>
               <CardContent>
                 <div className="bg-muted p-4 rounded-md">
-                  <p className="text-sm italic">"{item.example}"</p>
+                  <p className="text-sm italic">&quot;{item.example}&quot;</p>
                 </div>
               </CardContent>
             </Card>

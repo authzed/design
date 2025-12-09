@@ -48,7 +48,8 @@ export default function FormsPage() {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+    // Handle form submission
+    void values;
   }
 
   return (

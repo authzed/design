@@ -7,28 +7,31 @@ export interface PageStatusConfig {
 export const pageStatus: PageStatusConfig = {
   // Foundations
   "/colors": "ready",
-  "/typography": "under-review",
+  "/typography": "ready",
   "/logo": "ready",
-  "/icons": "draft",
+  "/icons": "ready",
 
   // Components
   "/components/buttons": "ready",
-  "/components/forms": "under-review",
-  "/components/cards": "under-review",
-  "/components/navigation": "under-review",
-  "/components/layout": "under-review",
-  "/components/feedback": "under-review",
-  "/components/data-display": "under-review",
-  "/components/overlays": "under-review",
-  "/components/inputs": "under-review",
-  "/components/data-entry": "under-review",
-  "/components/toggle": "under-review",
+  "/components/forms": "ready",
+  "/components/cards": "ready",
+  "/components/navigation": "ready",
+  "/components/layout": "ready",
+  "/components/feedback": "ready",
+  "/components/data-display": "ready",
+  "/components/overlays": "ready",
+  "/components/inputs": "ready",
+  "/components/data-entry": "ready",
+  "/components/toggle": "ready",
 
   // Guidelines
-  "/guidelines/voice-tone": "draft",
+  "/guidelines/voice-tone": "ready",
   "/guidelines/photography": "draft",
   "/guidelines/animation": "draft",
 
   // Assets
   "/assets/banners": "ready",
+
+  // Tools
+  "/tools/slack-theme": "ready",
 };

@@ -1,6 +1,8 @@
+const path = require('path');
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  images: { 
+  images: {
     unoptimized: true, // Set to true for static exports
     remotePatterns: [
       {
@@ -15,8 +17,8 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true
   },
-  swcMinify: false, // Temporarily disable swcMinify
   output: 'export', // Change to 'export' for static site generation
+  outputFileTracingRoot: path.join(__dirname, '../'),
   poweredByHeader: false,
   compress: true,
   generateBuildId: async () => {

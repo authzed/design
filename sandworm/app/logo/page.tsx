@@ -28,23 +28,8 @@ const dontItems = [
 ];
 
 export default function LogoPage() {
-  const [selectedLogoSet, setSelectedLogoSet] = useState(LogoSets[0]);
-  const [selectedVariant, setSelectedVariant] = useState<LogoVariant>(
-    Object.keys(selectedLogoSet.variants)[0] as LogoVariant
-  );
+  const [selectedVariant, setSelectedVariant] = useState<LogoVariant>('color-light');
   const [selectedLockupVariant, setSelectedLockupVariant] = useState<LockupVariant>('light');
-
-  // Get all unique variant keys from all logo sets
-  const allVariantKeys = Array.from(new Set(
-    LogoSets.flatMap(logoSet => Object.keys(logoSet.variants))
-  )) as LogoVariant[];
-
-  // Handle variant change
-  const handleVariantChange = (variant: LogoVariant) => {
-    setSelectedVariant(variant);
-  };
-
-  const logoSetNames = LogoSets.map((logoSet) => logoSet.name);
 
   return (
     <div className="space-y-12">
@@ -57,7 +42,7 @@ export default function LogoPage() {
         <p className="text-lg text-muted-foreground">
           Inspired by the shifting sands of Arrakis—an inhospitable yet resource-rich world—and the
           letter Z, standing for the authorization at the heart of our mission. Together, these
-          elements symbolize our platform's ability to shape and navigate complex permission
+          elements symbolize our platform&apos;s ability to shape and navigate complex permission
           landscapes with the same adaptability and resilience that desert life demands.
         </p>
       </div>
@@ -81,7 +66,7 @@ export default function LogoPage() {
               </li>
             </ul>
             <p className="mt-4 text-muted-foreground">
-              Choose the version that fits best with your overall design, ensuring the logo's visibility
+              Choose the version that fits best with your overall design, ensuring the logo&apos;s visibility
               and integrity in any setting.
             </p>
           </div>
@@ -89,7 +74,7 @@ export default function LogoPage() {
           <div className="mb-6 flex items-center justify-between">
             <LogoVariantSelector
               selectedVariant={selectedVariant}
-              onVariantChange={handleVariantChange}
+              onVariantChange={setSelectedVariant}
             />
             <DownloadAll logos={LogoSets} />
           </div>
