@@ -1,8 +1,14 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
-import { Square, Type, FileText, Layout, Menu, Bell, Calendar, Sliders, FileInput, ToggleLeft } from "lucide-react";
+import { Square, Type, FileText, Layout, Menu, Bell, Calendar, Sliders, FileInput, ToggleLeft, Newspaper } from "lucide-react";
 
 const components = [
+  {
+    title: "Content",
+    description: "MDX blog components for rich content: callouts, timelines, figures, and more.",
+    href: "/components/content",
+    icon: Newspaper,
+  },
   {
     title: "Buttons",
     description: "Button components with different variants, sizes, and states.",
