@@ -126,6 +126,10 @@ const sidebarNavItems: NavSection[] = [
         title: "Slack Theme",
         href: "/tools/slack-theme",
       },
+      {
+        title: "Email Signature",
+        href: "/tools/email-signature",
+      },
     ],
   },
 ];
