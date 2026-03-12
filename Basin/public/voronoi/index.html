@@ -1,0 +1,2873 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Voronoi Chromatic Aberration Explorer</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--violet:#9278ed;--sand:#ffb370;--bg:#170d1c;--bgL:#1e1424;--bgLL:#2a2130}
+body{background:var(--bg);color:#e0d8e8;font-family:'Inter',system-ui,sans-serif;display:flex;height:100vh;overflow:hidden}
+#sidebar{width:300px;min-width:300px;background:var(--bgL);border-right:1px solid var(--bgLL);display:flex;flex-direction:column;overflow-y:auto;padding-bottom:20px}
+#sidebar h1{font-size:13px;padding:20px 16px 4px;color:var(--violet);letter-spacing:.5px;text-transform:uppercase;font-weight:600}
+#sidebar .desc{font-size:11px;padding:4px 16px 12px;color:#8a7a96;line-height:1.5}
+#sidebar h2{font-size:10px;padding:14px 16px 4px;color:#8a7a96;text-transform:uppercase;letter-spacing:.8px;font-weight:500}
+.slider-group{padding:5px 16px}
+.slider-group label{font-size:10px;color:#8a7a96;display:flex;justify-content:space-between;margin-bottom:2px}
+.slider-group input[type=range]{width:100%;accent-color:var(--violet);height:4px}
+.color-row{padding:5px 16px;display:flex;align-items:center;gap:8px}
+.color-row label{font-size:10px;color:#8a7a96;min-width:60px}
+.color-row .swatch{width:16px;height:16px;border-radius:3px;border:1px solid #3a3144;flex-shrink:0}
+.color-row select{flex:1;background:var(--bgLL);border:1px solid #3a3144;color:#e0d8e8;padding:4px 6px;border-radius:4px;font-size:11px;font-family:monospace}
+.color-row select:focus{outline:none;border-color:var(--violet)}
+.preset-row{padding:4px 16px;display:flex;gap:4px;flex-wrap:wrap}
+.preset-btn{padding:4px 8px;border-radius:4px;font-size:10px;cursor:pointer;background:var(--bgLL);border:1px solid #3a3144;color:#b0a4bc;transition:all .15s}
+.preset-btn:hover{background:#3a3144;color:#e0d8e8}
+.preset-btn.active{background:#6242e0;color:#fff;border-color:#6242e0}
+.toggle-row{padding:5px 16px;display:flex;align-items:center;gap:8px}
+.toggle-row label{font-size:10px;color:#8a7a96}
+.toggle-row input[type=checkbox]{accent-color:var(--violet)}
+.btn-row{padding:8px 16px;display:flex;gap:6px}
+.btn{background:var(--bgLL);border:1px solid #3a3144;color:#b0a4bc;padding:6px 12px;border-radius:5px;cursor:pointer;font-size:11px;transition:all .15s}
+.btn:hover{background:#6242e0;color:#fff;border-color:#6242e0}
+.slug-group{padding:8px 16px}
+.slug-group label{font-size:10px;color:#8a7a96;display:block;margin-bottom:4px}
+.slug-group input[type=text]{width:100%;background:var(--bgLL);border:1px solid #3a3144;color:#e0d8e8;padding:6px 8px;border-radius:5px;font-size:12px}
+.slug-group input:focus{outline:none;border-color:var(--violet)}
+#main{flex:1;overflow-y:auto;padding:32px;display:flex;flex-direction:column;align-items:center}
+#main h2{font-size:16px;color:var(--sand);margin-bottom:4px;font-weight:600;align-self:flex-start;max-width:1080px;width:100%}
+#main .subtitle{font-size:11px;color:#8a7a96;margin-bottom:16px;align-self:flex-start;max-width:1080px;width:100%}
+.canvas-wrap{max-width:1080px;width:100%}
+.canvas-wrap canvas{display:block;width:100%;height:auto;border-radius:6px}
+.layer-panel{border-top:1px solid #2a2130;padding-top:4px;margin-top:4px}
+.layer-panel h2{font-size:10px;padding:6px 16px 2px;color:#8a7a96;text-transform:uppercase;letter-spacing:.8px;font-weight:500;display:flex;align-items:center}
+.layer-sliders{transition:opacity .2s}
+.layer-sliders.hidden{opacity:0.3;pointer-events:none}
+#toast{position:fixed;bottom:24px;right:24px;background:#6242e0;color:#fff;padding:10px 18px;border-radius:8px;font-size:12px;opacity:0;transition:opacity .3s;pointer-events:none;z-index:100}
+#toast.show{opacity:1}
+.section-header{font-size:10px;padding:10px 16px 4px;color:#8a7a96;text-transform:uppercase;letter-spacing:.8px;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:space-between;user-select:none;border-top:1px solid #2a2130;margin-top:4px}
+.section-header:first-child{border-top:none;margin-top:0}
+.section-header:hover{color:#b0a4bc}
+.section-header .chevron{transition:transform .2s;font-size:8px}
+.section-header.collapsed .chevron{transform:rotate(-90deg)}
+.section-body{overflow:visible}
+.section-body.collapsed{max-height:0!important;opacity:0;pointer-events:none;overflow:hidden}
+</style>
+</head>
+<body>
+<div id="sidebar">
+<h1>Chromatic Aberration</h1>
+<div class="desc">Bad-lens color separation on Voronoi edges. Sandworm-tinted ghost copies, screen-blended.</div>
+
+<div class="section-header" id="secLayers">
+  <span>Layers</span>
+  <span class="chevron">&#9660;</span>
+</div>
+<div class="section-body" id="secLayersBody">
+<div class="slider-group">
+  <label><span>Active Layers</span><span id="activeLayersVal">2</span></label>
+  <input type="range" id="activeLayersSlider" min="1" max="6" value="2">
+</div>
+
+<div class="layer-panel" id="syncPanel">
+  <h2 style="color:#9278ed">Synced Controls</h2>
+  <div class="slider-group">
+    <label><span>Offset</span><span id="syncOffsetVal">10</span><span>px</span></label>
+    <input type="range" id="syncOffsetSlider" min="0" max="50" value="10">
+  </div>
+  <div class="slider-group">
+    <label><span>Angle</span><span id="syncAngleVal">0</span><span>&deg;</span></label>
+    <input type="range" id="syncAngleSlider" min="0" max="360" value="0">
+  </div>
+  <div class="slider-group">
+    <label><span>Spread</span><span id="syncSpreadVal">120</span><span>&deg;</span></label>
+    <input type="range" id="syncSpreadSlider" min="30" max="360" value="120">
+  </div>
+  <div class="slider-group">
+    <label><span>Points</span><span id="syncPtsVal">31</span></label>
+    <input type="range" id="syncPtsSlider" min="4" max="60" value="31">
+  </div>
+      <div class="slider-group">
+    <label><span>Cell Pan X</span><span id="syncCellPanXVal">0</span><span>px</span></label>
+    <input type="range" id="syncCellPanXSlider" min="-500" max="500" value="0">
+  </div>
+  <div class="slider-group">
+    <label><span>Cell Pan Y</span><span id="syncCellPanYVal">0</span><span>px</span></label>
+    <input type="range" id="syncCellPanYSlider" min="-500" max="500" value="0">
+  </div>
+  <div class="slider-group">
+    <label><span>Field Rotation</span><span id="syncFieldRotationVal">0</span><span>&deg;</span></label>
+    <input type="range" id="syncFieldRotationSlider" min="0" max="360" value="0">
+  </div>
+<div class="voronoi-controls" id="syncVoronoiControls">
+<div class="slider-group">
+    <label><span>Edge Width</span><span id="syncEwVal">0.02</span></label>
+    <input type="range" id="syncEwSlider" min="0" max="100" value="2">
+  </div>
+  <div class="slider-group">
+    <label><span>Edge Sharpness</span><span id="syncEsVal">1.00</span></label>
+    <input type="range" id="syncEsSlider" min="0" max="100" value="100">
+  </div>
+  <div class="slider-group">
+    <label><span>Edge Noise</span><span id="syncEnVal">0.82</span></label>
+    <input type="range" id="syncEnSlider" min="0" max="100" value="82">
+  </div>
+  <div class="slider-group">
+    <label><span>Node Bloom</span><span id="syncNbVal">0.73</span></label>
+    <input type="range" id="syncNbSlider" min="0" max="200" value="73">
+  </div>
+  <div class="slider-group">
+    <label><span>Glow Radius</span><span id="syncGrVal">0.16</span></label>
+    <input type="range" id="syncGrSlider" min="0" max="100" value="16">
+  </div>
+  <div class="slider-group">
+    <label><span>Cell Rounding</span><span id="syncCellRoundingVal">0</span></label>
+    <input type="range" id="syncCellRoundingSlider" min="0" max="100" value="0">
+  </div>
+  <div class="slider-group">
+    <label><span>Edge Glow Curve</span><span id="syncEdgeGlowCurveVal">1.00</span></label>
+    <input type="range" id="syncEdgeGlowCurveSlider" min="20" max="500" value="100">
+  </div>
+  <div class="slider-group">
+    <label><span>Double Edge</span><span id="syncDoubleEdgeVal">0</span></label>
+    <input type="range" id="syncDoubleEdgeSlider" min="0" max="100" value="0">
+  </div>
+  <div class="slider-group">
+    <label><span>Edge Gradient</span><span id="syncEdgeGradientVal">0</span></label>
+    <input type="range" id="syncEdgeGradientSlider" min="0" max="100" value="0">
+  </div>
+  </div>
+  <div class="network-controls" id="syncNetworkControls" style="display:none">
+  <div class="slider-group">
+    <label><span>Line Width</span><span id="syncNetLwVal">1.5</span></label>
+    <input type="range" id="syncNetLwSlider" min="1" max="100" value="15">
+  </div>
+  <div class="slider-group">
+    <label><span>Glow</span><span id="syncNetGlVal">0</span></label>
+    <input type="range" id="syncNetGlSlider" min="0" max="50" value="0">
+  </div>
+  <div class="slider-group">
+    <label><span>Dot Size</span><span id="syncNetDsVal">2.0</span></label>
+    <input type="range" id="syncNetDsSlider" min="0" max="100" value="20">
+  </div>
+  <div class="slider-group">
+    <label><span>Density</span><span id="syncNetDnVal">1.00</span></label>
+    <input type="range" id="syncNetDnSlider" min="0" max="100" value="100">
+  </div>
+  <div class="slider-group">
+    <label><span>Flow Taper</span><span id="syncNetFtVal">0.00</span></label>
+    <input type="range" id="syncNetFtSlider" min="0" max="100" value="0">
+  </div>
+  </div>
+
+  <div class="color-row">
+    <label>Type</label>
+    <select id="syncTypeSelect" class="color-select">
+      <option value="voronoi" selected>voronoi</option>
+      <option value="network">network</option>
+    </select>
+  </div>
+  <div class="color-row">
+    <label>Dither</label>
+    <select id="syncDitherTypeSelect" class="color-select">
+      <option value="none" selected>none</option>
+      <option value="dot-matrix">dot matrix</option>
+      <option value="noise-dissolve">noise dissolve</option>
+      <option value="posterize">posterize</option>
+      <option value="pixel-grid">pixel grid</option>
+      <option value="gradient-mask">gradient mask</option>
+    </select>
+  </div>
+  <div class="slider-group">
+    <label><span>Dither Scale</span><span id="syncDitherScaleVal">4</span></label>
+    <input type="range" id="syncDitherScaleSlider" min="1" max="20" value="4">
+  </div>
+</div>
+
+<div class="layer-panel" id="layer1Panel">
+  <h2><span style="display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px" id="g1Dot"></span>Layer 1 <span style="margin-left:auto;font-size:9px;font-weight:400;display:flex;align-items:center;gap:3px"><input type="checkbox" id="g1Sync" checked style="accent-color:var(--violet)"><label for="g1Sync" style="color:#8a7a96;cursor:pointer">sync</label></span></h2>
+  <div class="color-row">
+    <label>Type</label>
+    <select id="g1TypeSelect" class="color-select">
+      <option value="voronoi" selected>voronoi</option>
+      <option value="network">network</option>
+    </select>
+  </div>
+  <div class="color-row">
+    <label>Color</label>
+    <div class="swatch" id="g1Swatch"></div>
+    <select id="g1Select"></select>
+  </div>
+  <div class="slider-group">
+    <label><span>Opacity</span><span id="g1OpacityVal">1.00</span></label>
+    <input type="range" id="g1OpacitySlider" min="0" max="100" value="100">
+  </div>
+  <div class="color-row">
+    <label>Blend</label>
+    <select id="g1BlendSelect" class="color-select">
+      <option value="screen" selected>screen</option>
+      <option value="lighten">lighten</option>
+      <option value="add">add (linear)</option>
+      <option value="normal">normal</option>
+      <option value="multiply">multiply</option>
+      <option value="overlay">overlay</option>
+      <option value="color-dodge">color dodge</option>
+      <option value="soft-light">soft light</option>
+      <option value="hard-light">hard light</option>
+      <option value="difference">difference</option>
+      <option value="exclusion">exclusion</option>
+    </select>
+  </div>
+  <div class="layer-sliders" id="layer1Sliders">
+    <div class="slider-group">
+      <label><span>Offset</span><span id="g1OffsetVal">10</span><span>px</span></label>
+      <input type="range" id="g1OffsetSlider" min="0" max="50" value="10">
+    </div>
+    <div class="slider-group">
+      <label><span>Angle</span><span id="g1AngleVal">0</span><span>&deg;</span></label>
+      <input type="range" id="g1AngleSlider" min="0" max="360" value="0">
+    </div>
+    <div class="slider-group">
+      <label><span>Points</span><span id="g1PtsVal">31</span></label>
+      <input type="range" id="g1PtsSlider" min="4" max="60" value="31">
+    </div>
+            <div class="slider-group">
+      <label><span>Cell Pan X</span><span id="g1CellPanXVal">0</span><span>px</span></label>
+      <input type="range" id="g1CellPanXSlider" min="-500" max="500" value="0">
+    </div>
+    <div class="slider-group">
+      <label><span>Cell Pan Y</span><span id="g1CellPanYVal">0</span><span>px</span></label>
+      <input type="range" id="g1CellPanYSlider" min="-500" max="500" value="0">
+    </div>
+    <div class="slider-group">
+      <label><span>Field Rotation</span><span id="g1FieldRotationVal">0</span><span>&deg;</span></label>
+      <input type="range" id="g1FieldRotationSlider" min="0" max="360" value="0">
+    </div>
+<div class="voronoi-controls" id="g1_voronoiControls">
+<div class="slider-group">
+      <label><span>Edge Width</span><span id="g1EwVal">0.02</span></label>
+      <input type="range" id="g1EwSlider" min="0" max="100" value="2">
+    </div>
+    <div class="slider-group">
+      <label><span>Edge Sharpness</span><span id="g1EsVal">1.00</span></label>
+      <input type="range" id="g1EsSlider" min="0" max="100" value="100">
+    </div>
+    <div class="slider-group">
+      <label><span>Edge Noise</span><span id="g1EnVal">0.82</span></label>
+      <input type="range" id="g1EnSlider" min="0" max="100" value="82">
+    </div>
+    <div class="slider-group">
+      <label><span>Node Bloom</span><span id="g1NbVal">0.73</span></label>
+      <input type="range" id="g1NbSlider" min="0" max="200" value="73">
+    </div>
+    <div class="slider-group">
+      <label><span>Glow Radius</span><span id="g1GrVal">0.16</span></label>
+      <input type="range" id="g1GrSlider" min="0" max="100" value="16">
+    </div>
+    <div class="slider-group">
+      <label><span>Cell Rounding</span><span id="g1CellRoundingVal">0</span></label>
+      <input type="range" id="g1CellRoundingSlider" min="0" max="100" value="0">
+    </div>
+    <div class="slider-group">
+      <label><span>Edge Glow Curve</span><span id="g1EdgeGlowCurveVal">1.00</span></label>
+      <input type="range" id="g1EdgeGlowCurveSlider" min="20" max="500" value="100">
+    </div>
+    <div class="slider-group">
+      <label><span>Double Edge</span><span id="g1DoubleEdgeVal">0</span></label>
+      <input type="range" id="g1DoubleEdgeSlider" min="0" max="100" value="0">
+    </div>
+    <div class="slider-group">
+      <label><span>Edge Gradient</span><span id="g1EdgeGradientVal">0</span></label>
+      <input type="range" id="g1EdgeGradientSlider" min="0" max="100" value="0">
+    </div>
+    </div>
+    <div class="network-controls" id="g1_networkControls" style="display:none">
+    <div class="slider-group">
+      <label><span>Line Width</span><span id="g1NetLwVal">1.5</span></label>
+      <input type="range" id="g1NetLwSlider" min="1" max="100" value="15">
+    </div>
+    <div class="slider-group">
+      <label><span>Glow</span><span id="g1NetGlVal">0</span></label>
+      <input type="range" id="g1NetGlSlider" min="0" max="50" value="0">
+    </div>
+    <div class="slider-group">
+      <label><span>Dot Size</span><span id="g1NetDsVal">2.0</span></label>
+      <input type="range" id="g1NetDsSlider" min="0" max="100" value="20">
+    </div>
+    <div class="slider-group">
+      <label><span>Density</span><span id="g1NetDnVal">1.00</span></label>
+      <input type="range" id="g1NetDnSlider" min="0" max="100" value="100">
+    </div>
+    <div class="slider-group">
+      <label><span>Flow Taper</span><span id="g1NetFtVal">0.00</span></label>
+      <input type="range" id="g1NetFtSlider" min="0" max="100" value="0">
+    </div>
+    </div>
+
+    <div class="color-row">
+      <label>Dither</label>
+      <select id="g1DitherTypeSelect" class="color-select">
+        <option value="none" selected>none</option>
+        <option value="dot-matrix">dot matrix</option>
+        <option value="noise-dissolve">noise dissolve</option>
+        <option value="posterize">posterize</option>
+        <option value="pixel-grid">pixel grid</option>
+        <option value="gradient-mask">gradient mask</option>
+      </select>
+    </div>
+    <div class="slider-group">
+      <label><span>Dither Scale</span><span id="g1DitherScaleVal">4</span></label>
+      <input type="range" id="g1DitherScaleSlider" min="1" max="20" value="4">
+    </div>
+  </div>
+</div>
+
+<div class="layer-panel" id="layer2Panel">
+  <h2><span style="display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px" id="g2Dot"></span>Layer 2 <span style="margin-left:auto;font-size:9px;font-weight:400;display:flex;align-items:center;gap:3px"><input type="checkbox" id="g2Sync" checked style="accent-color:var(--violet)"><label for="g2Sync" style="color:#8a7a96;cursor:pointer">sync</label></span></h2>
+  <div class="color-row">
+    <label>Type</label>
+    <select id="g2TypeSelect" class="color-select">
+      <option value="voronoi" selected>voronoi</option>
+      <option value="network">network</option>
+    </select>
+  </div>
+  <div class="color-row">
+    <label>Color</label>
+    <div class="swatch" id="g2Swatch"></div>
+    <select id="g2Select"></select>
+  </div>
+  <div class="slider-group">
+    <label><span>Opacity</span><span id="g2OpacityVal">1.00</span></label>
+    <input type="range" id="g2OpacitySlider" min="0" max="100" value="100">
+  </div>
+  <div class="color-row">
+    <label>Blend</label>
+    <select id="g2BlendSelect" class="color-select">
+      <option value="screen" selected>screen</option>
+      <option value="lighten">lighten</option>
+      <option value="add">add (linear)</option>
+      <option value="normal">normal</option>
+      <option value="multiply">multiply</option>
+      <option value="overlay">overlay</option>
+      <option value="color-dodge">color dodge</option>
+      <option value="soft-light">soft light</option>
+      <option value="hard-light">hard light</option>
+      <option value="difference">difference</option>
+      <option value="exclusion">exclusion</option>
+    </select>
+  </div>
+  <div class="layer-sliders" id="layer2Sliders">
+    <div class="slider-group">
+      <label><span>Offset</span><span id="g2OffsetVal">10</span><span>px</span></label>
+      <input type="range" id="g2OffsetSlider" min="0" max="50" value="10">
+    </div>
+    <div class="slider-group">
+      <label><span>Angle</span><span id="g2AngleVal">180</span><span>&deg;</span></label>
+      <input type="range" id="g2AngleSlider" min="0" max="360" value="180">
+    </div>
+    <div class="slider-group">
+      <label><span>Points</span><span id="g2PtsVal">31</span></label>
+      <input type="range" id="g2PtsSlider" min="4" max="60" value="31">
+    </div>
+            <div class="slider-group">
+      <label><span>Cell Pan X</span><span id="g2CellPanXVal">0</span><span>px</span></label>
+      <input type="range" id="g2CellPanXSlider" min="-500" max="500" value="0">
+    </div>
+    <div class="slider-group">
+      <label><span>Cell Pan Y</span><span id="g2CellPanYVal">0</span><span>px</span></label>
+      <input type="range" id="g2CellPanYSlider" min="-500" max="500" value="0">
+    </div>
+    <div class="slider-group">
+      <label><span>Field Rotation</span><span id="g2FieldRotationVal">0</span><span>&deg;</span></label>
+      <input type="range" id="g2FieldRotationSlider" min="0" max="360" value="0">
+    </div>
+<div class="voronoi-controls" id="g2_voronoiControls">
+<div class="slider-group">
+      <label><span>Edge Width</span><span id="g2EwVal">0.02</span></label>
+      <input type="range" id="g2EwSlider" min="0" max="100" value="2">
+    </div>
+    <div class="slider-group">
+      <label><span>Edge Sharpness</span><span id="g2EsVal">1.00</span></label>
+      <input type="range" id="g2EsSlider" min="0" max="100" value="100">
+    </div>
+    <div class="slider-group">
+      <label><span>Edge Noise</span><span id="g2EnVal">0.82</span></label>
+      <input type="range" id="g2EnSlider" min="0" max="100" value="82">
+    </div>
+    <div class="slider-group">
+      <label><span>Node Bloom</span><span id="g2NbVal">0.73</span></label>
+      <input type="range" id="g2NbSlider" min="0" max="200" value="73">
+    </div>
+    <div class="slider-group">
+      <label><span>Glow Radius</span><span id="g2GrVal">0.16</span></label>
+      <input type="range" id="g2GrSlider" min="0" max="100" value="16">
+    </div>
+    <div class="slider-group">
+      <label><span>Cell Rounding</span><span id="g2CellRoundingVal">0</span></label>
+      <input type="range" id="g2CellRoundingSlider" min="0" max="100" value="0">
+    </div>
+    <div class="slider-group">
+      <label><span>Edge Glow Curve</span><span id="g2EdgeGlowCurveVal">1.00</span></label>
+      <input type="range" id="g2EdgeGlowCurveSlider" min="20" max="500" value="100">
+    </div>
+    <div class="slider-group">
+      <label><span>Double Edge</span><span id="g2DoubleEdgeVal">0</span></label>
+      <input type="range" id="g2DoubleEdgeSlider" min="0" max="100" value="0">
+    </div>
+    <div class="slider-group">
+      <label><span>Edge Gradient</span><span id="g2EdgeGradientVal">0</span></label>
+      <input type="range" id="g2EdgeGradientSlider" min="0" max="100" value="0">
+    </div>
+    </div>
+    <div class="network-controls" id="g2_networkControls" style="display:none">
+    <div class="slider-group">
+      <label><span>Line Width</span><span id="g2NetLwVal">1.5</span></label>
+      <input type="range" id="g2NetLwSlider" min="1" max="100" value="15">
+    </div>
+    <div class="slider-group">
+      <label><span>Glow</span><span id="g2NetGlVal">0</span></label>
+      <input type="range" id="g2NetGlSlider" min="0" max="50" value="0">
+    </div>
+    <div class="slider-group">
+      <label><span>Dot Size</span><span id="g2NetDsVal">2.0</span></label>
+      <input type="range" id="g2NetDsSlider" min="0" max="100" value="20">
+    </div>
+    <div class="slider-group">
+      <label><span>Density</span><span id="g2NetDnVal">1.00</span></label>
+      <input type="range" id="g2NetDnSlider" min="0" max="100" value="100">
+    </div>
+    <div class="slider-group">
+      <label><span>Flow Taper</span><span id="g2NetFtVal">0.00</span></label>
+      <input type="range" id="g2NetFtSlider" min="0" max="100" value="0">
+    </div>
+    </div>
+
+    <div class="color-row">
+      <label>Dither</label>
+      <select id="g2DitherTypeSelect" class="color-select">
+        <option value="none" selected>none</option>
+        <option value="dot-matrix">dot matrix</option>
+        <option value="noise-dissolve">noise dissolve</option>
+        <option value="posterize">posterize</option>
+        <option value="pixel-grid">pixel grid</option>
+        <option value="gradient-mask">gradient mask</option>
+      </select>
+    </div>
+    <div class="slider-group">
+      <label><span>Dither Scale</span><span id="g2DitherScaleVal">4</span></label>
+      <input type="range" id="g2DitherScaleSlider" min="1" max="20" value="4">
+    </div>
+  </div>
+</div>
+
+<div class="layer-panel" id="layer3Panel">
+  <h2><span style="display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px" id="g3Dot"></span>Layer 3 <span style="margin-left:auto;font-size:9px;font-weight:400;display:flex;align-items:center;gap:3px"><input type="checkbox" id="g3Sync" style="accent-color:var(--violet)"><label for="g3Sync" style="color:#8a7a96;cursor:pointer">sync</label></span></h2>
+  <div class="color-row">
+    <label>Type</label>
+    <select id="g3TypeSelect" class="color-select">
+      <option value="voronoi" selected>voronoi</option>
+      <option value="network">network</option>
+    </select>
+  </div>
+  <div class="color-row">
+    <label>Color</label>
+    <div class="swatch" id="g3Swatch"></div>
+    <select id="g3Select"></select>
+  </div>
+  <div class="slider-group">
+    <label><span>Opacity</span><span id="g3OpacityVal">1.00</span></label>
+    <input type="range" id="g3OpacitySlider" min="0" max="100" value="100">
+  </div>
+  <div class="color-row">
+    <label>Blend</label>
+    <select id="g3BlendSelect" class="color-select">
+      <option value="screen" selected>screen</option>
+      <option value="lighten">lighten</option>
+      <option value="add">add (linear)</option>
+      <option value="normal">normal</option>
+      <option value="multiply">multiply</option>
+      <option value="overlay">overlay</option>
+      <option value="color-dodge">color dodge</option>
+      <option value="soft-light">soft light</option>
+      <option value="hard-light">hard light</option>
+      <option value="difference">difference</option>
+      <option value="exclusion">exclusion</option>
+    </select>
+  </div>
+  <div class="layer-sliders" id="layer3Sliders">
+    <div class="slider-group">
+      <label><span>Offset</span><span id="g3OffsetVal">10</span><span>px</span></label>
+      <input type="range" id="g3OffsetSlider" min="0" max="50" value="10">
+    </div>
+    <div class="slider-group">
+      <label><span>Angle</span><span id="g3AngleVal">90</span><span>&deg;</span></label>
+      <input type="range" id="g3AngleSlider" min="0" max="360" value="90">
+    </div>
+    <div class="slider-group">
+      <label><span>Points</span><span id="g3PtsVal">31</span></label>
+      <input type="range" id="g3PtsSlider" min="4" max="60" value="31">
+    </div>
+            <div class="slider-group">
+      <label><span>Cell Pan X</span><span id="g3CellPanXVal">0</span><span>px</span></label>
+      <input type="range" id="g3CellPanXSlider" min="-500" max="500" value="0">
+    </div>
+    <div class="slider-group">
+      <label><span>Cell Pan Y</span><span id="g3CellPanYVal">0</span><span>px</span></label>
+      <input type="range" id="g3CellPanYSlider" min="-500" max="500" value="0">
+    </div>
+    <div class="slider-group">
+      <label><span>Field Rotation</span><span id="g3FieldRotationVal">0</span><span>&deg;</span></label>
+      <input type="range" id="g3FieldRotationSlider" min="0" max="360" value="0">
+    </div>
+<div class="voronoi-controls" id="g3_voronoiControls">
+<div class="slider-group">
+      <label><span>Edge Width</span><span id="g3EwVal">0.02</span></label>
+      <input type="range" id="g3EwSlider" min="0" max="100" value="2">
+    </div>
+    <div class="slider-group">
+      <label><span>Edge Sharpness</span><span id="g3EsVal">1.00</span></label>
+      <input type="range" id="g3EsSlider" min="0" max="100" value="100">
+    </div>
+    <div class="slider-group">
+      <label><span>Edge Noise</span><span id="g3EnVal">0.82</span></label>
+      <input type="range" id="g3EnSlider" min="0" max="100" value="82">
+    </div>
+    <div class="slider-group">
+      <label><span>Node Bloom</span><span id="g3NbVal">0.73</span></label>
+      <input type="range" id="g3NbSlider" min="0" max="200" value="73">
+    </div>
+    <div class="slider-group">
+      <label><span>Glow Radius</span><span id="g3GrVal">0.16</span></label>
+      <input type="range" id="g3GrSlider" min="0" max="100" value="16">
+    </div>
+    <div class="slider-group">
+      <label><span>Cell Rounding</span><span id="g3CellRoundingVal">0</span></label>
+      <input type="range" id="g3CellRoundingSlider" min="0" max="100" value="0">
+    </div>
+    <div class="slider-group">
+      <label><span>Edge Glow Curve</span><span id="g3EdgeGlowCurveVal">1.00</span></label>
+      <input type="range" id="g3EdgeGlowCurveSlider" min="20" max="500" value="100">
+    </div>
+    <div class="slider-group">
+      <label><span>Double Edge</span><span id="g3DoubleEdgeVal">0</span></label>
+      <input type="range" id="g3DoubleEdgeSlider" min="0" max="100" value="0">
+    </div>
+    <div class="slider-group">
+      <label><span>Edge Gradient</span><span id="g3EdgeGradientVal">0</span></label>
+      <input type="range" id="g3EdgeGradientSlider" min="0" max="100" value="0">
+    </div>
+    </div>
+    <div class="network-controls" id="g3_networkControls" style="display:none">
+    <div class="slider-group">
+      <label><span>Line Width</span><span id="g3NetLwVal">1.5</span></label>
+      <input type="range" id="g3NetLwSlider" min="1" max="100" value="15">
+    </div>
+    <div class="slider-group">
+      <label><span>Glow</span><span id="g3NetGlVal">0</span></label>
+      <input type="range" id="g3NetGlSlider" min="0" max="50" value="0">
+    </div>
+    <div class="slider-group">
+      <label><span>Dot Size</span><span id="g3NetDsVal">2.0</span></label>
+      <input type="range" id="g3NetDsSlider" min="0" max="100" value="20">
+    </div>
+    <div class="slider-group">
+      <label><span>Density</span><span id="g3NetDnVal">1.00</span></label>
+      <input type="range" id="g3NetDnSlider" min="0" max="100" value="100">
+    </div>
+    <div class="slider-group">
+      <label><span>Flow Taper</span><span id="g3NetFtVal">0.00</span></label>
+      <input type="range" id="g3NetFtSlider" min="0" max="100" value="0">
+    </div>
+    </div>
+
+    <div class="color-row">
+      <label>Dither</label>
+      <select id="g3DitherTypeSelect" class="color-select">
+        <option value="none" selected>none</option>
+        <option value="dot-matrix">dot matrix</option>
+        <option value="noise-dissolve">noise dissolve</option>
+        <option value="posterize">posterize</option>
+        <option value="pixel-grid">pixel grid</option>
+        <option value="gradient-mask">gradient mask</option>
+      </select>
+    </div>
+    <div class="slider-group">
+      <label><span>Dither Scale</span><span id="g3DitherScaleVal">4</span></label>
+      <input type="range" id="g3DitherScaleSlider" min="1" max="20" value="4">
+    </div>
+  </div>
+</div>
+
+<div class="layer-panel" id="layer4Panel" style="display:none">
+  <h2><span style="display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px" id="g4Dot"></span>Layer 4 <span style="margin-left:auto;font-size:9px;font-weight:400;display:flex;align-items:center;gap:3px"><input type="checkbox" id="g4Sync" style="accent-color:var(--violet)"><label for="g4Sync" style="color:#8a7a96;cursor:pointer">sync</label></span></h2>
+  <div class="color-row">
+    <label>Type</label>
+    <select id="g4TypeSelect" class="color-select">
+      <option value="voronoi" selected>voronoi</option>
+      <option value="network">network</option>
+    </select>
+  </div>
+  <div class="color-row">
+    <label>Color</label>
+    <div class="swatch" id="g4Swatch"></div>
+    <select id="g4Select"></select>
+  </div>
+  <div class="slider-group">
+    <label><span>Opacity</span><span id="g4OpacityVal">1.00</span></label>
+    <input type="range" id="g4OpacitySlider" min="0" max="100" value="100">
+  </div>
+  <div class="color-row">
+    <label>Blend</label>
+    <select id="g4BlendSelect" class="color-select">
+      <option value="screen" selected>screen</option>
+      <option value="lighten">lighten</option>
+      <option value="add">add (linear)</option>
+      <option value="normal">normal</option>
+      <option value="multiply">multiply</option>
+      <option value="overlay">overlay</option>
+      <option value="color-dodge">color dodge</option>
+      <option value="soft-light">soft light</option>
+      <option value="hard-light">hard light</option>
+      <option value="difference">difference</option>
+      <option value="exclusion">exclusion</option>
+    </select>
+  </div>
+  <div class="layer-sliders" id="layer4Sliders">
+    <div class="slider-group">
+      <label><span>Offset</span><span id="g4OffsetVal">10</span><span>px</span></label>
+      <input type="range" id="g4OffsetSlider" min="0" max="50" value="10">
+    </div>
+    <div class="slider-group">
+      <label><span>Angle</span><span id="g4AngleVal">270</span><span>&deg;</span></label>
+      <input type="range" id="g4AngleSlider" min="0" max="360" value="270">
+    </div>
+    <div class="slider-group">
+      <label><span>Points</span><span id="g4PtsVal">31</span></label>
+      <input type="range" id="g4PtsSlider" min="4" max="60" value="31">
+    </div>
+            <div class="slider-group">
+      <label><span>Cell Pan X</span><span id="g4CellPanXVal">0</span><span>px</span></label>
+      <input type="range" id="g4CellPanXSlider" min="-500" max="500" value="0">
+    </div>
+    <div class="slider-group">
+      <label><span>Cell Pan Y</span><span id="g4CellPanYVal">0</span><span>px</span></label>
+      <input type="range" id="g4CellPanYSlider" min="-500" max="500" value="0">
+    </div>
+    <div class="slider-group">
+      <label><span>Field Rotation</span><span id="g4FieldRotationVal">0</span><span>&deg;</span></label>
+      <input type="range" id="g4FieldRotationSlider" min="0" max="360" value="0">
+    </div>
+<div class="voronoi-controls" id="g4_voronoiControls">
+<div class="slider-group">
+      <label><span>Edge Width</span><span id="g4EwVal">0.02</span></label>
+      <input type="range" id="g4EwSlider" min="0" max="100" value="2">
+    </div>
+    <div class="slider-group">
+      <label><span>Edge Sharpness</span><span id="g4EsVal">1.00</span></label>
+      <input type="range" id="g4EsSlider" min="0" max="100" value="100">
+    </div>
+    <div class="slider-group">
+      <label><span>Edge Noise</span><span id="g4EnVal">0.82</span></label>
+      <input type="range" id="g4EnSlider" min="0" max="100" value="82">
+    </div>
+    <div class="slider-group">
+      <label><span>Node Bloom</span><span id="g4NbVal">0.73</span></label>
+      <input type="range" id="g4NbSlider" min="0" max="200" value="73">
+    </div>
+    <div class="slider-group">
+      <label><span>Glow Radius</span><span id="g4GrVal">0.16</span></label>
+      <input type="range" id="g4GrSlider" min="0" max="100" value="16">
+    </div>
+    <div class="slider-group">
+      <label><span>Cell Rounding</span><span id="g4CellRoundingVal">0</span></label>
+      <input type="range" id="g4CellRoundingSlider" min="0" max="100" value="0">
+    </div>
+    <div class="slider-group">
+      <label><span>Edge Glow Curve</span><span id="g4EdgeGlowCurveVal">1.00</span></label>
+      <input type="range" id="g4EdgeGlowCurveSlider" min="20" max="500" value="100">
+    </div>
+    <div class="slider-group">
+      <label><span>Double Edge</span><span id="g4DoubleEdgeVal">0</span></label>
+      <input type="range" id="g4DoubleEdgeSlider" min="0" max="100" value="0">
+    </div>
+    <div class="slider-group">
+      <label><span>Edge Gradient</span><span id="g4EdgeGradientVal">0</span></label>
+      <input type="range" id="g4EdgeGradientSlider" min="0" max="100" value="0">
+    </div>
+    </div>
+    <div class="network-controls" id="g4_networkControls" style="display:none">
+    <div class="slider-group">
+      <label><span>Line Width</span><span id="g4NetLwVal">1.5</span></label>
+      <input type="range" id="g4NetLwSlider" min="1" max="100" value="15">
+    </div>
+    <div class="slider-group">
+      <label><span>Glow</span><span id="g4NetGlVal">0</span></label>
+      <input type="range" id="g4NetGlSlider" min="0" max="50" value="0">
+    </div>
+    <div class="slider-group">
+      <label><span>Dot Size</span><span id="g4NetDsVal">2.0</span></label>
+      <input type="range" id="g4NetDsSlider" min="0" max="100" value="20">
+    </div>
+    <div class="slider-group">
+      <label><span>Density</span><span id="g4NetDnVal">1.00</span></label>
+      <input type="range" id="g4NetDnSlider" min="0" max="100" value="100">
+    </div>
+    <div class="slider-group">
+      <label><span>Flow Taper</span><span id="g4NetFtVal">0.00</span></label>
+      <input type="range" id="g4NetFtSlider" min="0" max="100" value="0">
+    </div>
+    </div>
+
+    <div class="color-row">
+      <label>Dither</label>
+      <select id="g4DitherTypeSelect" class="color-select">
+        <option value="none" selected>none</option>
+        <option value="dot-matrix">dot matrix</option>
+        <option value="noise-dissolve">noise dissolve</option>
+        <option value="posterize">posterize</option>
+        <option value="pixel-grid">pixel grid</option>
+        <option value="gradient-mask">gradient mask</option>
+      </select>
+    </div>
+    <div class="slider-group">
+      <label><span>Dither Scale</span><span id="g4DitherScaleVal">4</span></label>
+      <input type="range" id="g4DitherScaleSlider" min="1" max="20" value="4">
+    </div>
+  </div>
+</div>
+
+<div class="layer-panel" id="layer5Panel" style="display:none">
+  <h2><span style="display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px" id="g5Dot"></span>Layer 5 <span style="margin-left:auto;font-size:9px;font-weight:400;display:flex;align-items:center;gap:3px"><input type="checkbox" id="g5Sync" style="accent-color:var(--violet)"><label for="g5Sync" style="color:#8a7a96;cursor:pointer">sync</label></span></h2>
+  <div class="color-row">
+    <label>Type</label>
+    <select id="g5TypeSelect" class="color-select">
+      <option value="voronoi" selected>voronoi</option>
+      <option value="network">network</option>
+    </select>
+  </div>
+  <div class="color-row">
+    <label>Color</label>
+    <div class="swatch" id="g5Swatch"></div>
+    <select id="g5Select"></select>
+  </div>
+  <div class="slider-group">
+    <label><span>Opacity</span><span id="g5OpacityVal">1.00</span></label>
+    <input type="range" id="g5OpacitySlider" min="0" max="100" value="100">
+  </div>
+  <div class="color-row">
+    <label>Blend</label>
+    <select id="g5BlendSelect" class="color-select">
+      <option value="screen" selected>screen</option>
+      <option value="lighten">lighten</option>
+      <option value="add">add (linear)</option>
+      <option value="normal">normal</option>
+      <option value="multiply">multiply</option>
+      <option value="overlay">overlay</option>
+      <option value="color-dodge">color dodge</option>
+      <option value="soft-light">soft light</option>
+      <option value="hard-light">hard light</option>
+      <option value="difference">difference</option>
+      <option value="exclusion">exclusion</option>
+    </select>
+  </div>
+  <div class="layer-sliders" id="layer5Sliders">
+    <div class="slider-group">
+      <label><span>Offset</span><span id="g5OffsetVal">10</span><span>px</span></label>
+      <input type="range" id="g5OffsetSlider" min="0" max="50" value="10">
+    </div>
+    <div class="slider-group">
+      <label><span>Angle</span><span id="g5AngleVal">225</span><span>&deg;</span></label>
+      <input type="range" id="g5AngleSlider" min="0" max="360" value="225">
+    </div>
+    <div class="slider-group">
+      <label><span>Points</span><span id="g5PtsVal">31</span></label>
+      <input type="range" id="g5PtsSlider" min="4" max="60" value="31">
+    </div>
+            <div class="slider-group">
+      <label><span>Cell Pan X</span><span id="g5CellPanXVal">0</span><span>px</span></label>
+      <input type="range" id="g5CellPanXSlider" min="-500" max="500" value="0">
+    </div>
+    <div class="slider-group">
+      <label><span>Cell Pan Y</span><span id="g5CellPanYVal">0</span><span>px</span></label>
+      <input type="range" id="g5CellPanYSlider" min="-500" max="500" value="0">
+    </div>
+    <div class="slider-group">
+      <label><span>Field Rotation</span><span id="g5FieldRotationVal">0</span><span>&deg;</span></label>
+      <input type="range" id="g5FieldRotationSlider" min="0" max="360" value="0">
+    </div>
+<div class="voronoi-controls" id="g5_voronoiControls">
+<div class="slider-group">
+      <label><span>Edge Width</span><span id="g5EwVal">0.02</span></label>
+      <input type="range" id="g5EwSlider" min="0" max="100" value="2">
+    </div>
+    <div class="slider-group">
+      <label><span>Edge Sharpness</span><span id="g5EsVal">1.00</span></label>
+      <input type="range" id="g5EsSlider" min="0" max="100" value="100">
+    </div>
+    <div class="slider-group">
+      <label><span>Edge Noise</span><span id="g5EnVal">0.82</span></label>
+      <input type="range" id="g5EnSlider" min="0" max="100" value="82">
+    </div>
+    <div class="slider-group">
+      <label><span>Node Bloom</span><span id="g5NbVal">0.73</span></label>
+      <input type="range" id="g5NbSlider" min="0" max="200" value="73">
+    </div>
+    <div class="slider-group">
+      <label><span>Glow Radius</span><span id="g5GrVal">0.16</span></label>
+      <input type="range" id="g5GrSlider" min="0" max="100" value="16">
+    </div>
+    <div class="slider-group">
+      <label><span>Cell Rounding</span><span id="g5CellRoundingVal">0</span></label>
+      <input type="range" id="g5CellRoundingSlider" min="0" max="100" value="0">
+    </div>
+    <div class="slider-group">
+      <label><span>Edge Glow Curve</span><span id="g5EdgeGlowCurveVal">1.00</span></label>
+      <input type="range" id="g5EdgeGlowCurveSlider" min="20" max="500" value="100">
+    </div>
+    <div class="slider-group">
+      <label><span>Double Edge</span><span id="g5DoubleEdgeVal">0</span></label>
+      <input type="range" id="g5DoubleEdgeSlider" min="0" max="100" value="0">
+    </div>
+    <div class="slider-group">
+      <label><span>Edge Gradient</span><span id="g5EdgeGradientVal">0</span></label>
+      <input type="range" id="g5EdgeGradientSlider" min="0" max="100" value="0">
+    </div>
+    </div>
+    <div class="network-controls" id="g5_networkControls" style="display:none">
+    <div class="slider-group">
+      <label><span>Line Width</span><span id="g5NetLwVal">1.5</span></label>
+      <input type="range" id="g5NetLwSlider" min="1" max="100" value="15">
+    </div>
+    <div class="slider-group">
+      <label><span>Glow</span><span id="g5NetGlVal">0</span></label>
+      <input type="range" id="g5NetGlSlider" min="0" max="50" value="0">
+    </div>
+    <div class="slider-group">
+      <label><span>Dot Size</span><span id="g5NetDsVal">2.0</span></label>
+      <input type="range" id="g5NetDsSlider" min="0" max="100" value="20">
+    </div>
+    <div class="slider-group">
+      <label><span>Density</span><span id="g5NetDnVal">1.00</span></label>
+      <input type="range" id="g5NetDnSlider" min="0" max="100" value="100">
+    </div>
+    <div class="slider-group">
+      <label><span>Flow Taper</span><span id="g5NetFtVal">0.00</span></label>
+      <input type="range" id="g5NetFtSlider" min="0" max="100" value="0">
+    </div>
+    </div>
+
+    <div class="color-row">
+      <label>Dither</label>
+      <select id="g5DitherTypeSelect" class="color-select">
+        <option value="none" selected>none</option>
+        <option value="dot-matrix">dot matrix</option>
+        <option value="noise-dissolve">noise dissolve</option>
+        <option value="posterize">posterize</option>
+        <option value="pixel-grid">pixel grid</option>
+        <option value="gradient-mask">gradient mask</option>
+      </select>
+    </div>
+    <div class="slider-group">
+      <label><span>Dither Scale</span><span id="g5DitherScaleVal">4</span></label>
+      <input type="range" id="g5DitherScaleSlider" min="1" max="20" value="4">
+    </div>
+  </div>
+</div>
+
+<div class="layer-panel" id="layer6Panel" style="display:none">
+  <h2><span style="display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px" id="g6Dot"></span>Layer 6 <span style="margin-left:auto;font-size:9px;font-weight:400;display:flex;align-items:center;gap:3px"><input type="checkbox" id="g6Sync" style="accent-color:var(--violet)"><label for="g6Sync" style="color:#8a7a96;cursor:pointer">sync</label></span></h2>
+  <div class="color-row">
+    <label>Type</label>
+    <select id="g6TypeSelect" class="color-select">
+      <option value="voronoi" selected>voronoi</option>
+      <option value="network">network</option>
+    </select>
+  </div>
+  <div class="color-row">
+    <label>Color</label>
+    <div class="swatch" id="g6Swatch"></div>
+    <select id="g6Select"></select>
+  </div>
+  <div class="slider-group">
+    <label><span>Opacity</span><span id="g6OpacityVal">1.00</span></label>
+    <input type="range" id="g6OpacitySlider" min="0" max="100" value="100">
+  </div>
+  <div class="color-row">
+    <label>Blend</label>
+    <select id="g6BlendSelect" class="color-select">
+      <option value="screen" selected>screen</option>
+      <option value="lighten">lighten</option>
+      <option value="add">add (linear)</option>
+      <option value="normal">normal</option>
+      <option value="multiply">multiply</option>
+      <option value="overlay">overlay</option>
+      <option value="color-dodge">color dodge</option>
+      <option value="soft-light">soft light</option>
+      <option value="hard-light">hard light</option>
+      <option value="difference">difference</option>
+      <option value="exclusion">exclusion</option>
+    </select>
+  </div>
+  <div class="layer-sliders" id="layer6Sliders">
+    <div class="slider-group">
+      <label><span>Offset</span><span id="g6OffsetVal">10</span><span>px</span></label>
+      <input type="range" id="g6OffsetSlider" min="0" max="50" value="10">
+    </div>
+    <div class="slider-group">
+      <label><span>Angle</span><span id="g6AngleVal">135</span><span>&deg;</span></label>
+      <input type="range" id="g6AngleSlider" min="0" max="360" value="135">
+    </div>
+    <div class="slider-group">
+      <label><span>Points</span><span id="g6PtsVal">31</span></label>
+      <input type="range" id="g6PtsSlider" min="4" max="60" value="31">
+    </div>
+            <div class="slider-group">
+      <label><span>Cell Pan X</span><span id="g6CellPanXVal">0</span><span>px</span></label>
+      <input type="range" id="g6CellPanXSlider" min="-500" max="500" value="0">
+    </div>
+    <div class="slider-group">
+      <label><span>Cell Pan Y</span><span id="g6CellPanYVal">0</span><span>px</span></label>
+      <input type="range" id="g6CellPanYSlider" min="-500" max="500" value="0">
+    </div>
+    <div class="slider-group">
+      <label><span>Field Rotation</span><span id="g6FieldRotationVal">0</span><span>&deg;</span></label>
+      <input type="range" id="g6FieldRotationSlider" min="0" max="360" value="0">
+    </div>
+<div class="voronoi-controls" id="g6_voronoiControls">
+<div class="slider-group">
+      <label><span>Edge Width</span><span id="g6EwVal">0.02</span></label>
+      <input type="range" id="g6EwSlider" min="0" max="100" value="2">
+    </div>
+    <div class="slider-group">
+      <label><span>Edge Sharpness</span><span id="g6EsVal">1.00</span></label>
+      <input type="range" id="g6EsSlider" min="0" max="100" value="100">
+    </div>
+    <div class="slider-group">
+      <label><span>Edge Noise</span><span id="g6EnVal">0.82</span></label>
+      <input type="range" id="g6EnSlider" min="0" max="100" value="82">
+    </div>
+    <div class="slider-group">
+      <label><span>Node Bloom</span><span id="g6NbVal">0.73</span></label>
+      <input type="range" id="g6NbSlider" min="0" max="200" value="73">
+    </div>
+    <div class="slider-group">
+      <label><span>Glow Radius</span><span id="g6GrVal">0.16</span></label>
+      <input type="range" id="g6GrSlider" min="0" max="100" value="16">
+    </div>
+    <div class="slider-group">
+      <label><span>Cell Rounding</span><span id="g6CellRoundingVal">0</span></label>
+      <input type="range" id="g6CellRoundingSlider" min="0" max="100" value="0">
+    </div>
+    <div class="slider-group">
+      <label><span>Edge Glow Curve</span><span id="g6EdgeGlowCurveVal">1.00</span></label>
+      <input type="range" id="g6EdgeGlowCurveSlider" min="20" max="500" value="100">
+    </div>
+    <div class="slider-group">
+      <label><span>Double Edge</span><span id="g6DoubleEdgeVal">0</span></label>
+      <input type="range" id="g6DoubleEdgeSlider" min="0" max="100" value="0">
+    </div>
+    <div class="slider-group">
+      <label><span>Edge Gradient</span><span id="g6EdgeGradientVal">0</span></label>
+      <input type="range" id="g6EdgeGradientSlider" min="0" max="100" value="0">
+    </div>
+    </div>
+    <div class="network-controls" id="g6_networkControls" style="display:none">
+    <div class="slider-group">
+      <label><span>Line Width</span><span id="g6NetLwVal">1.5</span></label>
+      <input type="range" id="g6NetLwSlider" min="1" max="100" value="15">
+    </div>
+    <div class="slider-group">
+      <label><span>Glow</span><span id="g6NetGlVal">0</span></label>
+      <input type="range" id="g6NetGlSlider" min="0" max="50" value="0">
+    </div>
+    <div class="slider-group">
+      <label><span>Dot Size</span><span id="g6NetDsVal">2.0</span></label>
+      <input type="range" id="g6NetDsSlider" min="0" max="100" value="20">
+    </div>
+    <div class="slider-group">
+      <label><span>Density</span><span id="g6NetDnVal">1.00</span></label>
+      <input type="range" id="g6NetDnSlider" min="0" max="100" value="100">
+    </div>
+    <div class="slider-group">
+      <label><span>Flow Taper</span><span id="g6NetFtVal">0.00</span></label>
+      <input type="range" id="g6NetFtSlider" min="0" max="100" value="0">
+    </div>
+    </div>
+
+    <div class="color-row">
+      <label>Dither</label>
+      <select id="g6DitherTypeSelect" class="color-select">
+        <option value="none" selected>none</option>
+        <option value="dot-matrix">dot matrix</option>
+        <option value="noise-dissolve">noise dissolve</option>
+        <option value="posterize">posterize</option>
+        <option value="pixel-grid">pixel grid</option>
+        <option value="gradient-mask">gradient mask</option>
+      </select>
+    </div>
+    <div class="slider-group">
+      <label><span>Dither Scale</span><span id="g6DitherScaleVal">4</span></label>
+      <input type="range" id="g6DitherScaleSlider" min="1" max="20" value="4">
+    </div>
+  </div>
+</div>
+
+
+</div><!-- /secLayersBody -->
+
+
+<div class="section-header" id="secPostProcessing">
+  <span>Post-Processing</span>
+  <span class="chevron">&#9660;</span>
+</div>
+<div class="section-body" id="secPostProcessingBody">
+<div class="slider-group">
+  <label><span>Edge Mask</span><span id="edgeMaskVal">0.00</span></label>
+  <input type="range" id="edgeMaskSlider" min="0" max="100" value="0">
+</div>
+<div class="slider-group">
+  <label><span>Radial Falloff</span><span id="radialVal">0.00</span></label>
+  <input type="range" id="radialSlider" min="0" max="100" value="0">
+</div>
+<div class="slider-group">
+  <label><span>Blur</span><span id="blurVal">0</span></label>
+  <input type="range" id="blurSlider" min="0" max="20" value="0">
+</div>
+<div class="slider-group">
+  <label><span>Contrast</span><span id="contrastVal">1.00</span></label>
+  <input type="range" id="contrastSlider" min="50" max="200" value="100">
+</div>
+<div class="slider-group">
+  <label><span>Gamma</span><span id="gammaVal">1.00</span></label>
+  <input type="range" id="gammaSlider" min="30" max="300" value="100">
+</div>
+<div class="slider-group">
+  <label><span>Film Grain</span><span id="filmGrainVal">0</span></label>
+  <input type="range" id="filmGrainSlider" min="0" max="100" value="0">
+</div>
+<div class="slider-group">
+  <label><span>Grain Size</span><span id="grainSizeVal">1</span><span>px</span></label>
+  <input type="range" id="grainSizeSlider" min="1" max="6" value="1">
+</div>
+<div class="color-row">
+  <label>Grain Target</label>
+  <select id="grainTargetSelect" class="color-select">
+    <option value="uniform" selected>uniform</option>
+    <option value="shadows">shadows</option>
+    <option value="highlights">highlights</option>
+    <option value="midtones">midtones</option>
+  </select>
+</div>
+<div class="slider-group">
+  <label><span>Grain Contrast</span><span id="grainContrastVal">1.00</span></label>
+  <input type="range" id="grainContrastSlider" min="0" max="300" value="100">
+</div>
+<div class="toggle-row">
+  <input type="checkbox" id="grainColorCheck">
+  <label for="grainColorCheck">Color grain</label>
+</div>
+<div class="slider-group">
+  <label><span>Vignette</span><span id="vignetteVal">0</span></label>
+  <input type="range" id="vignetteSlider" min="0" max="100" value="0">
+</div>
+<div class="color-row">
+  <label>Vig. Dither</label>
+  <select id="vignetteDitherSelect" class="color-select">
+    <option value="none" selected>none</option>
+    <option value="dot-matrix">dot matrix</option>
+    <option value="noise-dissolve">noise dissolve</option>
+    <option value="posterize">posterize</option>
+    <option value="pixel-grid">pixel grid</option>
+    <option value="gradient-mask">gradient mask</option>
+  </select>
+</div>
+<div class="slider-group">
+  <label><span>Vig. Dither Scale</span><span id="vigDitherScaleVal">4</span></label>
+  <input type="range" id="vigDitherScaleSlider" min="1" max="20" value="4">
+</div>
+</div><!-- /secPostProcessingBody -->
+
+<div class="section-header" id="secPresets">
+  <span>Presets</span>
+  <span class="chevron">&#9660;</span>
+</div>
+<div class="section-body" id="secPresetsBody">
+<h2>Category Presets</h2>
+<div class="preset-row" id="categoryPresets"></div>
+<h2>Color Presets</h2>
+<div class="preset-row" id="colorPresets"></div>
+<h2>Saved Presets</h2>
+<div class="btn-row">
+  <input type="text" id="presetNameInput" placeholder="Preset name..." style="flex:1;background:var(--bgLL);border:1px solid #3a3144;color:#e0d8e8;padding:6px 8px;border-radius:5px;font-size:11px">
+  <button class="btn" onclick="savePreset()">Save</button>
+</div>
+<div id="savedPresets" class="preset-row"></div>
+</div><!-- /secPresetsBody -->
+
+<h2>Export</h2>
+<div class="slider-group">
+  <label><span>Seed</span><span id="seedDisplay">845093</span></label>
+</div>
+<div class="slug-group">
+  <label>Deterministic seed from slug</label>
+  <input type="text" id="slugInput" placeholder="e.g. what-is-spicedb">
+</div>
+<div class="btn-row">
+  <button class="btn" onclick="randomSeed()">Random Seed</button>
+  <button class="btn" onclick="copyConfig()">Copy Config</button>
+  <button class="btn" onclick="toggleImport()">Import Config</button>
+  <button class="btn" style="background:#6242e0;color:#fff;border-color:#6242e0" onclick="exportPNG()">Export PNG</button>
+</div>
+<div id="importBox" style="display:none;padding:8px 16px">
+  <textarea id="importText" style="width:100%;height:120px;background:#2a2130;border:1px solid #3a3144;color:#e0d8e8;border-radius:5px;font-size:11px;font-family:monospace;padding:8px;resize:vertical" placeholder="Paste config JSON here..."></textarea>
+  <div class="btn-row" style="padding:4px 0">
+    <button class="btn" onclick="importConfig()">Apply</button>
+  </div>
+</div>
+</div>
+
+<div id="main">
+<h2>Bad Lens Voronoi</h2>
+<div class="subtitle" style="display:flex;align-items:center;gap:12px">
+  <span>Click canvas for full-size</span>
+  <label style="display:flex;align-items:center;gap:4px;font-size:10px;color:#8a7a96">
+    Res
+    <select id="resMultSelect" style="background:#2a2130;color:#e0d8e8;border:1px solid #3a3144;border-radius:3px;font-size:10px;padding:1px 4px">
+      <option value="1">1x</option>
+      <option value="1.5">1.5x</option>
+      <option value="2" selected>2x</option>
+    </select>
+  </label>
+</div>
+<div class="canvas-wrap">
+  <canvas id="canvas" width="2160" height="618"></canvas>
+</div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+// ============================================================
+// INFRA
+// ============================================================
+function mulberry32(a){return function(){a|=0;a=(a+0x6d2b79f5)|0;var t=Math.imul(a^(a>>>15),1|a);t^=t+Math.imul(t^(t>>>7),61|t);return((t^(t>>>14))>>>0)/4294967296}}
+var GRAD3=[[1,1,0],[-1,1,0],[1,-1,0],[-1,-1,0],[1,0,1],[-1,0,1],[1,0,-1],[-1,0,-1],[0,1,1],[0,-1,1],[0,1,-1],[0,-1,-1]];
+function SimplexNoise(rng){var p=[];for(var i=0;i<256;i++)p[i]=i;for(var i=255;i>0;i--){var j=Math.floor(rng()*(i+1));var t=p[i];p[i]=p[j];p[j]=t}this.perm=[];this.permMod12=[];for(var i=0;i<512;i++){this.perm[i]=p[i&255];this.permMod12[i]=this.perm[i]%12}}
+SimplexNoise.prototype.noise2D=function(x,y){var F2=.5*(Math.sqrt(3)-1),G2=(3-Math.sqrt(3))/6;var s=(x+y)*F2;var i=Math.floor(x+s),j=Math.floor(y+s);var t=(i+j)*G2;var x0=x-(i-t),y0=y-(j-t);var i1=x0>y0?1:0,j1=x0>y0?0:1;var x1=x0-i1+G2,y1=y0-j1+G2,x2=x0-1+2*G2,y2=y0-1+2*G2;var ii=i&255,jj=j&255;var n0=0,n1=0,n2=0;var t0=.5-x0*x0-y0*y0;if(t0>=0){t0*=t0;var gi=this.permMod12[ii+this.perm[jj]];n0=t0*t0*(GRAD3[gi][0]*x0+GRAD3[gi][1]*y0)}var t1=.5-x1*x1-y1*y1;if(t1>=0){t1*=t1;var gi=this.permMod12[ii+i1+this.perm[jj+j1]];n1=t1*t1*(GRAD3[gi][0]*x1+GRAD3[gi][1]*y1)}var t2=.5-x2*x2-y2*y2;if(t2>=0){t2*=t2;var gi=this.permMod12[ii+1+this.perm[jj+1]];n2=t2*t2*(GRAD3[gi][0]*x2+GRAD3[gi][1]*y2)}return 70*(n0+n1+n2)};
+SimplexNoise.prototype.fbm=function(x,y,oct,lac,gain){var v=0,a=1,f=1,mx=0;for(var i=0;i<oct;i++){v+=a*this.noise2D(x*f,y*f);mx+=a;a*=gain;f*=lac}return v/mx};
+
+// Compute actual Voronoi edges via Delaunay triangulation
+// Returns {vertices: [{x,y}], edges: [{x1,y1,x2,y2,len}]}
+function computeVoronoiEdges(pts){
+  var n=pts.length;
+  // Find Delaunay triangles: brute force O(n^3) check — fine for n≤60
+  var triangles=[];
+  for(var i=0;i<n-2;i++){
+    for(var j=i+1;j<n-1;j++){
+      for(var k=j+1;k<n;k++){
+        var ax=pts[i].x,ay=pts[i].y;
+        var bx=pts[j].x,by=pts[j].y;
+        var cx=pts[k].x,cy=pts[k].y;
+        // Circumcenter
+        var D=2*(ax*(by-cy)+bx*(cy-ay)+cx*(ay-by));
+        if(Math.abs(D)<1e-10)continue;
+        var a2=ax*ax+ay*ay,b2=bx*bx+by*by,c2=cx*cx+cy*cy;
+        var ux=(a2*(by-cy)+b2*(cy-ay)+c2*(ay-by))/D;
+        var uy=(a2*(cx-bx)+b2*(ax-cx)+c2*(bx-ax))/D;
+        var r2=(ax-ux)*(ax-ux)+(ay-uy)*(ay-uy);
+        // Check no other point inside circumcircle
+        var valid=true;
+        for(var m=0;m<n;m++){
+          if(m===i||m===j||m===k)continue;
+          var dx=pts[m].x-ux,dy=pts[m].y-uy;
+          if(dx*dx+dy*dy<r2-1e-6){valid=false;break}
+        }
+        if(valid)triangles.push({i:i,j:j,k:k,cx:ux,cy:uy});
+      }
+    }
+  }
+  // Voronoi vertices = circumcenters
+  var vertices=[];
+  for(var t=0;t<triangles.length;t++)vertices.push({x:triangles[t].cx,y:triangles[t].cy});
+  // Voronoi edges: connect circumcenters of adjacent triangles (sharing 2 vertices)
+  var edges=[];
+  for(var a=0;a<triangles.length;a++){
+    for(var b=a+1;b<triangles.length;b++){
+      var ta=triangles[a],tb=triangles[b];
+      var va=[ta.i,ta.j,ta.k],vb=[tb.i,tb.j,tb.k];
+      var shared=0;
+      for(var x=0;x<3;x++)for(var y=0;y<3;y++)if(va[x]===vb[y])shared++;
+      if(shared===2){
+        var dx=ta.cx-tb.cx,dy=ta.cy-tb.cy;
+        edges.push({x1:ta.cx,y1:ta.cy,x2:tb.cx,y2:tb.cy,len:Math.sqrt(dx*dx+dy*dy)});
+      }
+    }
+  }
+  return{vertices:vertices,edges:edges};
+}
+
+function hexToRgb(h){return[parseInt(h.slice(1,3),16),parseInt(h.slice(3,5),16),parseInt(h.slice(5,7),16)]}
+function gradientColor(t,colors){t=Math.max(0,Math.min(1,t));var seg=colors.length-1;var i=Math.min(Math.floor(t*seg),seg-1);var lt=t*seg-i;var a=hexToRgb(colors[i]),b=hexToRgb(colors[i+1]);return[(a[0]+(b[0]-a[0])*lt)|0,(a[1]+(b[1]-a[1])*lt)|0,(a[2]+(b[2]-a[2])*lt)|0]}
+function seedFromSlug(s){var h=0;for(var i=0;i<s.length;i++){h=((h<<5)-h+s.charCodeAt(i))|0}return Math.abs(h)}
+
+var BG='#110f14';
+var bgC=hexToRgb(BG);
+var PAL=[BG,'#6242e0','#9278ed','#c270ab','#ffb370']; // zanzibar
+
+var SANDWORM_ACCENTS=[
+  {name:'sand-300',hex:'#ffb370'},{name:'sand-400',hex:'#de9663'},
+  {name:'red-400',hex:'#f9808a'},{name:'red-500',hex:'#f0566d'},
+  {name:'magenta-600',hex:'#a5318a'},{name:'magenta-500',hex:'#b35199'},
+  {name:'magenta-400',hex:'#c270ab'},{name:'magenta-200',hex:'#e3bad6'},
+  {name:'teal-600',hex:'#4a7d7b'},{name:'teal-500',hex:'#549693'},
+  {name:'teal-400',hex:'#72b1ad'},
+  {name:'violet-600',hex:'#6242e0'},{name:'violet-500',hex:'#7a5ce6'},
+  {name:'violet-400',hex:'#9278ed'},
+  {name:'blue-600',hex:'#42b9e0'},{name:'blue-500',hex:'#5cc3e6'},
+  {name:'blue-400',hex:'#78d0ed'},
+  {name:'stone-025',hex:'#f8f7f8'},{name:'stone-050',hex:'#efedf0'},
+  {name:'stone-100',hex:'#dddadf'},{name:'stone-200',hex:'#c7c4ca'},
+  {name:'stone-300',hex:'#b0abb5'},{name:'stone-400',hex:'#988fa0'},
+  {name:'stone-500',hex:'#79727e'},{name:'stone-600',hex:'#655d69'},
+  {name:'stone-700',hex:'#504955'},{name:'stone-800',hex:'#3a3344'},
+  {name:'stone-850',hex:'#2a2130'},{name:'stone-900',hex:'#1e1424'},
+  {name:'stone-950',hex:'#170d1c'},{name:'stone-975',hex:'#0c050f'},
+];
+
+// Category presets — same base structure, only vary: colors, pts, activeLayers, angle/offset, post-processing
+// All voronoi params (ew, es, en, nb, gr, cellRounding, edgeGlowCurve, doubleEdge, edgeGradient) and
+// network params (netLineW, netGlow, netDotSize, netDensity, netFlowTaper, ditherType, ditherScale)
+// are locked to the base config. This keeps the "look" consistent across categories.
+var BASE_VORONOI_L1={ew:0.12,es:1,en:1,nb:0.73,gr:0.25,cellRounding:0.02,cellPanX:0,cellPanY:0,fieldRotation:25,edgeGlowCurve:5,doubleEdge:1,edgeGradient:1,ditherType:'none',ditherScale:2,netLineW:1.5,netGlow:0,netDotSize:2,netDensity:1,netFlowTaper:0};
+var BASE_VORONOI_L2={ew:0.02,es:1,en:0.82,nb:0.73,gr:0.57,cellRounding:0.07,cellPanX:0,cellPanY:0,fieldRotation:25,edgeGlowCurve:4.81,doubleEdge:1,edgeGradient:1,ditherType:'none',ditherScale:2,netLineW:1.5,netGlow:0,netDotSize:2,netDensity:1,netFlowTaper:0};
+var BASE_NETWORK_L3={ew:0.02,es:1,en:0.82,nb:0.73,gr:0.16,cellRounding:0,cellPanX:0,cellPanY:0,fieldRotation:27,edgeGlowCurve:1,doubleEdge:0,edgeGradient:0,ditherType:'gradient-mask',ditherScale:12,netLineW:1.5,netGlow:0,netDotSize:3.8,netDensity:1,netFlowTaper:0};
+var BASE_NETWORK_L4={ew:0.02,es:1,en:0.82,nb:0.73,gr:0.16,cellRounding:0,cellPanX:0,cellPanY:0,fieldRotation:25,edgeGlowCurve:1,doubleEdge:0,edgeGradient:0,ditherType:'gradient-mask',ditherScale:10,netLineW:1.5,netGlow:0,netDotSize:4.1,netDensity:1,netFlowTaper:0};
+function catLayer(base,overrides){var o={};for(var k in base)o[k]=base[k];for(var k in overrides)o[k]=overrides[k];return o;}
+
+var CATEGORY_PRESETS={
+  // Zanzibar (flagship/brand) — teal+violet voronoi, stone+blue network. The base config itself.
+  zanzibar:{
+    activeLayers:4,synced:false,
+    layers:[
+      catLayer(BASE_VORONOI_L1,{color:'#72b1ad',offset:18,angle:345,opacity:0.94,blend:'add',type:'voronoi',pts:37}),
+      catLayer(BASE_VORONOI_L2,{color:'#6242e0',offset:10,angle:15,opacity:1,blend:'add',type:'voronoi',pts:31}),
+      catLayer(BASE_NETWORK_L3,{color:'#504955',offset:18,angle:336,opacity:1,blend:'add',type:'network',pts:46}),
+      catLayer(BASE_NETWORK_L4,{color:'#78d0ed',offset:10,angle:330,opacity:0.76,blend:'color-dodge',type:'network',pts:23}),
+    ],edgeMask:0,radial:0,blur:0,contrast:1.04,gamma:0.96,filmGrain:19,vignette:0,
+  },
+  // Engineering — teal+violet, denser point counts. Technical, structured.
+  engineering:{
+    activeLayers:4,synced:false,
+    layers:[
+      catLayer(BASE_VORONOI_L1,{color:'#549693',offset:16,angle:340,opacity:1,blend:'add',type:'voronoi',pts:42}),
+      catLayer(BASE_VORONOI_L2,{color:'#9278ed',offset:12,angle:20,opacity:0.9,blend:'add',type:'voronoi',pts:35}),
+      catLayer(BASE_NETWORK_L3,{color:'#72b1ad',offset:16,angle:332,opacity:0.9,blend:'add',type:'network',pts:50}),
+      catLayer(BASE_NETWORK_L4,{color:'#504955',offset:8,angle:325,opacity:0.7,blend:'add',type:'network',pts:28}),
+    ],edgeMask:0,radial:0,blur:0,contrast:1.08,gamma:0.95,filmGrain:16,vignette:0,
+  },
+  // Product — sand+red voronoi, violet+sand network. Bold, warm.
+  product:{
+    activeLayers:4,synced:false,
+    layers:[
+      catLayer(BASE_VORONOI_L1,{color:'#de9663',offset:16,angle:350,opacity:1,blend:'add',type:'voronoi',pts:34}),
+      catLayer(BASE_VORONOI_L2,{color:'#f0566d',offset:12,angle:10,opacity:0.9,blend:'add',type:'voronoi',pts:28}),
+      catLayer(BASE_NETWORK_L3,{color:'#6242e0',offset:14,angle:340,opacity:0.8,blend:'add',type:'network',pts:40}),
+      catLayer(BASE_NETWORK_L4,{color:'#ffb370',offset:8,angle:325,opacity:0.6,blend:'color-dodge',type:'network',pts:20}),
+    ],edgeMask:0,radial:0,blur:0,contrast:1.1,gamma:0.94,filmGrain:17,vignette:0,
+  },
+  // Community — the full Sandworm rainbow. Teal, violet, sand, magenta, red, blue. 4 layers, all our colors.
+  community:{
+    activeLayers:4,synced:false,
+    layers:[
+      catLayer(BASE_VORONOI_L1,{color:'#72b1ad',offset:16,angle:342,opacity:1,blend:'add',type:'voronoi',pts:30}),
+      catLayer(BASE_VORONOI_L2,{color:'#9278ed',offset:10,angle:18,opacity:0.9,blend:'add',type:'voronoi',pts:25}),
+      catLayer(BASE_NETWORK_L3,{color:'#de9663',offset:14,angle:334,opacity:0.75,blend:'add',type:'network',pts:35}),
+      catLayer(BASE_NETWORK_L4,{color:'#c270ab',offset:8,angle:328,opacity:0.6,blend:'color-dodge',type:'network',pts:22}),
+    ],edgeMask:0,radial:0,blur:0,contrast:1.02,gamma:0.97,filmGrain:15,vignette:0,
+  },
+  // Tutorials — stone monochrome. Subtle, clean, instructional. Light network layer.
+  tutorials:{
+    activeLayers:3,synced:false,
+    layers:[
+      catLayer(BASE_VORONOI_L1,{color:'#504955',offset:14,angle:348,opacity:1,blend:'add',type:'voronoi',pts:32}),
+      catLayer(BASE_VORONOI_L2,{color:'#3a3144',offset:10,angle:12,opacity:0.85,blend:'add',type:'voronoi',pts:26}),
+      catLayer(BASE_NETWORK_L3,{color:'#c7c4ca',offset:16,angle:338,opacity:0.7,blend:'add',type:'network',pts:38}),
+    ],edgeMask:0,radial:0,blur:0,contrast:1.06,gamma:0.96,filmGrain:14,vignette:0,
+  },
+  // Concepts — magenta, red, violet. Dense, abstract. Red layer pulled back on contrast/gamma.
+  concepts:{
+    activeLayers:4,synced:false,
+    layers:[
+      catLayer(BASE_VORONOI_L1,{color:'#c270ab',offset:20,angle:342,opacity:1,blend:'add',type:'voronoi',pts:44}),
+      catLayer(BASE_VORONOI_L2,{color:'#f0566d',offset:14,angle:18,opacity:0.65,blend:'add',type:'voronoi',pts:36}),
+      catLayer(BASE_NETWORK_L3,{color:'#6242e0',offset:16,angle:334,opacity:0.8,blend:'add',type:'network',pts:52}),
+      catLayer(BASE_NETWORK_L4,{color:'#9278ed',offset:8,angle:328,opacity:0.75,blend:'add',type:'network',pts:30}),
+    ],edgeMask:0,radial:0,blur:0,contrast:1.02,gamma:0.97,filmGrain:20,vignette:0,
+  },
+  // Security — dropped (not a blog category).
+  // Integrations — stone voronoi, blue network. Connected, expansive.
+  integrations:{
+    activeLayers:4,synced:false,
+    layers:[
+      catLayer(BASE_VORONOI_L1,{color:'#504955',offset:16,angle:346,opacity:1,blend:'add',type:'voronoi',pts:33}),
+      catLayer(BASE_VORONOI_L2,{color:'#3a3144',offset:10,angle:14,opacity:0.85,blend:'add',type:'voronoi',pts:27}),
+      catLayer(BASE_NETWORK_L3,{color:'#78d0ed',offset:18,angle:334,opacity:0.85,blend:'add',type:'network',pts:44}),
+      catLayer(BASE_NETWORK_L4,{color:'#42b9e0',offset:8,angle:326,opacity:0.6,blend:'color-dodge',type:'network',pts:25}),
+    ],edgeMask:0,radial:0,blur:0,contrast:1.04,gamma:0.96,filmGrain:15,vignette:0,
+  },
+};
+// Simple color-only presets (legacy)
+var COLOR_PRESETS=[
+  {name:'violet+sand',g1:'#9278ed',g2:'#ffb370',g3:null},
+  {name:'magenta+teal',g1:'#c270ab',g2:'#549693',g3:null},
+  {name:'blue+magenta',g1:'#78d0ed',g2:'#c270ab',g3:null},
+  {name:'red+violet',g1:'#f9808a',g2:'#6242e0',g3:null},
+  {name:'vi+mag+sand',g1:'#6242e0',g2:'#a5318a',g3:'#ffb370'},
+  {name:'teal+red+vi',g1:'#72b1ad',g2:'#f9808a',g3:'#9278ed'},
+  {name:'sand+red+teal',g1:'#ffb370',g2:'#f0566d',g3:'#549693'},
+  {name:'blue+vi+sand',g1:'#78d0ed',g2:'#9278ed',g3:'#ffb370'},
+];
+
+// ============================================================
+// STATE
+// ============================================================
+var DEFAULTS={type:'voronoi',pts:31,ew:0.02,es:1,en:0.82,nb:0.73,gr:0.16,cellRounding:0,cellPanX:0,cellPanY:0,fieldRotation:0,edgeGlowCurve:1.0,doubleEdge:0,edgeGradient:0,ditherType:'none',ditherScale:4,netLineW:1.5,netGlow:0,netDotSize:2,netDensity:1,netFlowTaper:0};
+var state={
+  seed:401845,
+  activeLayers:4,
+  syncOffset:10,syncAngle:0,syncSpread:30,
+  // Synced voronoi defaults
+  syncPts:31,syncEw:0.02,syncEs:1,syncEn:0.82,syncNb:0.73,syncGr:0.16,
+  syncCellRounding:0.02,syncCellPanX:1,syncCellPanY:1,syncFieldRotation:29,
+  syncEdgeGlowCurve:4.81,syncDoubleEdge:1,syncEdgeGradient:1,
+  syncType:'voronoi',syncDitherType:'none',syncDitherScale:4,
+  syncNetLineW:1.5,syncNetGlow:0,syncNetDotSize:2,syncNetDensity:1,syncNetFlowTaper:0,
+  layers:[
+    {color:'#72b1ad',offset:18,angle:345,opacity:0.94,blend:'add',synced:false,type:'voronoi',pts:37,ew:0.12,es:1,en:1,nb:0.73,gr:0.25,cellRounding:0.02,cellPanX:0,cellPanY:0,fieldRotation:25,edgeGlowCurve:5,doubleEdge:1,edgeGradient:1,ditherType:'none',ditherScale:2,netLineW:1.5,netGlow:0,netDotSize:2,netDensity:1,netFlowTaper:0},
+    {color:'#6242e0',offset:10,angle:15,opacity:1,blend:'add',synced:false,type:'voronoi',pts:31,ew:0.02,es:1,en:0.82,nb:0.73,gr:0.57,cellRounding:0.07,cellPanX:0,cellPanY:0,fieldRotation:25,edgeGlowCurve:4.81,doubleEdge:1,edgeGradient:1,ditherType:'none',ditherScale:2,netLineW:1.5,netGlow:0,netDotSize:2,netDensity:1,netFlowTaper:0},
+    {color:'#504955',offset:18,angle:336,opacity:1,blend:'add',synced:false,type:'network',pts:46,ew:0.02,es:1,en:0.82,nb:0.73,gr:0.16,cellRounding:0,cellPanX:0,cellPanY:0,fieldRotation:27,edgeGlowCurve:1,doubleEdge:0,edgeGradient:0,ditherType:'gradient-mask',ditherScale:12,netLineW:1.5,netGlow:0,netDotSize:3.8,netDensity:1,netFlowTaper:0},
+    {color:'#78d0ed',offset:10,angle:330,opacity:0.76,blend:'color-dodge',synced:false,type:'network',pts:23,ew:0.02,es:1,en:0.82,nb:0.73,gr:0.16,cellRounding:0,cellPanX:0,cellPanY:0,fieldRotation:25,edgeGlowCurve:1,doubleEdge:0,edgeGradient:0,ditherType:'gradient-mask',ditherScale:10,netLineW:1.5,netGlow:0,netDotSize:4.1,netDensity:1,netFlowTaper:0},
+    {color:'#549693',offset:10,angle:225,opacity:1,blend:'screen',synced:false,type:'voronoi',pts:31,ew:0.02,es:1,en:0.82,nb:0.73,gr:0.16,cellRounding:0,cellPanX:0,cellPanY:0,fieldRotation:0,edgeGlowCurve:1.0,doubleEdge:0,edgeGradient:0,ditherType:'none',ditherScale:4,netLineW:1.5,netGlow:0,netDotSize:2,netDensity:1,netFlowTaper:0},
+    {color:'#de9663',offset:10,angle:135,opacity:1,blend:'screen',synced:false,type:'voronoi',pts:31,ew:0.02,es:1,en:0.82,nb:0.73,gr:0.16,cellRounding:0,cellPanX:0,cellPanY:0,fieldRotation:0,edgeGlowCurve:1.0,doubleEdge:0,edgeGradient:0,ditherType:'none',ditherScale:4,netLineW:1.5,netGlow:0,netDotSize:2,netDensity:1,netFlowTaper:0},
+  ],
+  edgeMask:0,
+  radial:0,
+  // Post-Processing
+  blur:0,
+  contrast:1.04,
+  gamma:0.96,
+  filmGrain:19,
+  grainSize:1,
+  grainTarget:'uniform',
+  grainContrast:2,
+  grainColor:false,
+  vignette:0,
+  vignetteDitherType:'none',
+  vignetteDitherScale:4,
+  // Network Lines
+};
+
+var BASE_W=1080,BASE_H=309;
+var resMult=2;
+var canvas=document.getElementById('canvas');
+var ctx=canvas.getContext('2d');
+var W=canvas.width,H=canvas.height;
+var renderTimer=null;
+
+function applyResMult(m){
+  resMult=m;
+  canvas.width=Math.round(BASE_W*resMult);
+  canvas.height=Math.round(BASE_H*resMult);
+  W=canvas.width;H=canvas.height;
+  scheduleRender();
+}
+
+document.getElementById('resMultSelect').addEventListener('change',function(){
+  applyResMult(parseFloat(this.value));
+});
+
+function scheduleRender(){
+  if(renderTimer)clearTimeout(renderTimer);
+  renderTimer=setTimeout(render,30);
+}
+
+// ============================================================
+// RENDER — each layer gets its own Voronoi
+// ============================================================
+
+// Generate Voronoi seed points (shared between renderer and network overlay)
+function generateVoronoiPoints(W,H,seed,numPts){
+  var rng=mulberry32(seed);
+  var noise=new SimplexNoise(rng); // must consume RNG same as renderer
+  var pts=[];
+  for(var i=0;i<numPts;i++)pts.push({x:(rng()*3-1)*W,y:(rng()*3-1)*H,palT:rng()});
+  return{pts:pts,rng:rng,noise:noise};
+}
+
+// Render a single voronoi layer into a luminance buffer
+function renderVoronoiLayer(W,H,seed,p,pad,scale){
+  pad=pad||0;scale=scale||1;
+  var gen=generateVoronoiPoints(W,H,seed,p.pts);
+  var rng=gen.rng,noise=gen.noise,pts=gen.pts;
+  var numPts=p.pts;
+  var edgeW=(3+p.ew*50)*scale;
+  var sharpness=0.5+p.es*4;
+  var edgeNoise=p.en;
+  var nodeBloom=p.nb*2;
+  var glowRad=(10+p.gr*80)*scale;
+  var rounding=p.cellRounding||0;
+  var panX=(p.cellPanX||0)*scale;
+  var panY=(p.cellPanY||0)*scale;
+  var rotDeg=p.fieldRotation||0;
+  var rotRad=rotDeg*Math.PI/180;
+  var cosR=Math.cos(rotRad),sinR=Math.sin(rotRad);
+  var hasRotation=rotDeg>0&&rotDeg<360;
+  var glowCurve=p.edgeGlowCurve||1.0;
+  var dblEdge=p.doubleEdge||0;
+  var edgeGrad=p.edgeGradient||0;
+  var avgD2=Math.sqrt(W*H/numPts);
+  var cxR=W/2,cyR=H/2;
+  var bW=W+2*pad,bH=H+2*pad;
+  var lum=new Float32Array(bW*bH);
+  for(var px=-pad;px<W+pad;px++){
+    for(var py=-pad;py<H+pad;py++){
+      var qx=px,qy=py;
+      if(hasRotation){
+        var rx=px-cxR,ry=py-cyR;
+        qx=rx*cosR-ry*sinR+cxR;
+        qy=rx*sinR+ry*cosR+cyR;
+      }
+      var vpx=qx+panX,vpy=qy+panY;
+      var d1=1e9,d2=1e9,d3=1e9;
+      for(var k=0;k<numPts;k++){
+        var dx=vpx-pts[k].x,dy=vpy-pts[k].y;
+        var dd=Math.sqrt(dx*dx+dy*dy);
+        if(dd<d1){d3=d2;d2=d1;d1=dd}
+        else if(dd<d2){d3=d2;d2=dd}
+        else if(dd<d3)d3=dd;
+      }
+      var edgeDistAngular=(d2-d1)/edgeW;
+      var edgeDist;
+      if(rounding>0){
+        var edgeDistRounded=d1/edgeW;
+        edgeDist=edgeDistAngular*(1-rounding)+edgeDistRounded*rounding;
+      }else{
+        edgeDist=edgeDistAngular;
+      }
+      var edgeFactor=Math.exp(-Math.pow(edgeDist,sharpness)*glowCurve);
+      if(dblEdge>0){
+        edgeFactor+=dblEdge*Math.exp(-Math.pow(edgeDist*2.5,sharpness*1.5))*0.4;
+      }
+      if(edgeGrad>0){
+        edgeFactor*=(1-edgeGrad)+edgeGrad*(d2/avgD2);
+      }
+      var nodeDist=(d2-d1+d3-d1)/(glowRad*2);
+      var nodeFactor=Math.exp(-nodeDist*nodeDist*3)*nodeBloom;
+      var nf=.005/scale;
+      var texNoise=(noise.fbm(px*nf,py*nf,6,2.1,.5)+1)/2;
+      var texMod=1-edgeNoise+edgeNoise*texNoise;
+      lum[(py+pad)*bW+(px+pad)]=Math.min(1,(edgeFactor*texMod*.7+nodeFactor)*1.8);
+    }
+  }
+  return{buf:lum,bW:bW,bH:bH,pad:pad};
+}
+
+// Render network lines (Voronoi edges as line strokes) into a luminance buffer
+function renderNetworkLayer(W,H,seed,p,pad,scale){
+  pad=pad||0;scale=scale||1;
+  var bW=W+2*pad,bH=H+2*pad;
+
+  // Use an offscreen canvas to draw lines, then extract luminance
+  var offCanvas=document.createElement('canvas');
+  offCanvas.width=bW;offCanvas.height=bH;
+  var offCtx=offCanvas.getContext('2d');
+
+  // Generate points (same as voronoi renderer for consistency)
+  var gen=generateVoronoiPoints(W,H,seed,p.pts);
+  var pts=gen.pts;
+
+  // Apply pan and rotation to points (matching voronoi layer behavior)
+  var panX=(p.cellPanX||0)*scale;
+  var panY=(p.cellPanY||0)*scale;
+  var rotDeg=p.fieldRotation||0;
+  var rotRad=rotDeg*Math.PI/180;
+  var cosR=Math.cos(rotRad),sinR=Math.sin(rotRad);
+  var hasRotation=rotDeg>0&&rotDeg<360;
+  var cxR=W/2,cyR=H/2;
+
+  // Compute Voronoi edges
+  var result=computeVoronoiEdges(pts);
+  var vEdges=result.edges;
+  var vVerts=result.vertices;
+
+  // Use network-specific params
+  var lineWidth=(p.netLineW!=null?p.netLineW:1.5)*scale;
+  var dotRadius=(p.netDotSize!=null?p.netDotSize:2)*scale;
+  var glowAmount=(p.netGlow||0)*scale;
+  var density=p.netDensity!=null?p.netDensity:1;
+  var flowTaper=p.netFlowTaper||0;
+
+  // Filter edges by density (keep shorter edges first)
+  if(density<1 && vEdges.length>0){
+    var sorted=vEdges.slice().sort(function(a,b){return a.len-b.len});
+    var keep=Math.max(1,Math.round(sorted.length*density));
+    vEdges=sorted.slice(0,keep);
+  }
+
+  offCtx.translate(pad,pad);
+
+  // Apply inverse rotation and pan so the network matches the voronoi field transform
+  if(hasRotation){
+    offCtx.translate(cxR,cyR);
+    offCtx.rotate(-rotRad);
+    offCtx.translate(-cxR,-cyR);
+  }
+  offCtx.translate(-panX,-panY);
+
+  offCtx.strokeStyle='#fff';
+  offCtx.fillStyle='#fff';
+  offCtx.lineCap='round';
+
+  if(glowAmount>0){
+    offCtx.shadowColor='#fff';
+    offCtx.shadowBlur=glowAmount;
+  }
+
+  // Draw edges (with optional flow taper)
+  if(flowTaper>0){
+    var maxLen=0;
+    for(var i=0;i<vEdges.length;i++) if(vEdges[i].len>maxLen) maxLen=vEdges[i].len;
+    for(var i=0;i<vEdges.length;i++){
+      var e=vEdges[i];
+      var t=maxLen>0?e.len/maxLen:0;
+      var w=lineWidth*(1-flowTaper*t);
+      if(w<0.1) continue;
+      offCtx.lineWidth=w;
+      offCtx.beginPath();
+      offCtx.moveTo(e.x1,e.y1);
+      offCtx.lineTo(e.x2,e.y2);
+      offCtx.stroke();
+    }
+  } else {
+    offCtx.lineWidth=lineWidth;
+    for(var i=0;i<vEdges.length;i++){
+      var e=vEdges[i];
+      offCtx.beginPath();
+      offCtx.moveTo(e.x1,e.y1);
+      offCtx.lineTo(e.x2,e.y2);
+      offCtx.stroke();
+    }
+  }
+
+  // Draw vertex dots
+  if(dotRadius>0){
+    offCtx.shadowBlur=0;
+    for(var i=0;i<vVerts.length;i++){
+      offCtx.beginPath();
+      offCtx.arc(vVerts[i].x,vVerts[i].y,dotRadius,0,Math.PI*2);
+      offCtx.fill();
+    }
+  }
+
+  // Extract luminance from offscreen canvas
+  var imgData=offCtx.getImageData(0,0,bW,bH);
+  var pix=imgData.data;
+  var lum=new Float32Array(bW*bH);
+  for(var i=0;i<bW*bH;i++){
+    // Use red channel (all are white strokes on black bg)
+    lum[i]=pix[i*4]/255;
+  }
+
+  return{buf:lum,bW:bW,bH:bH,pad:pad};
+}
+
+// Dither a luminance buffer
+function applyDither(lum,W,H,type,scale,resScale){
+  if(type==='none'||!type)return lum;
+  resScale=resScale||1;
+  var out=new Float32Array(lum.length);
+  if(type==='dot-matrix'){
+    var cellSize=Math.round((scale*2+2)*resScale);
+    for(var y=0;y<H;y++){
+      for(var x=0;x<W;x++){
+        var idx=y*W+x;
+        var v=lum[idx];
+        var cx=(x%cellSize)-cellSize/2;
+        var cy=(y%cellSize)-cellSize/2;
+        var dist=Math.sqrt(cx*cx+cy*cy);
+        var maxRadius=cellSize*0.45;
+        var dotRadius=v*maxRadius;
+        var val=dist<dotRadius?v*1.2:v*0.05;
+        out[idx]=val>1?1:val;
+      }
+    }
+  }
+  else if(type==='noise-dissolve'){
+    var ditherRng=mulberry32(12345);
+    var ditherNoise=new SimplexNoise(ditherRng);
+    var noiseScale=(0.01+(scale-1)*0.005)/resScale;
+    for(var y=0;y<H;y++){
+      for(var x=0;x<W;x++){
+        var idx=y*W+x;
+        var v=lum[idx];
+        var noiseVal=(ditherNoise.noise2D(x*noiseScale,y*noiseScale)+1)/2;
+        var threshold=1-v;
+        out[idx]=noiseVal>threshold?v:v*0.05;
+      }
+    }
+  }
+  else if(type==='posterize'){
+    var bands=scale+1;
+    for(var y=0;y<H;y++){
+      for(var x=0;x<W;x++){
+        var idx=y*W+x;
+        out[idx]=Math.round(lum[idx]*bands)/bands;
+      }
+    }
+  }
+  else if(type==='pixel-grid'){
+    var blockSize=Math.round((scale+1)*resScale);
+    var gridW=Math.ceil(W/blockSize);
+    var gridH=Math.ceil(H/blockSize);
+    var blockSums=new Float32Array(gridW*gridH);
+    var blockCounts=new Float32Array(gridW*gridH);
+    for(var y=0;y<H;y++){
+      for(var x=0;x<W;x++){
+        var bx=Math.floor(x/blockSize);
+        var by=Math.floor(y/blockSize);
+        var bi=by*gridW+bx;
+        blockSums[bi]+=lum[y*W+x];
+        blockCounts[bi]++;
+      }
+    }
+    for(var y=0;y<H;y++){
+      for(var x=0;x<W;x++){
+        var bx=Math.floor(x/blockSize);
+        var by=Math.floor(y/blockSize);
+        var bi=by*gridW+bx;
+        out[y*W+x]=blockCounts[bi]>0?blockSums[bi]/blockCounts[bi]:0;
+      }
+    }
+  }
+  else if(type==='gradient-mask'){
+    var angle=scale*18;
+    var rad=angle*Math.PI/180;
+    var cosA=Math.cos(rad),sinA=Math.sin(rad);
+    for(var y=0;y<H;y++){
+      for(var x=0;x<W;x++){
+        var idx=y*W+x;
+        var nx=(x/W-0.5),ny=(y/H-0.5);
+        var t=nx*cosA+ny*sinA+0.5;
+        t=t<0?0:t>1?1:t;
+        out[idx]=lum[idx]*t;
+      }
+    }
+  }
+  else{return lum}
+  return out;
+}
+
+// Blend modes (all operate on 0-255 range)
+function blendScreen(dst,src){return 255-(255-dst)*(255-src)/255}
+function blendAdd(dst,src){return dst+src} // clamped later
+function blendNormal(dst,src){return src>0?src:dst}
+function blendMultiply(dst,src){return dst*src/255}
+function blendOverlay(dst,src){return dst<128?2*dst*src/255:255-2*(255-dst)*(255-src)/255}
+function blendLighten(dst,src){return src>dst?src:dst}
+function blendColorDodge(dst,src){return src>=255?255:Math.min(255,dst*255/(255-src))}
+function blendSoftLight(dst,src){var b=src/255;return b<0.5?dst*(1-(1-2*b)*(1-dst/255)):dst+(2*b-1)*(Math.sqrt(dst/255)*255-dst)/255*255}
+function blendHardLight(dst,src){return src<128?2*dst*src/255:255-2*(255-dst)*(255-src)/255}
+function blendDifference(dst,src){return Math.abs(dst-src)}
+function blendExclusion(dst,src){return dst+src-2*dst*src/255}
+
+var BLEND_FNS={
+  screen:blendScreen,add:blendAdd,normal:blendNormal,
+  multiply:blendMultiply,overlay:blendOverlay,lighten:blendLighten,
+  'color-dodge':blendColorDodge,'soft-light':blendSoftLight,'hard-light':blendHardLight,'difference':blendDifference,'exclusion':blendExclusion
+};
+
+function render(){
+  var numG=state.activeLayers;
+
+  // Count synced layers for spread calculation
+  var syncedIndices=[];
+  for(var gi=0;gi<numG;gi++){if(state.layers[gi].synced)syncedIndices.push(gi)}
+  var numSynced=syncedIndices.length;
+
+  // Build layer configs
+  var layerConfigs=[];
+  var angleRad=state.syncAngle*Math.PI/180;
+  var spreadRad=state.syncSpread*Math.PI/180;
+  for(var gi=0;gi<numG;gi++){
+    var L=state.layers[gi];
+    if(L.synced){
+      var syncIdx=syncedIndices.indexOf(gi);
+      var a=angleRad+(syncIdx-(numSynced-1)/2)*(spreadRad/(numSynced-1||1));
+      if(numSynced===1)a=angleRad;
+      layerConfigs.push({
+        type:state.syncType,
+        color:hexToRgb(L.color),offset:state.syncOffset,angle:a,
+        opacity:L.opacity,blend:L.blend,
+        pts:state.syncPts,ew:state.syncEw,es:state.syncEs,
+        en:state.syncEn,nb:state.syncNb,gr:state.syncGr,
+        cellRounding:state.syncCellRounding,cellPanX:state.syncCellPanX,
+        cellPanY:state.syncCellPanY,fieldRotation:state.syncFieldRotation,
+        edgeGlowCurve:state.syncEdgeGlowCurve,doubleEdge:state.syncDoubleEdge,
+        edgeGradient:state.syncEdgeGradient,
+        ditherType:state.syncDitherType,ditherScale:state.syncDitherScale,
+        netLineW:state.syncNetLineW,netGlow:state.syncNetGlow,
+        netDotSize:state.syncNetDotSize,netDensity:state.syncNetDensity,
+        netFlowTaper:state.syncNetFlowTaper
+      });
+    }else{
+      layerConfigs.push({
+        type:L.type,
+        color:hexToRgb(L.color),offset:L.offset,
+        angle:L.angle*Math.PI/180,opacity:L.opacity,blend:L.blend,
+        pts:L.pts,ew:L.ew,es:L.es,en:L.en,nb:L.nb,gr:L.gr,
+        cellRounding:L.cellRounding,cellPanX:L.cellPanX,
+        cellPanY:L.cellPanY,fieldRotation:L.fieldRotation,
+        edgeGlowCurve:L.edgeGlowCurve,doubleEdge:L.doubleEdge,
+        edgeGradient:L.edgeGradient,
+        ditherType:L.ditherType,ditherScale:L.ditherScale,
+        netLineW:L.netLineW,netGlow:L.netGlow,
+        netDotSize:L.netDotSize,netDensity:L.netDensity,
+        netFlowTaper:L.netFlowTaper
+      });
+    }
+  }
+
+  // Compute padding needed (max chromatic offset across all layers)
+  var maxOffset=0;
+  for(var gi=0;gi<layerConfigs.length;gi++){
+    if(layerConfigs[gi].offset>maxOffset)maxOffset=layerConfigs[gi].offset;
+  }
+  var lumPad=Math.ceil(maxOffset*(W/BASE_W))+1;
+
+  // Render each layer's voronoi (reuse if synced and same params)
+  var lumBuffers=[];
+  var lastKey='';
+  var lastResult=null;
+  for(var gi=0;gi<layerConfigs.length;gi++){
+    var lc=layerConfigs[gi];
+    var voronoiKey=(lc.type||'voronoi')+'_'+lc.pts+'_'+lc.ew+'_'+lc.es+'_'+lc.en+'_'+lc.nb+'_'+lc.gr+'_'+lc.cellRounding+'_'+lc.cellPanX+'_'+lc.cellPanY+'_'+lc.fieldRotation+'_'+lc.edgeGlowCurve+'_'+lc.doubleEdge+'_'+lc.edgeGradient+'_'+lc.netLineW+'_'+lc.netGlow+'_'+lc.netDotSize+'_'+lc.netDensity+'_'+lc.netFlowTaper;
+    var baseResult;
+    if(voronoiKey===lastKey&&lastResult){
+      baseResult=lastResult;
+    }else{
+      if(lc.type==='network'){
+        baseResult=renderNetworkLayer(W,H,state.seed,lc,lumPad,W/BASE_W);
+      }else{
+        baseResult=renderVoronoiLayer(W,H,state.seed,lc,lumPad,W/BASE_W);
+      }
+      lastKey=voronoiKey;lastResult=baseResult;
+    }
+    // Apply per-layer dithering on the padded buffer
+    var dt=lc.ditherType||'none';
+    if(dt!=='none'){
+      var dithered=applyDither(baseResult.buf,baseResult.bW,baseResult.bH,dt,lc.ditherScale||4,W/BASE_W);
+      lumBuffers.push({buf:dithered,bW:baseResult.bW,bH:baseResult.bH,pad:baseResult.pad});
+    }else{
+      lumBuffers.push(baseResult);
+    }
+  }
+
+  var edgeMask=state.edgeMask;
+  var cx=W/2,cy=H/2;
+  var radial=state.radial;
+
+  var out=new Float32Array(W*H*4);
+  for(var i=3;i<out.length;i+=4)out[i]=255;
+
+  for(var gi=0;gi<layerConfigs.length;gi++){
+    var lc=layerConfigs[gi];
+    var lb=lumBuffers[gi];
+    var lumBuf=lb.buf,lbW=lb.bW,lbPad=lb.pad;
+    var resScale=W/BASE_W;
+    var gdx=Math.cos(lc.angle)*lc.offset*resScale;
+    var gdy=Math.sin(lc.angle)*lc.offset*resScale;
+    var gc=lc.color;
+    var opac=lc.opacity;
+    var bfn=BLEND_FNS[lc.blend]||blendScreen;
+
+    for(var x=0;x<W;x++)for(var y=0;y<H;y++){
+      var sx=Math.round(x-gdx)+lbPad,sy=Math.round(y-gdy)+lbPad;
+      var lum=lumBuf[sy*lbW+sx];
+
+      if(edgeMask>0){
+        lum=lum*(1-edgeMask)+lum*lum*edgeMask;
+      }
+      if(radial>0){
+        var rdx=(x-cx)/cx,rdy=(y-cy)/cy;
+        var rd=Math.sqrt(rdx*rdx+rdy*rdy);
+        lum*=(1-radial)+rd*radial;
+      }
+
+      lum*=opac;
+      if(lum<0.002) continue;
+      var idx=(y*W+x)*4;
+      var sr=gc[0]*lum,sg=gc[1]*lum,sb=gc[2]*lum;
+      out[idx]  =bfn(out[idx],sr);
+      out[idx+1]=bfn(out[idx+1],sg);
+      out[idx+2]=bfn(out[idx+2],sb);
+    }
+  }
+
+  // Post-processing: Blur
+  var ppScale=W/BASE_W;
+  var blurR=Math.round(state.blur*ppScale)|0;
+  if(blurR>0){
+    var tmp=new Float32Array(W*H*4);
+    // Horizontal pass
+    for(var y=0;y<H;y++){
+      for(var x=0;x<W;x++){
+        var r=0,g=0,b=0,a=0,cnt=0;
+        for(var bx=-blurR;bx<=blurR;bx++){
+          var sx=x+bx;
+          if(sx<0||sx>=W)continue;
+          var bi=(y*W+sx)*4;
+          r+=out[bi];g+=out[bi+1];b+=out[bi+2];a+=out[bi+3];cnt++;
+        }
+        var ti=(y*W+x)*4;
+        tmp[ti]=r/cnt;tmp[ti+1]=g/cnt;tmp[ti+2]=b/cnt;tmp[ti+3]=a/cnt;
+      }
+    }
+    // Vertical pass
+    for(var y=0;y<H;y++){
+      for(var x=0;x<W;x++){
+        var r=0,g=0,b=0,a=0,cnt=0;
+        for(var by=-blurR;by<=blurR;by++){
+          var sy=y+by;
+          if(sy<0||sy>=H)continue;
+          var bi=(sy*W+x)*4;
+          r+=tmp[bi];g+=tmp[bi+1];b+=tmp[bi+2];a+=tmp[bi+3];cnt++;
+        }
+        var oi=(y*W+x)*4;
+        out[oi]=r/cnt;out[oi+1]=g/cnt;out[oi+2]=b/cnt;out[oi+3]=a/cnt;
+      }
+    }
+  }
+
+  // Post-processing: Contrast, Gamma, Film Grain, Vignette
+  var ppContrast=state.contrast;
+  var ppGamma=state.gamma;
+  var ppGrain=state.filmGrain;
+  var ppVignette=state.vignette;
+  var hasContrast=ppContrast!==1.0;
+  var hasGamma=ppGamma!==1.0;
+  var hasGrain=ppGrain>0;
+  var hasVignette=ppVignette>0;
+  var ppCx=W/2,ppCy=H/2;
+  var ppMaxR=Math.sqrt(ppCx*ppCx+ppCy*ppCy);
+
+
+  var hasVigDither=hasVignette&&state.vignetteDitherType!=='none';
+  var ditheredVig=null;
+  if(hasVigDither){
+    // Build smooth vignette mask (0=edge, 1=center)
+    var vigMask=new Float32Array(W*H);
+    for(var y=0;y<H;y++){
+      for(var x=0;x<W;x++){
+        var vdx=(x-ppCx)/ppCx,vdy=(y-ppCy)/ppCy;
+        var rd=Math.sqrt(vdx*vdx+vdy*vdy);
+        var vf=1-ppVignette*rd*rd;
+        vigMask[y*W+x]=vf<0?0:vf>1?1:vf;
+      }
+    }
+    // Dither the transition zone — center stays bright, edges stay dark
+    var vigDType=state.vignetteDitherType;
+    var vigDScale=state.vignetteDitherScale;
+    var vigRS=W/BASE_W;
+    ditheredVig=new Float32Array(W*H);
+    if(vigDType==='dot-matrix'){
+      var cellSize=Math.round((vigDScale*2+2)*vigRS);
+      for(var y=0;y<H;y++){
+        for(var x=0;x<W;x++){
+          var idx=y*W+x;var v=vigMask[idx];
+          var cx=(x%cellSize)-cellSize/2;
+          var cy=(y%cellSize)-cellSize/2;
+          var dist=Math.sqrt(cx*cx+cy*cy);
+          var maxR=cellSize*0.45;
+          var dotR=v*maxR;
+          ditheredVig[idx]=dist<dotR?1:0;
+        }
+      }
+    } else if(vigDType==='noise-dissolve'){
+      var vigDRng=mulberry32(54321);
+      var vigDNoise=new SimplexNoise(vigDRng);
+      var noiseScale=(0.01+(vigDScale-1)*0.005)/vigRS;
+      for(var y=0;y<H;y++){
+        for(var x=0;x<W;x++){
+          var idx=y*W+x;var v=vigMask[idx];
+          var n=(vigDNoise.noise2D(x*noiseScale,y*noiseScale)+1)/2;
+          ditheredVig[idx]=n<v?1:0;
+        }
+      }
+    } else if(vigDType==='posterize'){
+      var bands=vigDScale+1;
+      for(var y=0;y<H;y++){
+        for(var x=0;x<W;x++){
+          var idx=y*W+x;
+          ditheredVig[idx]=Math.round(vigMask[idx]*bands)/bands;
+        }
+      }
+    } else if(vigDType==='pixel-grid'){
+      var blockSize=Math.round((vigDScale+1)*vigRS);
+      var gridW=Math.ceil(W/blockSize);
+      var blockSums=new Float32Array(gridW*Math.ceil(H/blockSize));
+      var blockCounts=new Float32Array(blockSums.length);
+      for(var y=0;y<H;y++){
+        for(var x=0;x<W;x++){
+          var bi=Math.floor(y/blockSize)*gridW+Math.floor(x/blockSize);
+          blockSums[bi]+=vigMask[y*W+x];blockCounts[bi]++;
+        }
+      }
+      for(var y=0;y<H;y++){
+        for(var x=0;x<W;x++){
+          var bi=Math.floor(y/blockSize)*gridW+Math.floor(x/blockSize);
+          var avg=blockCounts[bi]>0?blockSums[bi]/blockCounts[bi]:0;
+          ditheredVig[y*W+x]=avg>0.5?1:0;
+        }
+      }
+    } else if(vigDType==='gradient-mask'){
+      var angle=vigDScale*18;
+      var rad=angle*Math.PI/180;
+      var cosA=Math.cos(rad),sinA=Math.sin(rad);
+      for(var y=0;y<H;y++){
+        for(var x=0;x<W;x++){
+          var idx=y*W+x;
+          var nx=(x/W-0.5),ny=(y/H-0.5);
+          var t=nx*cosA+ny*sinA+0.5;
+          t=t<0?0:t>1?1:t;
+          ditheredVig[idx]=vigMask[idx]*t;
+        }
+      }
+    } else {
+      ditheredVig=vigMask;
+    }
+  }
+
+  // Pre-compute grain buffer (one pass with a single RNG — fast)
+  var grainBuf=null,grainBufG=null,grainBufB=null;
+  if(hasGrain){
+    var gSize=state.grainSize||1;
+    var gRng=mulberry32(state.seed+12345);
+    var gRngG=state.grainColor?mulberry32(state.seed+67890):null;
+    var gRngB=state.grainColor?mulberry32(state.seed+24680):null;
+    var bw=Math.ceil(W/gSize),bh=Math.ceil(H/gSize);
+    // Generate one value per block
+    var blockVals=new Float32Array(bw*bh);
+    var blockValsG=state.grainColor?new Float32Array(bw*bh):null;
+    var blockValsB=state.grainColor?new Float32Array(bw*bh):null;
+    for(var i=0;i<bw*bh;i++){
+      blockVals[i]=(gRng()-0.5)*ppGrain*2.55;
+      if(state.grainColor){blockValsG[i]=(gRngG()-0.5)*ppGrain*2.55;blockValsB[i]=(gRngB()-0.5)*ppGrain*2.55;}
+    }
+    // Expand blocks to per-pixel buffer
+    grainBuf=new Float32Array(W*H);
+    if(state.grainColor){grainBufG=new Float32Array(W*H);grainBufB=new Float32Array(W*H);}
+    for(var y=0;y<H;y++){
+      var by=Math.floor(y/gSize);
+      for(var x=0;x<W;x++){
+        var bx=Math.floor(x/gSize);
+        var bi=by*bw+bx;
+        var pi=y*W+x;
+        grainBuf[pi]=blockVals[bi];
+        if(state.grainColor){grainBufG[pi]=blockValsG[bi];grainBufB[pi]=blockValsB[bi];}
+      }
+    }
+  }
+  var gTarget=hasGrain?(state.grainTarget||'uniform'):'uniform';
+  var gc=hasGrain?(state.grainContrast||1):1;
+  var isColorGrain=hasGrain&&state.grainColor;
+
+  if(hasContrast||hasGamma||hasGrain||hasVignette){
+    for(var y=0;y<H;y++){
+      for(var x=0;x<W;x++){
+        var idx=(y*W+x)*4;
+        var vr=out[idx],vg=out[idx+1],vb=out[idx+2];
+        if(hasContrast){
+          vr=((vr/255-0.5)*ppContrast+0.5)*255;
+          vg=((vg/255-0.5)*ppContrast+0.5)*255;
+          vb=((vb/255-0.5)*ppContrast+0.5)*255;
+        }
+        if(hasGamma){
+          var invG=1/ppGamma;
+          vr=Math.pow(Math.max(0,vr/255),invG)*255;
+          vg=Math.pow(Math.max(0,vg/255),invG)*255;
+          vb=Math.pow(Math.max(0,vb/255),invG)*255;
+        }
+        if(hasGrain){
+          var pi=y*W+x;
+          var gv=grainBuf[pi];
+          // Tonal targeting
+          var tWeight=1;
+          if(gTarget!=='uniform'){
+            var luma=(vr*0.299+vg*0.587+vb*0.114)/255;
+            if(gTarget==='shadows') tWeight=1-luma;
+            else if(gTarget==='highlights') tWeight=luma;
+            else if(gTarget==='midtones') tWeight=1-Math.abs(luma-0.5)*2;
+            if(gc!==1) tWeight=Math.pow(tWeight,gc);
+          }
+          if(isColorGrain){
+            vr+=gv*tWeight;vg+=grainBufG[pi]*tWeight;vb+=grainBufB[pi]*tWeight;
+          }else{
+            gv*=tWeight;
+            vr+=gv;vg+=gv;vb+=gv;
+          }
+        }
+        if(hasVignette){
+          if(hasVigDither){
+            var vf=ditheredVig[y*W+x];
+            vf=vf<0?0:vf;
+            vr*=vf;vg*=vf;vb*=vf;
+          }else{
+            var vdx=(x-ppCx)/ppCx,vdy=(y-ppCy)/ppCy;
+            var rd=Math.sqrt(vdx*vdx+vdy*vdy);
+            var vf=1-ppVignette*rd*rd;
+            vr*=vf;vg*=vf;vb*=vf;
+          }
+        }
+        out[idx]=vr;out[idx+1]=vg;out[idx+2]=vb;
+      }
+    }
+  }
+
+  var imgData=ctx.createImageData(W,H);
+  for(var i=0;i<W*H*4;i++){
+    var v=out[i];
+    imgData.data[i]=v<0?0:v>255?255:v|0;
+  }
+  ctx.putImageData(imgData,0,0);
+
+  // Network overlay removed — use network layer type instead
+}
+
+// ============================================================
+// UI WIRING
+// ============================================================
+
+// Populate color selects
+['g1Select','g2Select','g3Select','g4Select','g5Select','g6Select'].forEach(function(id){
+  var sel=document.getElementById(id);
+  SANDWORM_ACCENTS.forEach(function(c){
+    var opt=document.createElement('option');
+    opt.value=c.hex;opt.textContent=c.name;
+    sel.appendChild(opt);
+  });
+});
+
+
+function updateLayerVisibility(){
+  var numActive=state.activeLayers;
+  // Show/hide layer panels based on activeLayers
+  for(var i=1;i<=6;i++){
+    var panel=document.getElementById('layer'+i+'Panel');
+    if(panel)panel.style.display=i<=numActive?'block':'none';
+  }
+  // Sync panel: show if any active layer has synced=true
+  var anySynced=false;
+  for(var i=0;i<numActive;i++){if(state.layers[i].synced)anySynced=true}
+  document.getElementById('syncPanel').style.display=anySynced?'block':'none';
+  // Per-layer sliders: show if that layer's synced=false
+  for(var i=0;i<6;i++){
+    var el=document.getElementById('layer'+(i+1)+'Sliders');
+    if(el){
+      if(state.layers[i].synced)el.classList.add('hidden');
+      else el.classList.remove('hidden');
+    }
+  }
+}
+
+function syncUI(){
+  document.getElementById('seedDisplay').textContent=state.seed;
+  document.getElementById('activeLayersSlider').value=state.activeLayers;
+  document.getElementById('activeLayersVal').textContent=state.activeLayers;
+  document.getElementById('syncOffsetSlider').value=state.syncOffset;
+  document.getElementById('syncOffsetVal').textContent=state.syncOffset;
+  document.getElementById('syncAngleSlider').value=state.syncAngle;
+  document.getElementById('syncAngleVal').textContent=state.syncAngle;
+  document.getElementById('syncSpreadSlider').value=state.syncSpread;
+  document.getElementById('syncSpreadVal').textContent=state.syncSpread;
+
+  // Sync voronoi params
+  document.getElementById('syncPtsSlider').value=state.syncPts;
+  document.getElementById('syncPtsVal').textContent=state.syncPts;
+  document.getElementById('syncEwSlider').value=Math.round(state.syncEw*100);
+  document.getElementById('syncEwVal').textContent=state.syncEw.toFixed(2);
+  document.getElementById('syncEsSlider').value=Math.round(state.syncEs*100);
+  document.getElementById('syncEsVal').textContent=state.syncEs.toFixed(2);
+  document.getElementById('syncEnSlider').value=Math.round(state.syncEn*100);
+  document.getElementById('syncEnVal').textContent=state.syncEn.toFixed(2);
+  document.getElementById('syncNbSlider').value=Math.round(state.syncNb*100);
+  document.getElementById('syncNbVal').textContent=state.syncNb.toFixed(2);
+  document.getElementById('syncGrSlider').value=Math.round(state.syncGr*100);
+  document.getElementById('syncGrVal').textContent=state.syncGr.toFixed(2);
+  document.getElementById('syncCellRoundingSlider').value=Math.round(state.syncCellRounding*100);
+  document.getElementById('syncCellRoundingVal').textContent=state.syncCellRounding.toFixed(2);
+  document.getElementById('syncCellPanXSlider').value=state.syncCellPanX;
+  document.getElementById('syncCellPanXVal').textContent=state.syncCellPanX;
+  document.getElementById('syncCellPanYSlider').value=state.syncCellPanY;
+  document.getElementById('syncCellPanYVal').textContent=state.syncCellPanY;
+  document.getElementById('syncFieldRotationSlider').value=state.syncFieldRotation;
+  document.getElementById('syncFieldRotationVal').textContent=state.syncFieldRotation;
+  document.getElementById('syncEdgeGlowCurveSlider').value=Math.round(state.syncEdgeGlowCurve*100);
+  document.getElementById('syncEdgeGlowCurveVal').textContent=state.syncEdgeGlowCurve.toFixed(2);
+  document.getElementById('syncDoubleEdgeSlider').value=Math.round(state.syncDoubleEdge*100);
+  document.getElementById('syncDoubleEdgeVal').textContent=state.syncDoubleEdge.toFixed(2);
+  document.getElementById('syncEdgeGradientSlider').value=Math.round(state.syncEdgeGradient*100);
+  document.getElementById('syncEdgeGradientVal').textContent=state.syncEdgeGradient.toFixed(2);
+  document.getElementById('syncTypeSelect').value=state.syncType;
+  document.getElementById('syncDitherTypeSelect').value=state.syncDitherType;
+  document.getElementById('syncDitherScaleSlider').value=state.syncDitherScale;
+  document.getElementById('syncDitherScaleVal').textContent=state.syncDitherScale;
+
+  // Sync network params
+  document.getElementById('syncNetLwSlider').value=Math.round(state.syncNetLineW*10);
+  document.getElementById('syncNetLwVal').textContent=state.syncNetLineW.toFixed(1);
+  document.getElementById('syncNetGlSlider').value=state.syncNetGlow;
+  document.getElementById('syncNetGlVal').textContent=state.syncNetGlow;
+  document.getElementById('syncNetDsSlider').value=Math.round(state.syncNetDotSize*10);
+  document.getElementById('syncNetDsVal').textContent=state.syncNetDotSize.toFixed(1);
+  document.getElementById('syncNetDnSlider').value=Math.round(state.syncNetDensity*100);
+  document.getElementById('syncNetDnVal').textContent=state.syncNetDensity.toFixed(2);
+  document.getElementById('syncNetFtSlider').value=Math.round(state.syncNetFlowTaper*100);
+  document.getElementById('syncNetFtVal').textContent=state.syncNetFlowTaper.toFixed(2);
+
+  // Show/hide sync voronoi/network controls
+  var svc=document.getElementById('syncVoronoiControls');
+  var snc=document.getElementById('syncNetworkControls');
+  if(state.syncType==='network'){
+    if(svc)svc.style.display='none';
+    if(snc)snc.style.display='';
+  }else{
+    if(svc)svc.style.display='';
+    if(snc)snc.style.display='none';
+  }
+
+  // Per-layer controls
+  var ids=['g1','g2','g3','g4','g5','g6'];
+  for(var i=0;i<6;i++){
+    var L=state.layers[i],id=ids[i];
+    document.getElementById(id+'Sync').checked=L.synced;
+    document.getElementById(id+'Select').value=L.color;
+    document.getElementById(id+'Swatch').style.background=L.color;
+    document.getElementById(id+'Dot').style.background=L.color;
+    document.getElementById(id+'OffsetSlider').value=L.offset;
+    document.getElementById(id+'OffsetVal').textContent=L.offset;
+    document.getElementById(id+'AngleSlider').value=L.angle;
+    document.getElementById(id+'AngleVal').textContent=L.angle;
+    document.getElementById(id+'OpacitySlider').value=Math.round(L.opacity*100);
+    document.getElementById(id+'OpacityVal').textContent=L.opacity.toFixed(2);
+    document.getElementById(id+'BlendSelect').value=L.blend;
+    document.getElementById(id+'PtsSlider').value=L.pts;
+    document.getElementById(id+'PtsVal').textContent=L.pts;
+    document.getElementById(id+'EwSlider').value=Math.round(L.ew*100);
+    document.getElementById(id+'EwVal').textContent=L.ew.toFixed(2);
+    document.getElementById(id+'EsSlider').value=Math.round(L.es*100);
+    document.getElementById(id+'EsVal').textContent=L.es.toFixed(2);
+    document.getElementById(id+'EnSlider').value=Math.round(L.en*100);
+    document.getElementById(id+'EnVal').textContent=L.en.toFixed(2);
+    document.getElementById(id+'NbSlider').value=Math.round(L.nb*100);
+    document.getElementById(id+'NbVal').textContent=L.nb.toFixed(2);
+    document.getElementById(id+'GrSlider').value=Math.round(L.gr*100);
+    document.getElementById(id+'GrVal').textContent=L.gr.toFixed(2);
+    document.getElementById(id+'CellRoundingSlider').value=Math.round(L.cellRounding*100);
+    document.getElementById(id+'CellRoundingVal').textContent=L.cellRounding.toFixed(2);
+    document.getElementById(id+'CellPanXSlider').value=L.cellPanX;
+    document.getElementById(id+'CellPanXVal').textContent=L.cellPanX;
+    document.getElementById(id+'CellPanYSlider').value=L.cellPanY;
+    document.getElementById(id+'CellPanYVal').textContent=L.cellPanY;
+    document.getElementById(id+'FieldRotationSlider').value=L.fieldRotation;
+    document.getElementById(id+'FieldRotationVal').textContent=L.fieldRotation;
+    document.getElementById(id+'EdgeGlowCurveSlider').value=Math.round(L.edgeGlowCurve*100);
+    document.getElementById(id+'EdgeGlowCurveVal').textContent=L.edgeGlowCurve.toFixed(2);
+    document.getElementById(id+'DoubleEdgeSlider').value=Math.round(L.doubleEdge*100);
+    document.getElementById(id+'DoubleEdgeVal').textContent=L.doubleEdge.toFixed(2);
+    document.getElementById(id+'EdgeGradientSlider').value=Math.round(L.edgeGradient*100);
+    document.getElementById(id+'EdgeGradientVal').textContent=L.edgeGradient.toFixed(2);
+    document.getElementById(id+'TypeSelect').value=L.type||'voronoi';
+    document.getElementById(id+'DitherTypeSelect').value=L.ditherType;
+    document.getElementById(id+'DitherScaleSlider').value=L.ditherScale;
+    document.getElementById(id+'DitherScaleVal').textContent=L.ditherScale;
+    // Per-layer network params
+    document.getElementById(id+'NetLwSlider').value=Math.round(L.netLineW*10);
+    document.getElementById(id+'NetLwVal').textContent=L.netLineW.toFixed(1);
+    document.getElementById(id+'NetGlSlider').value=L.netGlow;
+    document.getElementById(id+'NetGlVal').textContent=L.netGlow;
+    document.getElementById(id+'NetDsSlider').value=Math.round(L.netDotSize*10);
+    document.getElementById(id+'NetDsVal').textContent=L.netDotSize.toFixed(1);
+    document.getElementById(id+'NetDnSlider').value=Math.round(L.netDensity*100);
+    document.getElementById(id+'NetDnVal').textContent=L.netDensity.toFixed(2);
+    document.getElementById(id+'NetFtSlider').value=Math.round(L.netFlowTaper*100);
+    document.getElementById(id+'NetFtVal').textContent=L.netFlowTaper.toFixed(2);
+    // Show/hide per-layer voronoi/network controls
+    var pvc=document.getElementById(id+'_voronoiControls');
+    var pnc=document.getElementById(id+'_networkControls');
+    if(L.type==='network'){
+      if(pvc)pvc.style.display='none';
+      if(pnc)pnc.style.display='';
+    }else{
+      if(pvc)pvc.style.display='';
+      if(pnc)pnc.style.display='none';
+    }
+  }
+
+  // Falloff
+  document.getElementById('edgeMaskSlider').value=state.edgeMask*100;
+  document.getElementById('edgeMaskVal').textContent=state.edgeMask.toFixed(2);
+  document.getElementById('radialSlider').value=state.radial*100;
+  document.getElementById('radialVal').textContent=state.radial.toFixed(2);
+
+  // Post-processing
+  document.getElementById('blurSlider').value=state.blur;
+  document.getElementById('blurVal').textContent=state.blur;
+  document.getElementById('contrastSlider').value=Math.round(state.contrast*100);
+  document.getElementById('contrastVal').textContent=state.contrast.toFixed(2);
+  document.getElementById('gammaSlider').value=Math.round(state.gamma*100);
+  document.getElementById('gammaVal').textContent=state.gamma.toFixed(2);
+  document.getElementById('filmGrainSlider').value=state.filmGrain;
+  document.getElementById('filmGrainVal').textContent=state.filmGrain;
+  document.getElementById('grainSizeSlider').value=state.grainSize;
+  document.getElementById('grainSizeVal').textContent=state.grainSize;
+  document.getElementById('grainTargetSelect').value=state.grainTarget;
+  document.getElementById('grainContrastSlider').value=Math.round(state.grainContrast*100);
+  document.getElementById('grainContrastVal').textContent=state.grainContrast.toFixed(2);
+  document.getElementById('grainColorCheck').checked=state.grainColor;
+  document.getElementById('vignetteSlider').value=Math.round(state.vignette*100);
+  document.getElementById('vignetteVal').textContent=state.vignette.toFixed(2);
+  document.getElementById('vignetteDitherSelect').value=state.vignetteDitherType;
+  document.getElementById('vigDitherScaleSlider').value=state.vignetteDitherScale;
+  document.getElementById('vigDitherScaleVal').textContent=state.vignetteDitherScale;
+
+  updateLayerVisibility();
+}
+
+// Generic slider binder
+function bindSlider(id,valId,key,scale,isInt){
+  var sl=document.getElementById(id);
+  sl.addEventListener('input',function(){
+    var v=isInt?parseInt(this.value):parseFloat(this.value)/scale;
+    state[key]=v;
+    document.getElementById(valId).textContent=isInt?v:v.toFixed(2);
+    scheduleRender();
+  });
+}
+
+// Sync sliders (aberration)
+bindSlider('syncOffsetSlider','syncOffsetVal','syncOffset',1,true);
+bindSlider('syncAngleSlider','syncAngleVal','syncAngle',1,true);
+bindSlider('syncSpreadSlider','syncSpreadVal','syncSpread',1,true);
+// Sync sliders (voronoi)
+bindSlider('syncPtsSlider','syncPtsVal','syncPts',1,true);
+bindSlider('syncEwSlider','syncEwVal','syncEw',100,false);
+bindSlider('syncEsSlider','syncEsVal','syncEs',100,false);
+bindSlider('syncEnSlider','syncEnVal','syncEn',100,false);
+bindSlider('syncNbSlider','syncNbVal','syncNb',100,false);
+bindSlider('syncGrSlider','syncGrVal','syncGr',100,false);
+bindSlider('syncCellRoundingSlider','syncCellRoundingVal','syncCellRounding',100,false);
+bindSlider('syncCellPanXSlider','syncCellPanXVal','syncCellPanX',1,true);
+bindSlider('syncCellPanYSlider','syncCellPanYVal','syncCellPanY',1,true);
+bindSlider('syncFieldRotationSlider','syncFieldRotationVal','syncFieldRotation',1,true);
+bindSlider('syncEdgeGlowCurveSlider','syncEdgeGlowCurveVal','syncEdgeGlowCurve',100,false);
+bindSlider('syncDoubleEdgeSlider','syncDoubleEdgeVal','syncDoubleEdge',100,false);
+bindSlider('syncEdgeGradientSlider','syncEdgeGradientVal','syncEdgeGradient',100,false);
+bindSlider('syncDitherScaleSlider','syncDitherScaleVal','syncDitherScale',1,true);
+// Sync network sliders
+bindSlider('syncNetLwSlider','syncNetLwVal','syncNetLineW',10,false);
+bindSlider('syncNetGlSlider','syncNetGlVal','syncNetGlow',1,true);
+bindSlider('syncNetDsSlider','syncNetDsVal','syncNetDotSize',10,false);
+bindSlider('syncNetDnSlider','syncNetDnVal','syncNetDensity',100,false);
+bindSlider('syncNetFtSlider','syncNetFtVal','syncNetFlowTaper',100,false);
+document.getElementById('syncDitherTypeSelect').addEventListener('change',function(){
+  state.syncDitherType=this.value;scheduleRender();
+});
+document.getElementById('syncTypeSelect').addEventListener('change',function(){
+  state.syncType=this.value;
+  var svc=document.getElementById('syncVoronoiControls');
+  var snc=document.getElementById('syncNetworkControls');
+  if(this.value==='network'){
+    if(svc)svc.style.display='none';
+    if(snc)snc.style.display='';
+  }else{
+    if(svc)svc.style.display='';
+    if(snc)snc.style.display='none';
+  }
+  scheduleRender();
+});
+
+// Per-layer sliders
+function bindLayerSlider(id,valId,layerIdx,key,scale,isInt){
+  var sl=document.getElementById(id);
+  sl.addEventListener('input',function(){
+    var v=isInt?parseInt(this.value):parseFloat(this.value)/scale;
+    state.layers[layerIdx][key]=v;
+    document.getElementById(valId).textContent=isInt?v:v.toFixed(2);
+    scheduleRender();
+  });
+}
+
+['g1','g2','g3','g4','g5','g6'].forEach(function(id,i){
+  bindLayerSlider(id+'OffsetSlider',id+'OffsetVal',i,'offset',1,true);
+  bindLayerSlider(id+'AngleSlider',id+'AngleVal',i,'angle',1,true);
+  bindLayerSlider(id+'OpacitySlider',id+'OpacityVal',i,'opacity',100,false);
+  bindLayerSlider(id+'PtsSlider',id+'PtsVal',i,'pts',1,true);
+  bindLayerSlider(id+'EwSlider',id+'EwVal',i,'ew',100,false);
+  bindLayerSlider(id+'EsSlider',id+'EsVal',i,'es',100,false);
+  bindLayerSlider(id+'EnSlider',id+'EnVal',i,'en',100,false);
+  bindLayerSlider(id+'NbSlider',id+'NbVal',i,'nb',100,false);
+  bindLayerSlider(id+'GrSlider',id+'GrVal',i,'gr',100,false);
+  bindLayerSlider(id+'CellRoundingSlider',id+'CellRoundingVal',i,'cellRounding',100,false);
+  bindLayerSlider(id+'CellPanXSlider',id+'CellPanXVal',i,'cellPanX',1,true);
+  bindLayerSlider(id+'CellPanYSlider',id+'CellPanYVal',i,'cellPanY',1,true);
+  bindLayerSlider(id+'FieldRotationSlider',id+'FieldRotationVal',i,'fieldRotation',1,true);
+  bindLayerSlider(id+'EdgeGlowCurveSlider',id+'EdgeGlowCurveVal',i,'edgeGlowCurve',100,false);
+  bindLayerSlider(id+'DoubleEdgeSlider',id+'DoubleEdgeVal',i,'doubleEdge',100,false);
+  bindLayerSlider(id+'EdgeGradientSlider',id+'EdgeGradientVal',i,'edgeGradient',100,false);
+  bindLayerSlider(id+'DitherScaleSlider',id+'DitherScaleVal',i,'ditherScale',1,true);
+  // Network layer sliders
+  bindLayerSlider(id+'NetLwSlider',id+'NetLwVal',i,'netLineW',10,false);
+  bindLayerSlider(id+'NetGlSlider',id+'NetGlVal',i,'netGlow',1,true);
+  bindLayerSlider(id+'NetDsSlider',id+'NetDsVal',i,'netDotSize',10,false);
+  bindLayerSlider(id+'NetDnSlider',id+'NetDnVal',i,'netDensity',100,false);
+  bindLayerSlider(id+'NetFtSlider',id+'NetFtVal',i,'netFlowTaper',100,false);
+  // Dither type select
+  (function(idx,prefix){
+    document.getElementById(prefix+'DitherTypeSelect').addEventListener('change',function(){
+      state.layers[idx].ditherType=this.value;scheduleRender();
+    });
+  })(i,id);
+  // Type select
+  (function(idx,prefix){
+    document.getElementById(prefix+'TypeSelect').addEventListener('change',function(){
+      state.layers[idx].type=this.value;
+      var pvc=document.getElementById(prefix+'_voronoiControls');
+      var pnc=document.getElementById(prefix+'_networkControls');
+      if(this.value==='network'){
+        if(pvc)pvc.style.display='none';
+        if(pnc)pnc.style.display='';
+      }else{
+        if(pvc)pvc.style.display='';
+        if(pnc)pnc.style.display='none';
+      }
+      scheduleRender();
+    });
+  })(i,id);
+  // Blend select
+  document.getElementById(id+'BlendSelect').addEventListener('change',function(){
+    state.layers[i].blend=this.value;
+    scheduleRender();
+  });
+  // Per-layer sync checkbox
+  document.getElementById(id+'Sync').addEventListener('change',function(){
+    if(!this.checked){
+      // Copy all synced params to layer when un-syncing
+      var L=state.layers[i];
+      L.pts=state.syncPts;L.ew=state.syncEw;L.es=state.syncEs;
+      L.en=state.syncEn;L.nb=state.syncNb;L.gr=state.syncGr;
+      L.cellRounding=state.syncCellRounding;
+      L.cellPanX=state.syncCellPanX;L.cellPanY=state.syncCellPanY;
+      L.fieldRotation=state.syncFieldRotation;
+      L.edgeGlowCurve=state.syncEdgeGlowCurve;
+      L.doubleEdge=state.syncDoubleEdge;L.edgeGradient=state.syncEdgeGradient;
+      L.ditherType=state.syncDitherType;L.ditherScale=state.syncDitherScale;
+      L.type=state.syncType;
+      L.netLineW=state.syncNetLineW;L.netGlow=state.syncNetGlow;
+      L.netDotSize=state.syncNetDotSize;L.netDensity=state.syncNetDensity;
+      L.netFlowTaper=state.syncNetFlowTaper;
+    }
+    state.layers[i].synced=this.checked;
+    syncUI();
+    updateLayerVisibility();
+    scheduleRender();
+  });
+});
+
+// Falloff sliders
+bindSlider('edgeMaskSlider','edgeMaskVal','edgeMask',100,false);
+bindSlider('radialSlider','radialVal','radial',100,false);
+// Post-processing
+bindSlider('blurSlider','blurVal','blur',1,true);
+bindSlider('contrastSlider','contrastVal','contrast',100,false);
+bindSlider('gammaSlider','gammaVal','gamma',100,false);
+bindSlider('filmGrainSlider','filmGrainVal','filmGrain',1,true);
+bindSlider('grainSizeSlider','grainSizeVal','grainSize',1,true);
+bindSlider('grainContrastSlider','grainContrastVal','grainContrast',100,false);
+document.getElementById('grainTargetSelect').addEventListener('change',function(){
+  state.grainTarget=this.value;scheduleRender();
+});
+document.getElementById('grainColorCheck').addEventListener('change',function(){
+  state.grainColor=this.checked;scheduleRender();
+});
+bindSlider('vignetteSlider','vignetteVal','vignette',100,false);
+document.getElementById('vignetteDitherSelect').addEventListener('change',function(){
+  state.vignetteDitherType=this.value;scheduleRender();
+});
+bindSlider('vigDitherScaleSlider','vigDitherScaleVal','vignetteDitherScale',1,true);
+
+// Network Lines sliders
+
+
+// Active layers slider
+document.getElementById('activeLayersSlider').addEventListener('input',function(){
+  state.activeLayers=parseInt(this.value);
+  document.getElementById('activeLayersVal').textContent=state.activeLayers;
+  updateLayerVisibility();
+  scheduleRender();
+});
+
+// Color selects
+['g1','g2','g3','g4','g5','g6'].forEach(function(id,i){
+  var sel=document.getElementById(id+'Select');
+  var sw=document.getElementById(id+'Swatch');
+  var dot=document.getElementById(id+'Dot');
+  sel.addEventListener('change',function(){
+    state.layers[i].color=this.value;
+    sw.style.background=this.value;
+    dot.style.background=this.value;
+    document.querySelectorAll('.preset-btn').forEach(function(b){b.classList.remove('active')});
+    scheduleRender();
+  });
+});
+
+// Category presets (full config)
+function loadCategoryPreset(name){
+  var p=CATEGORY_PRESETS[name];
+  if(!p)return;
+  // Handle activeLayers — backward compat with threeGhosts
+  if(p.activeLayers!=null)state.activeLayers=p.activeLayers;
+  else if(p.threeGhosts!=null)state.activeLayers=p.threeGhosts?3:2;
+  state.syncOffset=p.syncOffset;state.syncAngle=p.syncAngle;state.syncSpread=p.syncSpread;
+  state.syncPts=p.syncPts;state.syncEw=p.syncEw;state.syncEs=p.syncEs;
+  state.syncEn=p.syncEn;state.syncNb=p.syncNb;state.syncGr=p.syncGr;
+  state.syncCellRounding=p.syncCellRounding||0;state.syncCellPanX=p.syncCellPanX||0;
+  state.syncCellPanY=p.syncCellPanY||0;state.syncFieldRotation=p.syncFieldRotation||0;
+  state.syncEdgeGlowCurve=p.syncEdgeGlowCurve||1;state.syncDoubleEdge=p.syncDoubleEdge||0;
+  state.syncEdgeGradient=p.syncEdgeGradient||0;
+  state.syncType=p.syncType||'voronoi';state.syncDitherType=p.syncDitherType||'none';state.syncDitherScale=p.syncDitherScale||4;
+  state.syncNetLineW=p.syncNetLineW!=null?p.syncNetLineW:1.5;state.syncNetGlow=p.syncNetGlow||0;
+  state.syncNetDotSize=p.syncNetDotSize!=null?p.syncNetDotSize:2;state.syncNetDensity=p.syncNetDensity!=null?p.syncNetDensity:1;
+  state.syncNetFlowTaper=p.syncNetFlowTaper||0;
+  state.edgeMask=p.edgeMask;state.radial=p.radial;
+  state.blur=p.blur||0;state.contrast=p.contrast||1;state.gamma=p.gamma||1;
+  state.filmGrain=p.filmGrain||0;state.grainSize=p.grainSize||1;state.grainTarget=p.grainTarget||'uniform';state.grainContrast=p.grainContrast!=null?p.grainContrast:1;state.grainColor=!!p.grainColor;state.vignette=p.vignette||0;
+  state.vignetteDitherType=p.vignetteDitherType||'none';state.vignetteDitherScale=p.vignetteDitherScale||4;
+  // Per-layer sync: if preset has synced:false at top level, all layers unsynced; otherwise respect per-layer
+  var presetAllUnsynced=(p.synced===false);
+  for(var i=0;i<p.layers.length&&i<6;i++){
+    var src=p.layers[i],dst=state.layers[i];
+    dst.color=src.color;dst.opacity=src.opacity;dst.blend=src.blend;
+    dst.offset=src.offset;dst.angle=src.angle;
+    dst.pts=src.pts;dst.ew=src.ew;dst.es=src.es;
+    dst.en=src.en;dst.nb=src.nb;dst.gr=src.gr;
+    dst.cellRounding=src.cellRounding||0;dst.cellPanX=src.cellPanX||0;
+    dst.cellPanY=src.cellPanY||0;dst.fieldRotation=src.fieldRotation||0;
+    dst.edgeGlowCurve=src.edgeGlowCurve||1;dst.doubleEdge=src.doubleEdge||0;
+    dst.edgeGradient=src.edgeGradient||0;
+    dst.type=src.type||'voronoi';dst.ditherType=src.ditherType||'none';dst.ditherScale=src.ditherScale||4;
+    dst.netLineW=src.netLineW!=null?src.netLineW:1.5;dst.netGlow=src.netGlow||0;
+    dst.netDotSize=src.netDotSize!=null?src.netDotSize:2;dst.netDensity=src.netDensity!=null?src.netDensity:1;
+    dst.netFlowTaper=src.netFlowTaper||0;
+    if(src.synced!=null)dst.synced=src.synced;
+    else dst.synced=!presetAllUnsynced;
+  }
+  syncUI();scheduleRender();
+  document.querySelectorAll('.preset-btn').forEach(function(b){b.classList.remove('active')});
+  document.querySelectorAll('.cat-btn').forEach(function(b){
+    b.classList.toggle('active',b.dataset.cat===name);
+  });
+}
+
+(function(){
+  var container=document.getElementById('categoryPresets');
+  Object.keys(CATEGORY_PRESETS).forEach(function(name){
+    var btn=document.createElement('button');
+    btn.className='preset-btn cat-btn';
+    btn.dataset.cat=name;
+    btn.textContent=name;
+    btn.addEventListener('click',function(){loadCategoryPreset(name)});
+    container.appendChild(btn);
+  });
+})();
+
+// PNG export at 2x resolution (2160x618)
+function exportPNG(){
+  var expCanvas=document.createElement('canvas');
+  var expW=BASE_W*2,expH=BASE_H*2;
+  expCanvas.width=expW;expCanvas.height=expH;
+  var origCanvas=canvas,origCtx=ctx;
+  canvas=expCanvas;ctx=expCanvas.getContext('2d');W=expW;H=expH;
+  render();
+  canvas=origCanvas;ctx=origCtx;W=canvas.width;H=canvas.height;
+  var link=document.createElement('a');
+  var slug=document.getElementById('slugInput').value.trim()||('seed-'+state.seed);
+  link.download='banner-'+slug+'.png';
+  link.href=expCanvas.toDataURL('image/png');
+  link.click();
+  var toast=document.getElementById('toast');
+  toast.textContent='PNG exported!';
+  toast.classList.add('show');
+  setTimeout(function(){toast.classList.remove('show')},1500);
+}
+
+// Color presets
+(function(){
+  var container=document.getElementById('colorPresets');
+  COLOR_PRESETS.forEach(function(p){
+    var btn=document.createElement('button');
+    btn.className='preset-btn';
+    btn.textContent=p.name;
+    btn.addEventListener('click',function(){
+      state.layers[0].color=p.g1;
+      state.layers[1].color=p.g2;
+      if(p.g3){state.layers[2].color=p.g3;state.activeLayers=Math.max(state.activeLayers,3)}
+      else{state.activeLayers=2}
+      syncUI();
+      document.querySelectorAll('.preset-btn').forEach(function(b){b.classList.remove('active')});
+      btn.classList.add('active');
+      scheduleRender();
+    });
+    container.appendChild(btn);
+  });
+})();
+
+// Slug input
+document.getElementById('slugInput').addEventListener('input',function(){
+  var slug=this.value.trim();
+  if(slug.length>0){
+    state.seed=seedFromSlug(slug);
+    document.getElementById('seedDisplay').textContent=state.seed;
+    scheduleRender();
+  }
+});
+
+// Random seed
+function randomSeed(){
+  state.seed=Math.floor(Math.random()*999999);
+  document.getElementById('slugInput').value='';
+  document.getElementById('seedDisplay').textContent=state.seed;
+  scheduleRender();
+}
+
+// Copy config
+function copyConfig(){
+  var numG=state.activeLayers;
+  var layers=[];
+  for(var i=0;i<numG;i++){
+    var L=state.layers[i];
+    var layer={color:L.color,opacity:L.opacity,blend:L.blend,synced:L.synced,type:L.type||'voronoi'};
+    if(!L.synced){
+      layer.offset=L.offset;layer.angle=L.angle;
+      layer.pts=L.pts;layer.ew=L.ew;layer.es=L.es;layer.en=L.en;layer.nb=L.nb;layer.gr=L.gr;
+      layer.cellRounding=L.cellRounding;layer.cellPanX=L.cellPanX;layer.cellPanY=L.cellPanY;
+      layer.fieldRotation=L.fieldRotation;layer.edgeGlowCurve=L.edgeGlowCurve;layer.doubleEdge=L.doubleEdge;layer.edgeGradient=L.edgeGradient;
+      layer.ditherType=L.ditherType;layer.ditherScale=L.ditherScale;
+      layer.netLineW=L.netLineW;layer.netGlow=L.netGlow;layer.netDotSize=L.netDotSize;
+      layer.netDensity=L.netDensity;layer.netFlowTaper=L.netFlowTaper;
+    }
+    layers.push(layer);
+  }
+  var cfg={
+    seed:state.seed,
+    activeLayers:state.activeLayers,
+    syncOffset:state.syncOffset,syncAngle:state.syncAngle,syncSpread:state.syncSpread,
+    syncType:state.syncType,
+    syncPts:state.syncPts,syncEw:state.syncEw,syncEs:state.syncEs,
+    syncEn:state.syncEn,syncNb:state.syncNb,syncGr:state.syncGr,
+    syncCellRounding:state.syncCellRounding,syncCellPanX:state.syncCellPanX,
+    syncCellPanY:state.syncCellPanY,syncFieldRotation:state.syncFieldRotation,
+    syncEdgeGlowCurve:state.syncEdgeGlowCurve,syncDoubleEdge:state.syncDoubleEdge,syncEdgeGradient:state.syncEdgeGradient,
+    syncDitherType:state.syncDitherType,syncDitherScale:state.syncDitherScale,
+    syncNetLineW:state.syncNetLineW,syncNetGlow:state.syncNetGlow,
+    syncNetDotSize:state.syncNetDotSize,syncNetDensity:state.syncNetDensity,
+    syncNetFlowTaper:state.syncNetFlowTaper,
+    layers:layers,
+    edgeMask:state.edgeMask,radial:state.radial,
+    blur:state.blur,contrast:state.contrast,gamma:state.gamma,filmGrain:state.filmGrain,grainSize:state.grainSize,grainTarget:state.grainTarget,grainContrast:state.grainContrast,grainColor:state.grainColor,vignette:state.vignette,
+    vignetteDitherType:state.vignetteDitherType,vignetteDitherScale:state.vignetteDitherScale
+  };
+  navigator.clipboard.writeText(JSON.stringify(cfg,null,2)).then(function(){
+    var toast=document.getElementById('toast');
+    toast.textContent='Config copied!';
+    toast.classList.add('show');
+    setTimeout(function(){toast.classList.remove('show')},1500);
+  });
+}
+
+// Click canvas for full-size popup (always 2x)
+canvas.addEventListener('click',function(){
+  var popW=BASE_W*2,popH=BASE_H*2;
+  var win=window.open('','_blank','width='+(popW+20)+',height='+(popH+20));
+  if(!win)return;
+  var c2=win.document.createElement('canvas');
+  c2.width=popW;c2.height=popH;
+  c2.style.cssText='width:'+BASE_W+'px;height:'+BASE_H+'px';
+  win.document.body.style.cssText='background:#000;margin:0;display:flex;justify-content:center;align-items:center;height:100vh';
+  win.document.body.appendChild(c2);
+  var origCanvas=canvas,origCtx=ctx;
+  canvas=c2;ctx=c2.getContext('2d');W=popW;H=popH;
+  render();
+  canvas=origCanvas;ctx=origCtx;W=canvas.width;H=canvas.height;
+});
+
+// Import config
+function toggleImport(){
+  var box=document.getElementById('importBox');
+  box.style.display=box.style.display==='none'?'block':'none';
+}
+
+function importConfig(){
+  var text=document.getElementById('importText').value.trim();
+  if(!text)return;
+  try{
+    var cfg=JSON.parse(text);
+    // Seed
+    if(cfg.seed!=null){state.seed=cfg.seed;document.getElementById('seedDisplay').textContent=state.seed;}
+    // Active layers — backward compat with threeGhosts
+    if(cfg.activeLayers!=null)state.activeLayers=cfg.activeLayers;
+    else if(cfg.threeGhosts!=null)state.activeLayers=cfg.threeGhosts?3:2;
+    // Sync controls
+    if(cfg.syncOffset!=null)state.syncOffset=cfg.syncOffset;
+    if(cfg.syncAngle!=null)state.syncAngle=cfg.syncAngle;
+    if(cfg.syncSpread!=null)state.syncSpread=cfg.syncSpread;
+    // Per-layer sync backward compat: if cfg has global synced, apply to all layers
+    if(cfg.synced!=null&&cfg.layers){
+      for(var si=0;si<cfg.layers.length&&si<6;si++){
+        if(cfg.layers[si].synced==null)cfg.layers[si].synced=cfg.synced;
+      }
+    }
+    // Layers
+    if(cfg.layers){
+      if(cfg.activeLayers==null&&cfg.threeGhosts==null)state.activeLayers=cfg.layers.length;
+      for(var i=0;i<cfg.layers.length&&i<6;i++){
+        var L=cfg.layers[i];
+        if(L.color)state.layers[i].color=L.color;
+        if(L.offset!=null)state.layers[i].offset=L.offset;
+        if(L.angle!=null)state.layers[i].angle=L.angle;
+        if(L.opacity!=null)state.layers[i].opacity=L.opacity;
+        if(L.blend)state.layers[i].blend=L.blend;
+        if(L.synced!=null)state.layers[i].synced=L.synced;
+        if(L.pts!=null)state.layers[i].pts=L.pts;
+        if(L.ew!=null)state.layers[i].ew=L.ew;
+        if(L.es!=null)state.layers[i].es=L.es;
+        if(L.en!=null)state.layers[i].en=L.en;
+        if(L.nb!=null)state.layers[i].nb=L.nb;
+        if(L.gr!=null)state.layers[i].gr=L.gr;
+        if(L.cellRounding!=null)state.layers[i].cellRounding=L.cellRounding;
+        if(L.cellPanX!=null)state.layers[i].cellPanX=L.cellPanX;
+        if(L.cellPanY!=null)state.layers[i].cellPanY=L.cellPanY;
+        if(L.fieldRotation!=null)state.layers[i].fieldRotation=L.fieldRotation;
+        if(L.edgeGlowCurve!=null)state.layers[i].edgeGlowCurve=L.edgeGlowCurve;
+        if(L.doubleEdge!=null)state.layers[i].doubleEdge=L.doubleEdge;
+        if(L.edgeGradient!=null)state.layers[i].edgeGradient=L.edgeGradient;
+        if(L.ditherType!=null)state.layers[i].ditherType=L.ditherType;
+        if(L.ditherScale!=null)state.layers[i].ditherScale=L.ditherScale;
+        if(L.type!=null)state.layers[i].type=L.type;
+        if(L.netLineW!=null)state.layers[i].netLineW=L.netLineW;
+        if(L.netGlow!=null)state.layers[i].netGlow=L.netGlow;
+        if(L.netDotSize!=null)state.layers[i].netDotSize=L.netDotSize;
+        if(L.netDensity!=null)state.layers[i].netDensity=L.netDensity;
+        if(L.netFlowTaper!=null)state.layers[i].netFlowTaper=L.netFlowTaper;
+      }
+    }
+    // Legacy ghost array format
+    if(cfg.ghosts){
+      state.activeLayers=Math.min(cfg.ghosts.length,6);
+      for(var i=0;i<cfg.ghosts.length&&i<6;i++){
+        state.layers[i].color=cfg.ghosts[i];
+      }
+    }
+    // Legacy flat fields
+    if(cfg.offset!=null)state.syncOffset=cfg.offset;
+    if(cfg.angle!=null)state.syncAngle=cfg.angle;
+    if(cfg.spread!=null)state.syncSpread=cfg.spread;
+    // Falloff
+    if(cfg.edgeMask!=null)state.edgeMask=cfg.edgeMask;
+    if(cfg.radial!=null)state.radial=cfg.radial;
+    // Voronoi params (nested or flat)
+    var v=cfg.voronoi||cfg;
+    if(v.pts!=null)state.pts=v.pts;
+    if(v.ew!=null)state.ew=v.ew;
+    if(v.es!=null)state.es=v.es;
+    if(v.en!=null)state.en=v.en;
+    if(v.nb!=null)state.nb=v.nb;
+    if(v.gr!=null)state.gr=v.gr;
+    // Synced voronoi params
+    if(cfg.syncPts!=null)state.syncPts=cfg.syncPts;
+    if(cfg.syncEw!=null)state.syncEw=cfg.syncEw;
+    if(cfg.syncEs!=null)state.syncEs=cfg.syncEs;
+    if(cfg.syncEn!=null)state.syncEn=cfg.syncEn;
+    if(cfg.syncNb!=null)state.syncNb=cfg.syncNb;
+    if(cfg.syncGr!=null)state.syncGr=cfg.syncGr;
+    if(cfg.syncCellRounding!=null)state.syncCellRounding=cfg.syncCellRounding;
+    if(cfg.syncCellPanX!=null)state.syncCellPanX=cfg.syncCellPanX;
+    if(cfg.syncCellPanY!=null)state.syncCellPanY=cfg.syncCellPanY;
+    if(cfg.syncFieldRotation!=null)state.syncFieldRotation=cfg.syncFieldRotation;
+    if(cfg.syncEdgeGlowCurve!=null)state.syncEdgeGlowCurve=cfg.syncEdgeGlowCurve;
+    if(cfg.syncDoubleEdge!=null)state.syncDoubleEdge=cfg.syncDoubleEdge;
+    if(cfg.syncEdgeGradient!=null)state.syncEdgeGradient=cfg.syncEdgeGradient;
+    if(cfg.syncType!=null)state.syncType=cfg.syncType;
+    if(cfg.syncDitherType!=null)state.syncDitherType=cfg.syncDitherType;
+    if(cfg.syncDitherScale!=null)state.syncDitherScale=cfg.syncDitherScale;
+    if(cfg.syncNetLineW!=null)state.syncNetLineW=cfg.syncNetLineW;
+    if(cfg.syncNetGlow!=null)state.syncNetGlow=cfg.syncNetGlow;
+    if(cfg.syncNetDotSize!=null)state.syncNetDotSize=cfg.syncNetDotSize;
+    if(cfg.syncNetDensity!=null)state.syncNetDensity=cfg.syncNetDensity;
+    if(cfg.syncNetFlowTaper!=null)state.syncNetFlowTaper=cfg.syncNetFlowTaper;
+    // Post-processing
+    if(cfg.blur!=null)state.blur=cfg.blur;
+    if(cfg.contrast!=null)state.contrast=cfg.contrast;
+    if(cfg.gamma!=null)state.gamma=cfg.gamma;
+    if(cfg.filmGrain!=null)state.filmGrain=cfg.filmGrain;
+    if(cfg.grainSize!=null)state.grainSize=cfg.grainSize;
+    if(cfg.grainTarget!=null)state.grainTarget=cfg.grainTarget;
+    if(cfg.grainContrast!=null)state.grainContrast=cfg.grainContrast;
+    if(cfg.grainColor!=null)state.grainColor=cfg.grainColor;
+    if(cfg.vignette!=null)state.vignette=cfg.vignette;
+    if(cfg.vignetteDitherType!=null)state.vignetteDitherType=cfg.vignetteDitherType;
+    if(cfg.vignetteDitherScale!=null)state.vignetteDitherScale=cfg.vignetteDitherScale;
+    // Network Lines
+    // Also accept the voronoi-explorer param names (apply to sync)
+    if(v.pointCount!=null)state.syncPts=v.pointCount;
+    if(v.edgeWidth!=null)state.syncEw=v.edgeWidth;
+    if(v.edgeSharp!=null)state.syncEs=v.edgeSharp;
+    if(v.edgeNoise!=null)state.syncEn=v.edgeNoise;
+    if(v.nodeBloom!=null)state.syncNb=v.nodeBloom;
+    if(v.glowRadius!=null)state.syncGr=v.glowRadius;
+    if(v.pts!=null)state.syncPts=v.pts;
+    if(v.ew!=null)state.syncEw=v.ew;
+    if(v.es!=null)state.syncEs=v.es;
+    if(v.en!=null)state.syncEn=v.en;
+    if(v.nb!=null)state.syncNb=v.nb;
+    if(v.gr!=null)state.syncGr=v.gr;
+
+    syncUI();
+    scheduleRender();
+    document.getElementById('importBox').style.display='none';
+    var toast=document.getElementById('toast');
+    toast.textContent='Config imported!';
+    toast.classList.add('show');
+    setTimeout(function(){toast.classList.remove('show')},1500);
+  }catch(e){
+    var toast=document.getElementById('toast');
+    toast.textContent='Invalid JSON: '+e.message;
+    toast.classList.add('show');
+    setTimeout(function(){toast.classList.remove('show')},3000);
+  }
+}
+
+// ============================================================
+// SAVED PRESETS (localStorage)
+// ============================================================
+function getSavedPresets(){
+  try{var raw=localStorage.getItem('voronoi-presets');return raw?JSON.parse(raw):{}}catch(e){return{}}
+}
+function setSavedPresets(obj){
+  localStorage.setItem('voronoi-presets',JSON.stringify(obj));
+}
+function renderSavedPresets(){
+  var container=document.getElementById('savedPresets');
+  while(container.firstChild)container.removeChild(container.firstChild);
+  var presets=getSavedPresets();
+  var names=Object.keys(presets);
+  if(names.length===0){
+    var hint=document.createElement('span');
+    hint.style.cssText='font-size:10px;color:#655d69;padding:0 16px';
+    hint.textContent='No saved presets yet';
+    container.appendChild(hint);
+    return;
+  }
+  names.forEach(function(name){
+    var btn=document.createElement('button');
+    btn.className='preset-btn';
+    btn.textContent=name;
+    btn.title='shift+click to delete';
+    btn.addEventListener('click',function(e){
+      if(e.shiftKey){deleteSavedPreset(name);return}
+      loadSavedPreset(name);
+    });
+    container.appendChild(btn);
+  });
+}
+function savePreset(){
+  var name=document.getElementById('presetNameInput').value.trim();
+  if(!name)return;
+  var numG=state.activeLayers;
+  var layers=[];
+  for(var i=0;i<numG;i++){
+    var L=state.layers[i];
+    var layer={color:L.color,opacity:L.opacity,blend:L.blend,synced:L.synced,type:L.type||'voronoi'};
+    if(!L.synced){
+      layer.offset=L.offset;layer.angle=L.angle;
+      layer.pts=L.pts;layer.ew=L.ew;layer.es=L.es;layer.en=L.en;layer.nb=L.nb;layer.gr=L.gr;
+      layer.cellRounding=L.cellRounding;layer.cellPanX=L.cellPanX;layer.cellPanY=L.cellPanY;
+      layer.fieldRotation=L.fieldRotation;layer.edgeGlowCurve=L.edgeGlowCurve;layer.doubleEdge=L.doubleEdge;layer.edgeGradient=L.edgeGradient;
+      layer.ditherType=L.ditherType;layer.ditherScale=L.ditherScale;
+      layer.netLineW=L.netLineW;layer.netGlow=L.netGlow;layer.netDotSize=L.netDotSize;
+      layer.netDensity=L.netDensity;layer.netFlowTaper=L.netFlowTaper;
+    }
+    layers.push(layer);
+  }
+  var cfg={
+    seed:state.seed,activeLayers:state.activeLayers,
+    syncOffset:state.syncOffset,syncAngle:state.syncAngle,syncSpread:state.syncSpread,
+    syncType:state.syncType,
+    syncPts:state.syncPts,syncEw:state.syncEw,syncEs:state.syncEs,
+    syncEn:state.syncEn,syncNb:state.syncNb,syncGr:state.syncGr,
+    syncCellRounding:state.syncCellRounding,syncCellPanX:state.syncCellPanX,
+    syncCellPanY:state.syncCellPanY,syncFieldRotation:state.syncFieldRotation,
+    syncEdgeGlowCurve:state.syncEdgeGlowCurve,syncDoubleEdge:state.syncDoubleEdge,syncEdgeGradient:state.syncEdgeGradient,
+    syncDitherType:state.syncDitherType,syncDitherScale:state.syncDitherScale,
+    syncNetLineW:state.syncNetLineW,syncNetGlow:state.syncNetGlow,
+    syncNetDotSize:state.syncNetDotSize,syncNetDensity:state.syncNetDensity,
+    syncNetFlowTaper:state.syncNetFlowTaper,
+    layers:layers,
+    edgeMask:state.edgeMask,radial:state.radial,
+    blur:state.blur,contrast:state.contrast,gamma:state.gamma,filmGrain:state.filmGrain,grainSize:state.grainSize,grainTarget:state.grainTarget,grainContrast:state.grainContrast,grainColor:state.grainColor,vignette:state.vignette,
+    vignetteDitherType:state.vignetteDitherType,vignetteDitherScale:state.vignetteDitherScale
+  };
+  var presets=getSavedPresets();
+  presets[name]=cfg;
+  setSavedPresets(presets);
+  document.getElementById('presetNameInput').value='';
+  renderSavedPresets();
+  var toast=document.getElementById('toast');
+  toast.textContent='Preset "'+name+'" saved!';
+  toast.classList.add('show');
+  setTimeout(function(){toast.classList.remove('show')},1500);
+}
+function loadSavedPreset(name){
+  var presets=getSavedPresets();
+  var cfg=presets[name];
+  if(!cfg)return;
+  document.getElementById('importText').value=JSON.stringify(cfg);
+  importConfig();
+}
+function deleteSavedPreset(name){
+  var presets=getSavedPresets();
+  delete presets[name];
+  setSavedPresets(presets);
+  renderSavedPresets();
+  var toast=document.getElementById('toast');
+  toast.textContent='Preset "'+name+'" deleted';
+  toast.classList.add('show');
+  setTimeout(function(){toast.classList.remove('show')},1500);
+}
+
+// Collapsible sections
+document.querySelectorAll('.section-header').forEach(function(h){
+  h.addEventListener('click',function(){
+    this.classList.toggle('collapsed');
+    var body=this.nextElementSibling;
+    if(body&&body.classList.contains('section-body')){
+      body.classList.toggle('collapsed');
+    }
+  });
+});
+
+// Init
+renderSavedPresets();
+syncUI();
+render();
+</script>
+</body>
+</html>
