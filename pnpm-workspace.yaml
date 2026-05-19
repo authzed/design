@@ -1,0 +1,8 @@
+packages:
+  - sandworm
+
+# unrs-resolver is a transitive dep of ESLint tooling that needs to build
+# native binaries on install. Trusted package, used widely; allow build.
+allowBuilds:
+  sharp: true
+  unrs-resolver: true
