@@ -58,3 +58,27 @@ export type LockupSet = {
   brand: "authzed" | "spicedb";
   variants: LockupVariants;
 };
+
+export type LogoCloudVariant =
+  | "dark"
+  | "light"
+  | "transparent-white"
+  | "transparent-dark";
+
+export type LogoCloudFrame = "logos" | "cloud";
+
+export interface LogoCloudAsset {
+  png: string;
+}
+
+export type LogoCloudFrameVariants = Record<LogoCloudVariant, LogoCloudAsset>;
+
+export interface LogoCloudSet {
+  name: string;
+  description: string;
+  frames: Record<LogoCloudFrame, LogoCloudFrameVariants>;
+  dimensions: {
+    width: number;
+    height: number;
+  };
+}

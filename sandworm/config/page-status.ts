@@ -31,6 +31,7 @@ export const pageStatus: PageStatusConfig = {
 
   // Assets
   "/assets/banners": "ready",
+  "/assets/logo-cloud": "ready",
 
   // Tools
   "/tools/slack-theme": "ready",

@@ -117,6 +117,10 @@ const sidebarNavItems: NavSection[] = [
         title: "Banners",
         href: "/assets/banners",
       },
+      {
+        title: "Logo Cloud",
+        href: "/assets/logo-cloud",
+      },
     ],
   },
   {
