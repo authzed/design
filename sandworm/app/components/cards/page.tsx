@@ -54,7 +54,7 @@ export default function CardsPage() {
         <section>
           <h2 className="text-2xl font-semibold mb-6">Interactive Cards</h2>
           <div className="grid gap-6 md:grid-cols-2">
-            <Card className="hover:shadow-lg transition-shadow">
+            <Card className="transition-all duration-300 hover:shadow-[0_0_20px_rgba(165,49,138,0.15)] hover:border-[rgba(165,49,138,0.4)]">{/* card-glow */}
               <CardHeader>
                 <CardTitle>Hover Card</CardTitle>
                 <CardDescription>This card has hover effects.</CardDescription>
@@ -146,29 +146,10 @@ export default function CardsPage() {
 
         <section>
           <h2 className="text-2xl font-semibold mb-6">Card Variations</h2>
-          <div className="grid gap-6 md:grid-cols-3">
-            <Card className="bg-primary text-primary-foreground">
-              <CardHeader>
-                <CardTitle>Colored Card</CardTitle>
-                <CardDescription className="text-primary-foreground/80">
-                  With custom background
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p>Cards can have custom background colors and text colors.</p>
-              </CardContent>
-            </Card>
-
-            <Card className="border-2 border-primary">
-              <CardHeader>
-                <CardTitle>Bordered Card</CardTitle>
-                <CardDescription>With custom border</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p>Cards can have custom border styles.</p>
-              </CardContent>
-            </Card>
-
+          <p className="text-sm text-muted-foreground mb-4">
+            App-internal experiment — not canonical Sandworm. For brand surfaces use the <code>card-dark</code> composite pattern (stone-950 bg, magenta hover glow).
+          </p>
+          <div className="grid gap-6 md:grid-cols-1 max-w-sm">
             <Card className="bg-muted">
               <CardHeader>
                 <CardTitle>Muted Card</CardTitle>

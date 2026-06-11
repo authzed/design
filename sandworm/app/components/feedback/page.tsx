@@ -138,7 +138,7 @@ const [progress, setProgress] = useState(0)
   value={progress} 
   className={cn(
     "w-full h-[6px]",
-    "[&>div]:bg-gradient-to-r [&>div]:from-indigo-500 [&>div]:via-purple-500 [&>div]:to-pink-500"
+    "[&>div]:bg-gradient-to-r [&>div]:from-[hsl(var(--sand-300))] [&>div]:via-[hsl(var(--red-400))] [&>div]:to-[hsl(var(--violet-600))]"
   )}
 />`}
                       imports={`import { Progress } from "@/components/ui/progress"

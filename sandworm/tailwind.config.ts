@@ -1,5 +1,12 @@
 import type { Config } from 'tailwindcss';
 
+// Sandworm palette ramps — every stop resolves to the HSL vars in globals.css.
+// Without these, raw classes like `bg-stone-950` silently fall through to
+// Tailwind's BUILT-IN stone (a warm gray — the exact wash the spec bans).
+const STOPS = ['025', '050', '100', '150', '200', '300', '400', '500', '600', '700', '800', '850', '900', '950', '975'] as const;
+const ramp = (family: string) =>
+  Object.fromEntries(STOPS.map((s) => [s, `hsl(var(--${family}-${s}))`]));
+
 const config: Config = {
   darkMode: ['class'],
   content: [
@@ -10,6 +17,14 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        // Sandworm family ramps (override Tailwind defaults — see note above)
+        stone: ramp('stone'),
+        magenta: ramp('magenta'),
+        sand: ramp('sand'),
+        teal: ramp('teal'),
+        red: ramp('red'),
+        violet: ramp('violet'),
+        blue: ramp('blue'),
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         card: {

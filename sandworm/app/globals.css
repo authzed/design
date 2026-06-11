@@ -165,18 +165,16 @@
     --creative: var(--violet-050);
     --creative-foreground: var(--violet-900);
 
-    --destructive: var(--red-200);
-    --destructive-foreground: var(--red-800);
+    /* destructive = stone-inverted per components canon (was red — drifted) */
+    --destructive: var(--stone-975);
+    --destructive-foreground: var(--stone-025);
 
     --border: var(--stone-150);
     --input: var(--stone-150);
-    --ring: var(--stone-150);
+    --ring: var(--magenta-600);
 
     /* Radius */
     --radius: 0.5rem;
-    --radius-sm: 0.3rem;
-    --radius-md: 0.5rem;
-    --radius-lg: 0.8rem;
     --radius-full: 9999px;
   }
 
@@ -214,12 +212,13 @@
     --creative: var(--violet-900);
     --creative-foreground: var(--violet-050);
 
-    --destructive: var(--red-800);
-    --destructive-foreground: var(--red-200);
+    /* destructive = stone-inverted per components canon (was red — drifted) */
+    --destructive: var(--stone-025);
+    --destructive-foreground: var(--stone-975);
 
-    --border: var(--stone-850);
-    --input: var(--stone-850);
-    --ring: var(--stone-800);
+    --border: var(--stone-700);
+    --input: var(--stone-700);
+    --ring: var(--magenta-600);
   }
 }
 
@@ -378,5 +377,13 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }

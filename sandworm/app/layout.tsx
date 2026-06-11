@@ -20,7 +20,7 @@ const inter = Inter({
 const jetbrainsMono = JetBrains_Mono({
   subsets: ['latin'],
   variable: '--font-mono',
-  weight: ['300'],
+  weight: ['300', '400', '500'],
   display: 'swap',
   preload: true,
   fallback: ['monospace']

@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { GradientButton } from "@/components/ui/gradient-button";
 import { Card } from "@/components/ui/card";
 import { ArrowRight, Mail, Loader2 } from "lucide-react";
 import { useState } from "react";
@@ -29,7 +30,21 @@ export default function ButtonsPage() {
 
       <div className="space-y-8">
         <section>
-          <h2 className="text-2xl font-semibold mb-6">Variants</h2>
+          <h2 className="text-2xl font-semibold mb-6">Brand CTA — GradientButton</h2>
+          <p className="text-sm text-muted-foreground mb-4">
+            All primary CTAs go through <code>GradientButton</code> (pill — the gradient family IS the CTA system).
+            No solid-magenta CTAs exist. The shadcn variants below are app-internal controls for dense product chrome, not brand CTAs.
+          </p>
+          <Card className="p-6">
+            <div className="flex flex-wrap gap-4">
+              <GradientButton variant="outline">Get Started</GradientButton>
+              <GradientButton variant="filled">Sign Up Free</GradientButton>
+            </div>
+          </Card>
+        </section>
+
+        <section>
+          <h2 className="text-2xl font-semibold mb-6">App controls (shadcn)</h2>
           <Card className="p-6">
             <div className="flex flex-wrap gap-4">
               <Button variant="default">Default</Button>
