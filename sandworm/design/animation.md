@@ -40,7 +40,7 @@ The Sandworm design-system app ships three keyframes plus `tailwindcss-animate`:
 
 The signature CTA pattern (`projects/web/src/components/ui/GradientButton.tsx`). The animated border is a moving background, not a keyframe:
 
-- Outer wrapper: `bg-gradient-to-r from-[#ffb370] via-[#f9808a] to-[#6242e0]` sized `bg-[length:200%_200%]`, positioned `bg-left`.
+- Outer wrapper: `bg-gradient-to-r from-[#ffb370] via-[#f9808a] to-[#6242e0]` (sand-300 → red-400 → violet-600 — the canon `warm-hero` stops, settled 2026-06-10) sized `bg-[length:200%_200%]`, positioned `bg-left`.
 - On hover: `hover:bg-right` (slides the oversized gradient) plus `hover:scale-[1.02]`, all under `transition-all duration-500 ease-in-out`.
 - Inner content span transitions text color under `transition-colors duration-500`.
 

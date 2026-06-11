@@ -31,7 +31,7 @@ components:
   button-primary:
     shape: pill                              # rounded-full (9999px)
     variant: outline                         # gradient border, stone-950 inner
-    background: linear-gradient(to right, "{colors.sand.300}", "{colors.red.400}", "{colors.violet.500}")
+    background: linear-gradient(to right, "{colors.sand.300}", "{colors.red.400}", "{colors.violet.600}")
     backgroundSize: "200% 200%"
     backgroundPosition: left center
     backgroundPosition-hover: right center
@@ -53,7 +53,7 @@ components:
   # Primary filled — solid gradient fill, dark text
   button-primary-filled:
     shape: pill
-    background: linear-gradient(to right, "{colors.sand.300}", "{colors.red.400}", "{colors.violet.500}")
+    background: linear-gradient(to right, "{colors.sand.300}", "{colors.red.400}", "{colors.violet.600}")
     backgroundSize: "200% 200%"
     textColor: "{colors.stone.950}"          # dark text on warm gradient
     padding: 10px 24px
@@ -109,8 +109,8 @@ components:
       color: "{colors.magenta.600}"
     titleEmphasisAlt:                        # alternate brand-gradient emphasis (hero brand mark)
       fontWeight: 600
-      background: linear-gradient(to right, "{colors.sand.300}", "{colors.red.400}", "{colors.violet.500}")
-      backgroundClip: text
+      background: linear-gradient(to right, "{colors.sand.300}", "{colors.red.400}", "{colors.violet.600}")
+      backgroundClip: text                   # ⚠ REQUIRES -webkit-background-clip + -webkit-text-fill-color for Safari — accessibility.md §Gradient text fill
       textColor: transparent
     subtitle:
       typography: "{typography.body}"
@@ -134,7 +134,7 @@ components:
     # Sub-elements — typography roles inside the card body
     eyebrow:
       typography: "{typography.label-caps}"
-      color: "{colors.magenta.600}"          # magenta accent eyebrow (signature pattern)
+      color: "{colors.magenta.600}"          # magenta accent eyebrow (signature pattern) — ⚠ 3.1:1 on dark: DECORATIVE at this size; the title carries the meaning (accessibility.md)
       marginBottom: "{spacing.rhythm.eyebrow-to-title}"
     title:
       typography: "{typography.h3}"
@@ -181,7 +181,7 @@ components:
     notes: "Use on documentation surfaces, blog index, anywhere stone-025 is the page background. Light surfaces are the minority — most product/marketing pages run dark."
 
   # Callout — subtle 5%/15% tints, dot+label TOP, body BELOW
-  # Source: projects/web/.worktrees/web-28-ai-resources/src/components/ai-authorization/Callout.tsx
+  # Source: branch web-28-ai-resources → src/components/ai-authorization/Callout.tsx (UNMERGED as of 2026-06-11)
   callout-red:
     backgroundColor: "{colors.red.500}"
     backgroundOpacity: 0.05                  # /5 — VERY subtle
@@ -309,10 +309,10 @@ The mono-caps "Load more" affordance at the bottom of ArchiveList uses the sandw
 Sand→red→violet animated gradient. Used for the canonical "Sign up", "Get started" actions. Carries animated gradient shift on hover.
 
 ### `Callout` (red / teal / violet / stone variants)
-Dot + label + body pattern. Lives at `projects/web/src/components/ai-authorization/Callout.tsx`. Used for in-section explainers; dim-inactive + ring-active pattern when stacked for comparison.
+Dot + label + body pattern. Lives on unmerged branch `web-28-ai-resources` (`src/components/ai-authorization/Callout.tsx`). Used for in-section explainers; dim-inactive + ring-active pattern when stacked for comparison.
 
 ### `TerminalWindow`
-Red / amber / teal traffic-light dots + `#0F0E14` chrome. Used for code-as-evidence panels (before/after comparisons, schema demos). Lives at `projects/web/src/components/ai-authorization/TerminalWindow.tsx`.
+Red / amber / teal traffic-light dots + `#0F0E14` chrome. Used for code-as-evidence panels (before/after comparisons, schema demos). Lives on unmerged branch `web-28-ai-resources` (`src/components/ai-authorization/TerminalWindow.tsx`).
 
 ### `RelationshipsTable`
 Auto-cycling row highlight + "Streaming" indicator. Honest visual motion — implies a graph being queried without implying a backend round-trip. Replaces the killed "LiveChecks" pattern (which falsely implied real-time API calls).
