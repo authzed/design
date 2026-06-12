@@ -2,7 +2,7 @@
 name: Sandworm — Product UI
 description: The product tier — AuthZed Cloud dashboard (rakis) chrome, density, semantic-token system, and the rakis↔Sandworm palette name mapping. The denser, quieter sibling of the marketing canon.
 part-of: Sandworm
-status: draft — ON HOLD   # held in review 2026-06-10: needs more refinement before advancing. Grounded (rakis@main f3fa01ed6 scout) but do NOT treat as canon; open decision points flagged inline
+status: draft — ON HOLD   # held in review 2026-06-10; token/button/chart blocks RE-VERIFIED 2026-06-11 vs rakis@main cfc414b4c6 (still accurate, no material drift). Needs more refinement before advancing; do NOT treat as canon; open decision points flagged inline
 ---
 
 > **Primitive tokens** (`{colors.*}`, `{typography.*}`, `{spacing.*}`, `{motion.*}`, `{rounded.*}`, `{elevation.*}`) are defined in the hub at [`../DESIGN.md`](../DESIGN.md). Load the hub alongside this spoke.
@@ -20,7 +20,7 @@ and the **name-mapping footgun** between rakis tokens and Sandworm canon.
 ## ⚠ The palette name offset (read this first)
 
 Rakis ships the **same Sandworm hexes under names shifted one step**. An AI tool translating canon names
-into rakis classes (or vice versa) will silently pick the wrong color. Verified mapping (2026-06-10):
+into rakis classes (or vice versa) will silently pick the wrong color. Verified mapping (2026-06-10; re-confirmed 2026-06-11 vs `cfc414b4c6` — stone ramps unchanged):
 
 | Sandworm canon | hex | rakis token |
 |---|---|---|
@@ -77,11 +77,15 @@ product-ui:
     breadcrumb: "minimal — back-chevron outline button + bold title; no multi-level trail"
 
   # ── CONTROLS ──
-  buttons:
-    shape: "rounded-md, flat, solid — NO pill gradient-border CTAs in product (legitimate divergence)"
-    default: "bg-primary (near-black) → hover inverts to bg-accent (light)"
+  buttons:   # button.tsx re-verified 2026-06-11 @ cfc414b4c6 — unchanged since the Apr scout
+    shape: "rounded-md, solid, near-flat (subtle shadow-sm on default, shadow-xs on the rest) — NO pill gradient-border CTAs in product (legitimate divergence)"
+    variants: "default · destructive · outline · secondary · ghost · link — NO creative button (creative is a status-pill / spinner token, never a button variant)"
+    default: "bg-primary (near-black) + shadow-sm → hover INVERTS to bg-accent/accent-foreground (light)"
+    destructive: "bg-destructive (monochrome stone-975) + shadow-xs — NO hover state"
+    secondary: "bg-secondary + shadow-xs — NO hover state"
+    outline: "border-input bg-background + shadow-xs → hover inverts to bg-accent"
     sizes: { default: "h-9 px-4 text-sm font-medium", sm: "h-8 px-3 text-xs", lg: "h-10 px-8", icon: "h-9 w-9" }
-    focus: "focus-visible:ring-1 ring-{stone-975|stone-025} — 1px near-black/white, NOT marketing's 2px magenta (open decision)"
+    focus: "focus-visible:ring-1 ring-ring (= stone-975 light / stone-025 dark) + outline-hidden — 1px near-black/white, NOT marketing's 2px magenta (open decision)"
   forms:
     stack: "react-hook-form + zod + shadcn form.tsx"
     input: "h-9 rounded-md border-input bg-transparent text-sm; invalid = aria-invalid:border-error + bg-warning (red border, sand-tinted fill — distinctive, on-palette)"
@@ -168,7 +172,9 @@ Bounded list, mostly covered by an un-merged WIP token-migration branch (1 commi
 
 ## Grounding
 
-Scouted 2026-06-10 from `authzed/internal` → `rakis/` @ `main` (`f3fa01ed6`, 2026-04-29). Key files: `styles/globals.css` (token source), `components/shadcn/ui/*` (30 primitives),
+**Re-verified 2026-06-11** vs `authzed/internal` → `rakis/` @ `main` (`cfc414b4c6`, 2026-06-11) via `gh api`. Still accurate, no material drift: the name-offset table (stone ramps unchanged), the `buttons:` block (`button.tsx` byte-stable — 6 variants, h-9/8/10 sizes, `ring-1`, monochrome `primary`+`destructive`), the semantic-token map, and the `--chart-1..20` surface-rule inversion all hold against the newer SHA. **NOT re-scouted this pass** (carried forward from the 2026-04-29 scout below): chrome components, forms/tables detail, and the file-level drift-register items.
+
+Originally scouted 2026-06-10 from `authzed/internal` → `rakis/` @ `main` (`f3fa01ed6`, 2026-04-29). Key files: `styles/globals.css` (token source), `components/shadcn/ui/*` (30 primitives),
 `components/rakis/*` (~85 product components), `app/app.tsx` + `Nav.tsx` + `Footer.tsx` (chrome),
 `PermissionSystemNavTabs.tsx` (pill tabs), `PermissionSystemMetrics.tsx` (charts: on-brand tokens AND
 drift hexes). Prior audits: `notes/research/rakis-sandworm-token-analysis-2026-03-18.md`,
