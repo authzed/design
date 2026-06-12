@@ -204,7 +204,7 @@ export default function ButtonsPage() {
                 <span className="font-semibold text-magenta-600">One system.</span>
               </h1>
               <p className="text-stone-300 text-lg font-light max-w-lg">
-                Fine-grained permissions at any scale. Built for teams that can't afford to get it wrong.
+                Fine-grained permissions at any scale. Built for teams that can&apos;t afford to get it wrong.
               </p>
               <div className="flex flex-wrap items-center gap-4 pt-2">
                 <GradientButton variant="outline">Get Started Free</GradientButton>

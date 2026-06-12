@@ -278,7 +278,7 @@ export default function DatavizPage() {
             <h3 className="font-semibold">Donut / Pie — part-to-whole</h3>
             <p className="text-sm text-muted-foreground">
               Value-count palette by slice count. Cap at ~5–6 slices; roll the tail into a single
-              stone-400 "Other." Prefer a stacked bar unless part-to-whole is explicitly the story.
+              stone-400 &quot;Other.&quot; Prefer a stacked bar unless part-to-whole is explicitly the story.
             </p>
           </Card>
 
@@ -314,7 +314,7 @@ export default function DatavizPage() {
         <p className="text-muted-foreground mb-4">
           Gridlines, axes, labels, and tooltips use the stone scale. Two rules: gridlines must
           whisper (stone-800 dark / stone-150 light), and legends use the mono-caps label style —
-          signals "this is structural metadata, not content."
+          signals &quot;this is structural metadata, not content.&quot;
         </p>
 
         <Card className="p-6">

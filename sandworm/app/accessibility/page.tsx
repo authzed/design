@@ -575,7 +575,7 @@ if (!prefersReducedMotion) {
               24×24px). For icon-only buttons, use a wrapper with padding to
               meet the minimum hit area even if the visual element is smaller.
               The{" "}
-              <code className="text-xs">size="icon"</code> Button variant
+              <code className="text-xs">size=&quot;icon&quot;</code> Button variant
               defaults to <code className="text-xs">h-9 w-9</code> (36px) —
               add <code className="text-xs">h-11 w-11</code> for primary touch
               surfaces.
