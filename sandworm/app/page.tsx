@@ -123,7 +123,7 @@ export default function Home() {
     <Container className="space-y-16 pb-16">
       {/* Hero — the brand mark moment */}
       <header className="max-w-3xl space-y-6 pt-4">
-        <p className="font-mono text-xs uppercase tracking-widest text-stone-400">
+        <p className="font-mono text-xs uppercase tracking-widest text-muted-foreground">
           Sandworm Design System
         </p>
         <h1 className="text-6xl font-light tracking-tight sm:text-7xl">
@@ -149,7 +149,7 @@ export default function Home() {
             <Link
               key={q.href}
               href={q.href}
-              className="group inline-flex w-fit items-center gap-2 text-sm font-light text-sand-300 transition-colors hover:text-sand-200"
+              className="group inline-flex w-fit items-center gap-2 text-sm font-light text-muted-foreground transition-colors hover:text-foreground"
             >
               {q.label}
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
@@ -162,7 +162,7 @@ export default function Home() {
       <div className="space-y-14">
         {groups.map((group) => (
           <section key={group.label} className="space-y-5">
-            <h2 className="border-b border-stone-800 pb-2 font-mono text-xs uppercase tracking-widest text-stone-400">
+            <h2 className="border-b border-border pb-2 font-mono text-xs uppercase tracking-widest text-muted-foreground">
               {group.label}
             </h2>
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -170,13 +170,13 @@ export default function Home() {
                 const Icon = item.icon;
                 return (
                   <Link key={item.href} href={item.href} className="group">
-                    <div className="flex h-full items-start gap-4 rounded-xl border border-stone-800 bg-stone-950/40 p-5 backdrop-blur-sm transition-all duration-300 hover:border-magenta-600/40 hover:bg-stone-950/70 hover:shadow-[0_0_24px_rgba(165,49,138,0.12)]">
+                    <div className="flex h-full items-start gap-4 rounded-xl border bg-card p-5 transition-all duration-300 hover:border-magenta-600/40 hover:shadow-[0_0_22px_rgba(165,49,138,0.10)]">
                       <Icon className={`mt-0.5 h-6 w-6 shrink-0 ${group.accent}`} strokeWidth={1.75} />
                       <div className="min-w-0 space-y-1">
                         <div className="flex items-center gap-2">
-                          <span className="font-medium text-stone-025">{item.name}</span>
+                          <span className="font-medium text-foreground">{item.name}</span>
                           {item.isNew && (
-                            <span className="rounded-full bg-magenta-600/15 px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider text-magenta-300">
+                            <span className="rounded-full bg-magenta-600/15 px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider text-magenta-700 dark:text-magenta-300">
                               New
                             </span>
                           )}
@@ -185,7 +185,7 @@ export default function Home() {
                           {item.tagline}
                         </p>
                       </div>
-                      <ArrowRight className="ml-auto mt-1 h-4 w-4 shrink-0 text-stone-600 transition-all group-hover:translate-x-0.5 group-hover:text-stone-300" />
+                      <ArrowRight className="ml-auto mt-1 h-4 w-4 shrink-0 text-muted-foreground/50 transition-all group-hover:translate-x-0.5 group-hover:text-foreground" />
                     </div>
                   </Link>
                 );
