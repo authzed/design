@@ -1,10 +1,11 @@
 import Link from "next/link";
 import { Search } from "@/components/search";
 import { ThemeToggle } from "@/components/theme-toggle";
-import { Palette, Menu } from "lucide-react";
+import { Menu } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { SiteNav } from "@/components/site-nav";
+import { SandwormMark } from "@/components/sandworm-mark";
 
 export function SiteHeader() {
   return (
@@ -12,7 +13,7 @@ export function SiteHeader() {
       <div className="container flex h-14 items-center">
         <div className="mr-4 hidden md:flex md:pl-6">
           <Link href="/" className="mr-6 flex items-center space-x-2">
-            <Palette className="h-6 w-6" />
+            <SandwormMark className="h-6 w-6" />
             <span className="textbase font-light inline-block">Sandworm</span>
           </Link>
         </div>
@@ -27,7 +28,7 @@ export function SiteHeader() {
             <SheetHeader>
               <SheetTitle>
                 <div className="flex items-center space-x-2">
-                  <Palette className="h-6 w-6" />
+                  <SandwormMark className="h-6 w-6" />
                   <span className="textbase font-light">Sandworm</span>
                 </div>
               </SheetTitle>
