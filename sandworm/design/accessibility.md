@@ -12,48 +12,58 @@ part-of: Sandworm
 
 ```yaml
 # Accessibility — contrast ratios for key semantic pairs (WCAG 2.1)
-# Sandworm aims for AAA where possible; AA minimum for any text > 18pt.
+# COMPUTED 2026-06-10 via relative-luminance math — replaces an earlier table whose values were
+# estimated, not computed. Two verdicts flipped in the correction: magenta-600 and stone-500 on
+# dark BOTH fail AA at body size (the old table claimed 4.5/4.6 AA; actual 3.1/4.1).
 accessibility:
   contrast-ratios:
     # Dark mode foreground/background pairs
     dark-foreground-on-surface:
       pair: "{colors.stone.025} on {colors.stone.975}"
-      ratio: 17.2
+      ratio: 18.8
       wcag: AAA
     dark-body-on-surface:
       pair: "{colors.stone.300} on {colors.stone.950}"
-      ratio: 9.1
+      ratio: 7.8
       wcag: AAA
     dark-faint-on-surface:
       pair: "{colors.stone.500} on {colors.stone.950}"
-      ratio: 4.6
-      wcag: AA
+      ratio: 4.1
+      wcag: AA-large                                     # FAILS AA at body size — large text (18pt+/14pt bold) or non-essential metadata only
     dark-link-on-surface:
       pair: "{colors.sand.300} on {colors.stone.950}"
-      ratio: 10.2
+      ratio: 10.7
       wcag: AAA
     dark-magenta-emphasis:
       pair: "{colors.magenta.600} on {colors.stone.950}"
-      ratio: 4.5
-      wcag: AA                                           # exactly at AA threshold — be careful at small sizes
+      ratio: 3.1
+      wcag: AA-large                                     # FAILS AA at body size — see "Brand emphasis & contrast" below
+    dark-magenta-accessible:
+      pair: "{colors.magenta.400} on {colors.stone.950}"
+      ratio: 5.6
+      wcag: AA                                           # the accessible magenta for small text on dark
+    dark-gradient-tail:
+      pair: "{colors.violet.600} on {colors.stone.950}"
+      ratio: 3.0
+      wcag: AA-large                                     # warm-hero's violet tail — gradient text-fill carries the same body-size limit
     # Light mode pairs
     light-foreground-on-surface:
       pair: "{colors.stone.900} on {colors.stone.025}"
-      ratio: 15.8
+      ratio: 16.6
       wcag: AAA
     light-body-on-surface:
       pair: "{colors.stone.700} on {colors.stone.025}"
-      ratio: 8.5
+      ratio: 8.2
       wcag: AAA
     light-magenta-emphasis:
       pair: "{colors.magenta.600} on {colors.stone.025}"
-      ratio: 4.8
-      wcag: AA                                           # at threshold — pair with semibold or 18pt+
+      ratio: 5.8
+      wcag: AA                                           # comfortably AA on light — the caveat is dark-mode-only
     light-link-on-surface:
       pair: "{colors.sand.700} on {colors.stone.025}"
-      ratio: 5.2
+      ratio: 5.8
       wcag: AA
-  notes: "Ratios approximate (computed from hex values). Magenta-600 on either surface sits right at the AA threshold — use it on font-semibold or larger text only. The sand-300 link color on dark is comfortable AAA; sand-700 on light is AA at body weights."
+  notes: "Computed 2026-06-10 (WCAG 2.1 relative luminance). Magenta-600 emphasis is fine on LIGHT (5.8). On DARK it is 3.1 — large-text territory only. The accessible small-text magenta on dark is magenta-400 (5.6). Sand-300 links on dark are comfortable AAA; sand-700 on light is AA at body weights. Stone-500 'faint' text on dark (4.1) is for large or non-essential metadata, never body copy."
 
 # Vendor-prefix gotchas — Safari/iOS still requires -webkit- prefixes for some properties.
 # Documenting so agents don't have to guess.
@@ -69,6 +79,20 @@ vendor-prefixes:
     safari: "-webkit-backdrop-filter: blur(4px)"
     notes: "Card-dark / modal surfaces. Safari requires the -webkit- prefix for iOS support."
 ```
+
+## Brand emphasis & contrast (the dark-mode caveat)
+
+The signature emphasis devices — `font-semibold text-magenta-600` spans and the warm-hero gradient text-fill — are **display patterns, not body-text patterns, on dark surfaces**:
+
+- **magenta-600 on stone-950 = 3.1:1** — passes only the WCAG large-text bar (≥24px regular / ≥18.66px bold). A 16px semibold emphasis span does NOT qualify as large text.
+- **Gradient text-fill profile on stone-950**: sand-300 end 10.7 → red-400 mid 7.6 → **violet-600 tail 3.0**. The tail is the constraint — gradient emphasis carries the same large-text scoping as solid magenta.
+
+Rules of thumb:
+
+- ✅ Hero/headline emphasis (h1/h2, ≥24px) — magenta-600 and gradient text-fills are fine on dark
+- ✅ Body-size emphasis on LIGHT surfaces — magenta-600 is 5.8:1, comfortably AA
+- ✅ Body-size magenta accent on DARK — use `magenta-400` (5.6:1), the accessible small-text magenta
+- ❌ Don't carry essential meaning in body-size magenta-600 or gradient text on dark — at those sizes it's decorative emphasis; the surrounding font-light copy must carry the content
 
 ## Accessibility — States & Focus
 
@@ -98,7 +122,7 @@ Some properties need vendor prefixes for Safari/iOS support. Sandworm's relevant
 The hero brand-mark pattern (`<em>Sandworm.</em>` with brand-gradient text fill) requires both standard AND `-webkit-` forms or Safari shows the gradient as a background block instead of clipping it to the text. Always include all three:
 
 ```css
-background: linear-gradient(to right, #ffb370, #f9808a, #7a5ce6);
+background: linear-gradient(to right, #ffb370, #f9808a, #6242e0);
 background-clip: text;
 -webkit-background-clip: text;       /* Safari */
 -webkit-text-fill-color: transparent; /* Safari */

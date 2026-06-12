@@ -7,7 +7,7 @@ colors:
   primary: "{colors.magenta.600}"
   secondary: "{colors.teal.500}"
   accent: "{colors.sand.300}"
-  highlight: "{colors.violet.500}"
+  highlight: "{colors.violet.500}"           # deliberately -500 (brighter, non-status accent role) — NOT the warm-gradient end-stop, which is violet-600
   alert: "{colors.red.500}"
   info: "{colors.blue.500}"
   surface: "{colors.stone.025}"
@@ -15,182 +15,108 @@ colors:
   text: "{colors.stone.975}"
   text-dark: "{colors.stone.025}"
 
-  # Full palette — 7 families × 15 stops, HSL-derived hex
-  stone:
-    "025": "#f8f7f8"
-    "050": "#e9e7e9"
-    "100": "#dedddf"
-    "150": "#d2cfd3"
-    "200": "#c7c4ca"
-    "300": "#aaa5ac"
-    "400": "#8e8891"
-    "500": "#79727e"
-    "600": "#655d69"
-    "700": "#514856"
-    "800": "#3f3644"
-    "850": "#2a2130"
-    "900": "#1e1424"
-    "950": "#170d1c"
-    "975": "#0c050f"
-  magenta:
-    "025": "#fbf4f8"
-    "050": "#f5e5ef"
-    "100": "#f0dbe9"
-    "150": "#e9c9de"
-    "200": "#e3bad6"
-    "300": "#d293bf"
-    "400": "#c270ab"
-    "500": "#b35199"
-    "600": "#a5318a"
-    "700": "#7e2a69"
-    "800": "#5d224e"
-    "850": "#3d1a32"
-    "900": "#22111d"
-    "950": "#180c15"
-    "975": "#180c15"
-  teal:
-    "025": "#f1f8f6"
-    "050": "#ebf5f2"
-    "100": "#e8f2f1"
-    "150": "#dbebe9"
-    "200": "#cee3e1"
-    "300": "#a7cdca"
-    "400": "#72b1ad"
-    "500": "#549693"
-    "600": "#4a7d7b"
-    "700": "#3f6967"
-    "800": "#325250"
-    "850": "#283e3d"
-    "900": "#1b2726"
-    "950": "#0c1311"
-    "975": "#0c1311"
-  sand:
-    "025": "#fef4ec"
-    "050": "#fef0e1"
-    "100": "#ffeedb"
-    "150": "#ffe2c2"
-    "200": "#ffd8ad"
-    "300": "#ffb370"
-    "400": "#de9663"
-    "500": "#bd7c56"
-    "600": "#a0674b"
-    "700": "#855642"
-    "800": "#684336"
-    "850": "#50332b"
-    "900": "#34231d"
-    "950": "#1e1510"
-    "975": "#18100c"
-  red:
-    "025": "#fff5f5"
-    "050": "#fff0f0"
-    "100": "#ffebec"
-    "150": "#ffe0e1"
-    "200": "#ffd6d7"
-    "300": "#ffb3b6"
-    "400": "#f9808a"
-    "500": "#f0566d"
-    "600": "#c94559"
-    "700": "#a53b4a"
-    "800": "#81313c"
-    "850": "#5e262c"
-    "900": "#3b1b1e"
-    "950": "#1b0e0f"
-    "975": "#1b0e0f"
-  violet:
-    "025": "#f8f6fe"
-    "050": "#ede8fd"
-    "100": "#e2d9fc"
-    "150": "#d8ccfa"
-    "200": "#cebef8"
-    "300": "#ad96f3"
-    "400": "#9278ed"
-    "500": "#7a5ce6"
-    "600": "#6242e0"
-    "700": "#502fb1"
-    "800": "#432583"
-    "850": "#2f1b50"
-    "900": "#1c122b"
-    "950": "#150c1d"
-    "975": "#150c1d"
-  blue:
-    "025": "#f6fcfe"
-    "050": "#e8f8fd"
-    "100": "#d9f3fc"
-    "150": "#cceffa"
-    "200": "#beeaf8"
-    "300": "#96dcf3"
-    "400": "#78d0ed"
-    "500": "#5cc3e6"
-    "600": "#42b9e0"
-    "700": "#2f91b1"
-    "800": "#256c83"
-    "850": "#1b4350"
-    "900": "#12252b"
-    "950": "#0c181d"
-    "975": "#0c181d"
+  # Full palette (7 families × 15 stops) → demoted to design/palette.md (Track B slim, 2026-06-10).
+  # Token refs like {colors.sand.300} resolve against that table; the kit generator merges both files.
+  # Hexes are NEVER inlined here — read design/palette.md or the generated kit for values.
 
   # Semantic mappings (light → dark token pairs)
   semantic:
     background: { light: "{colors.stone.025}", dark: "{colors.stone.975}" }
     foreground: { light: "{colors.stone.975}", dark: "{colors.stone.025}" }
     muted: { light: "{colors.stone.050}", dark: "{colors.stone.850}" }
-    border: { light: "{colors.stone.150}", dark: "{colors.stone.850}" }
+    border: { light: "{colors.stone.150}", dark: "{colors.stone.700}" }   # corrected 2026-06-11 — shipped census: stone-700 (54×) / stone-800 subtle (45×); the design-system app's semantic-colors.ts ships stone-850 as its OWN quieter choice, not canon
     success: { light: "{colors.teal.050}", dark: "{colors.teal.900}" }
     warning: { light: "{colors.sand.050}", dark: "{colors.sand.900}" }
     error: { light: "{colors.red.050}", dark: "{colors.red.900}" }
     creative: { light: "{colors.violet.050}", dark: "{colors.violet.900}" }
 
-# Gradient family — the canonical gradient set, cross-referenced from components.
-# Each gradient is a NAMED member of the family, not "the brand gradient" singular.
+# Gradient family — temperature matrix: 3 roles (hero / accent / brand) × 2 registers (warm / cool),
+# plus spectrum + neutral specials. Redesigned 2026-06-09 (via gradient-lab).
+# FORWARD-CANON: warm-hero & warm-accent match shipped code; warm-brand, the full cool register,
+# spectrum and depth* diverge from or don't yet exist in the marketing site — code reconciles to these.
+# Code-side reconcile list tracked internally ("gradients → code").
+# VIOLET END-STOP SETTLED 2026-06-10: warm-hero ends on violet-600 (#6242e0) — matches GradientButton
+# (the canonical CTA) and the shipped majority (~10 sites vs 3). The three to-violet-500 sites
+# (UseCaseTree, CustomerStory, Materialize Hero) are drift → reconcile to -600.
 gradients:
-  # Primary warm 3-stop — THE brand gradient. Used on hero emphasis spans, GradientButton,
-  # customer-story card halos, brand mark headlines. Most-shipped form across marketing surfaces.
-  brand-warm:
+  # ── WARM — the default register ──
+  warm-hero:                 # 3-stop · THE brand gradient (= shipped brand-warm). Hero spans, GradientButton, story halos.
     type: linear
     direction: to right
     stops:
       - { color: "{colors.sand.300}", position: 0% }
       - { color: "{colors.red.400}", position: 50% }
-      - { color: "{colors.violet.500}", position: 100% }
-
-  # Warm 2-stop sunset — accent strips, narrower CTAs
-  brand-sunset:
+      - { color: "{colors.violet.600}", position: 100% }   # settled 2026-06-10 — matches GradientButton
+  warm-accent:               # 2-stop · accent strips, narrower CTAs (= shipped sunset)
     type: linear
     direction: to right
     stops:
       - { color: "{colors.sand.300}", position: 0% }
       - { color: "{colors.red.500}", position: 100% }
-
-  # Cool 2-stop — Cloud product page hero, surfaces where warm would over-saturate
-  brand-cool:
+  warm-brand:                # 4-stop · light→deep, lands on brand magenta (richer than the old 2-stop sand→magenta)
     type: linear
     direction: to right
     stops:
-      - { color: "{colors.teal.300}", position: 0% }
-      - { color: "{colors.violet.500}", position: 100% }
-    notes: "Used on /products/authzed-cloud hero. CLAUDE.md line 101 cites an older `from-violet-400 to-teal-400` reversal — that form is not currently shipped; treat this teal-300 → violet-500 as canonical."
+      - { color: "{colors.sand.100}", position: 0% }
+      - { color: "{colors.sand.300}", position: 33% }
+      - { color: "{colors.magenta.600}", position: 67% }
+      - { color: "{colors.magenta.900}", position: 100% }
 
-  # Sand to magenta — careers page underlines, transitions landing on brand primary
-  brand-warm-to-magenta:
+  # ── COOL — cloud / data / product surfaces, where warm over-saturates ──
+  cool-hero:                 # 2-stop · the cool counterpart to warm-hero
+    type: linear
+    direction: to right
+    stops:
+      - { color: "{colors.violet.500}", position: 0% }
+      - { color: "{colors.teal.400}", position: 100% }
+  cool-hero-alt:             # 2-stop · softer warm↔cool blend variant
+    type: linear
+    direction: to right
+    stops:
+      - { color: "{colors.violet.500}", position: 0% }
+      - { color: "{colors.red.150}", position: 100% }
+  cool-accent:               # 2-stop · cool accent strips / CTAs
+    type: linear
+    direction: to right
+    stops:
+      - { color: "{colors.violet.400}", position: 0% }
+      - { color: "{colors.blue.300}", position: 100% }
+  cool-brand:                # 4-stop · light→deep mirror of warm-brand, lands on violet
+    type: linear
+    direction: to right
+    stops:
+      - { color: "{colors.blue.150}", position: 0% }
+      - { color: "{colors.teal.300}", position: 33% }
+      - { color: "{colors.violet.600}", position: 67% }
+      - { color: "{colors.violet.900}", position: 100% }
+
+  # ── SPECTRUM & NEUTRAL — specials ──
+  spectrum:                  # 5-stop · full warm↔cool sweep, rare showcase / celebration moments
     type: linear
     direction: to right
     stops:
       - { color: "{colors.sand.300}", position: 0% }
-      - { color: "{colors.magenta.600}", position: 100% }
-
-  # Warm-to-magenta 3-stop — Newsletter, careers variants
-  brand-warm-magenta-3stop:
+      - { color: "{colors.magenta.600}", position: 25% }
+      - { color: "{colors.violet.500}", position: 50% }
+      - { color: "{colors.teal.400}", position: 75% }
+      - { color: "{colors.blue.150}", position: 100% }
+  depth:                     # 2-stop neutral · dark structural elevation washes (not brand-expressive)
     type: linear
     direction: to right
     stops:
-      - { color: "{colors.sand.300}", position: 0% }
-      - { color: "{colors.red.400}", position: 50% }
-      - { color: "{colors.magenta.500}", position: 100% }   # newsletter uses -500; careers uses -600
+      - { color: "{colors.stone.700}", position: 0% }
+      - { color: "{colors.stone.950}", position: 100% }
+  depth-light:               # 3-stop neutral · light structural washes
+    type: linear
+    direction: to right
+    stops:
+      - { color: "{colors.stone.150}", position: 0% }
+      - { color: "{colors.stone.300}", position: 50% }
+      - { color: "{colors.stone.600}", position: 100% }
 
   # Historical callout — teal that was once wrong in shipped surfaces.
   # `#497D7A` is NOT teal-500. teal-500 IS `#549693`. The wrong hex shipped briefly years ago
-  # and the explicit callout persists in CLAUDE.md as a guardrail. Documenting here so the
-  # spec carries the warning forward.
+  # and the explicit callout persists in CLAUDE.md as a guardrail. Carried forward here.
   _historical:
     teal-wrong-hex: "#497D7A"               # NEVER use this — it's not in the palette
     teal-correct-hex: "#549693"             # teal-500 — always use this
@@ -229,9 +155,9 @@ elevation:
     boxShadow: "0 0 24px rgba(165, 49, 138, 0.10)"   # subtle magenta wash
     description: "Dark-mode modal / palette — heavier blur, deepest surface, faint magenta wash."
 
-# Mode — explicit light/dark semantic token sets (sibling siblings, not derived from prose)
+# Mode — explicit light/dark semantic token sets (sibling blocks, not derived from prose)
 mode-dark:
-  surface: "{colors.stone.975}"
+  surface: "{colors.stone.975}"                     # the PAGE shell. Marketing sections alternate stone-950 / stone-900 blocks ON TOP of it (see web-ui.md) — section surfaces are not the page surface.
   surfaceElevated: "rgba(23, 13, 28, 0.9)"          # stone-950 at 90% alpha — composed value, NOT separate opacity key
   foreground: "{colors.stone.025}"
   foregroundMuted: "{colors.stone.300}"
@@ -337,21 +263,20 @@ z-index:
   override: 9999       # emergency only — used once for fixed overlay on a special-case CTA
   notes: "Stick to the scale. New additions should rarely need new tiers — use one of the existing layers and adjust DOM order instead. The 9999 is documented as an escape hatch, not a tier."
 
-# Dashed-border system — used for graph/system imagery
-# Note: shipped use is primarily SVG (stroke-dasharray on connecting lines + paths in UseCaseTree fan)
-# but the visual vocabulary also applies to CSS borders on "system map" containers.
-dashed-border:
-  cssBorder:
-    style: dashed
-    width: 1px
-    color: "{colors.stone.700}"                          # dark mode
-    color-light: "{colors.stone.150}"                    # light mode
-  svgStroke:
-    dashArray: "4 4"                                     # 4px on, 4px off — UseCaseTree fan
-    strokeWidth: 1
-    strokeColor: "{colors.stone.500}"
-    strokeColor-active: "{colors.magenta.600}"           # when hovering an attached node
-  notes: "Visual language for 'these are nodes in a graph / connected system'. Solid borders = atomic surfaces (cards, buttons); dashed borders = systems (Use Case Tree, schema graphs, relationship diagrams)."
+# Diagrams — system / relationship / authorization-flow visual language.
+# CORRECTED 2026-06-09: an earlier draft of this block ("dashed-border") claimed the connected-system
+# motif was a dashed "4 4" stone connector with a magenta-active state, crediting the UseCaseTree fan.
+# Ground-truthing disproved it — the UseCaseTree fan is SOLID teal, the only dashed thing that ships is
+# the SpiceBox CONTAINER ("7 3"), and active state is teal/opacity, never a magenta edge.
+# Full canon: design/diagrams.md.
+diagrams:
+  node:        { border: solid, fill-dark: "#0D0D10", icon: "Lucide 2px", label: "{typography.label-caps}" }
+  container:   { border: dashed, dashArray: "7 3", strokeWidth: 1, color: "{colors.stone.700}", meaning: "scope / set / boundary" }
+  connector:   { routing: orthogonal, strokeWidth: 1.5, color: "{colors.stone.400}", color-active: "{colors.teal.400}", color-denied: "{colors.red.500}" }
+  checkpoint-beam: { gradient: "{gradients.warm-hero}", logomark: "saturn on stone-950 coin", threads: "teal=permit / red=deny", role: "the AuthZed authorization layer everything crosses — the signature device" }
+  entity-state: { permitted: "{colors.teal.400}", denied: "{colors.red.500}", neutral: "{colors.stone.400}" }
+  rule: "Solid border = node; dashed border = scope container (NOT a connector). Teal = allowed, red = denied, everywhere."
+  spoke: design/diagrams.md
 
 typography:
   # Type families
@@ -408,13 +333,18 @@ typography:
     lineHeight: 1.5
 
 rounded:
+  # CORRECTED 2026-06-11 — the previous table (sm 4 / md 8 / lg 12 / xl 16) matched NEITHER shipped system.
+  # Marketing (projects/web) has NO Tailwind borderRadius override → these are the STOCK Tailwind values.
+  # The design-system app instead uses the shadcn calc system: --radius = 0.5rem → lg 8px / md 6px / sm 4px.
   none: 0px
-  sm: 4px
-  md: 8px
-  lg: 12px
-  xl: 16px
+  sm: 2px
+  base: 4px        # Tailwind `rounded`
+  md: 6px
+  lg: 8px
+  xl: 12px
+  "2xl": 16px
   pill: 9999px
-  # Cards default to xl ("rounded-xl" in Tailwind)
+  # Marketing product cards ship rounded-xl (12px); the design-system base Card ships rounded-lg → 8px via calc.
 
 spacing:
   # 4px grid
@@ -461,10 +391,23 @@ spacing:
 
 Sandworm is AuthZed's unified design system — named for the Arrakian creatures that move beneath the surface of everything. The brand personality is **technical, trustworthy, sharp**: a precision instrument for developers building authorization at scale, not a generic SaaS product page.
 
+**Where most authorization and developer-infra brands reach for cold blue + slate (Auth0, Okta) or the generic SaaS purple-gradient, Sandworm is _warm-technical_** — `magenta-600` + `sand-300` over a purple-tinted near-black. The warmth is the fingerprint.
+
+**Key Characteristics** — the fingerprint in eight lines:
+
+- **Warm-technical, never cold-enterprise** — magenta + sand warmth over a purple-tinted stone near-black; no bank-blue, no locks.
+- **Dark by default** — light mode is the deliberate minority (docs, blog index, forms, print).
+- **`font-light` everything** — hero and body run weight 300; bold is reserved for `magenta-600` in-prose emphasis spans.
+- **A gradient _family_, used sparingly** — the warm `sand → red → violet` 3-stop is primary; reaching for it on every CTA kills the signal.
+- **4/8 asymmetric composition** — text-left / content-right; symmetric 6/6 reads as generic SaaS.
+- **Restrained motion** — 200/300/500ms, `ease-in-out`, no bounce or spring. Sandworm does not overshoot.
+- **Dashed = scope, solid = node** — in diagrams, dashed borders group a set/scope; solid borders are individual nodes and atomic surfaces (cards, buttons). Connectors are solid; teal = allowed, red = denied.
+- **The system lives in code, not Figma** — Lucide icons at 2px; read `sandworm-colors.ts` when in doubt.
+
 **Five principles**, in tension order:
 
 1. **Precision over decoration.** Type, color, and motion exist to clarify the system underneath. If a flourish doesn't earn its weight by aiding comprehension, cut it.
-2. **Warm authority.** The palette is dark and confident, but never cold. Sand-300 (#ffb370) is the warmth that keeps the technical surface from reading as sterile enterprise.
+2. **Warm authority.** The palette is dark and confident, but never cold. `sand-300` is the warmth that keeps the technical surface from reading as sterile enterprise.
 3. **Developer empathy.** Copy speaks to the practitioner who already knows what authorization is. Skip the explainer paragraphs; show the code.
 4. **Distinctive, not trendy.** Sandworm avoids the current generic-SaaS palette (mint+navy+gradient-hero). Magenta-600 + sand-300 + teal-500 is a fingerprint, not a trend.
 5. **System-first.** A token used in three places is documented. A pattern shipped twice gets a component. Tribal knowledge is a bug.
@@ -473,31 +416,41 @@ Sandworm is AuthZed's unified design system — named for the Arrakian creatures
 
 **The system is in code, not Figma.** `projects/web/src/styles/sandworm-colors.ts` and `projects/design/sandworm/lib/semantic-colors.ts` are canonical. Figma files are partial and may be out of date. When in doubt, read the TypeScript.
 
+> **Path conventions** — `projects/web/…` refers to the authzed.com marketing-site repo; `projects/design/sandworm/…` is THIS repo. Marketing-site paths are cited as *provenance* (where a value was verified) — those files don't ship here. The values themselves are transcribed into this spec and the generated `kit/`; you never need the other repo to apply the system.
+
 ## Deep Dives
 
 This hub holds the primitive tokens (colors, typography, spacing, motion, etc.) and the foundational prose. Deeper, surface-specific specs live in spokes — load the relevant spoke alongside this hub:
 
+- [`design/palette.md`](design/palette.md) — the full color table (7 families × 15 stops, hex) — token refs resolve here
 - [`design/components.md`](design/components.md) — full component token specs + per-component detail
-- [`design/dataviz.md`](design/dataviz.md) — Rakis chart palette system
+- [`design/dataviz.md`](design/dataviz.md) — Rakis chart palette system (value-count-indexed, 1-20 series)
+- [`design/diagrams.md`](design/diagrams.md) — system / relationship / authorization-flow diagram language + the checkpoint beam
 - [`design/logo-brand.md`](design/logo-brand.md) — logo/wordmark usage, mark colors, clear space, minimum sizes
 - [`design/accessibility.md`](design/accessibility.md) — contrast ratios, focus/states, vendor-prefix gotchas
 - [`design/animation.md`](design/animation.md) — motion patterns, keyframes, reduced-motion
+- [`design/web-ui.md`](design/web-ui.md) — *(draft)* page-level composition for authzed.com: nav, footer, hero variants, section archetypes, use-case registry
+- [`design/print.md`](design/print.md) — *(draft)* print artifacts: one-pagers, DocSend icon tiles, the print-media contract for generating agents
+- [`design/slides.md`](design/slides.md) — *(draft)* 16:9 deck language: type scale, layout grid, the gradient agenda capsule, layout recipes
 
 ## Colors
 
-Sandworm uses seven color families, each on a 15-stop HSL-derived ramp (`025` → `975`). Hex values in the YAML are the rendered form; the live source uses HSL strings so dark mode and accessibility math stay clean.
+Sandworm uses seven color families, each on a 15-stop HSL-derived ramp (`025` → `975`). **The full hex table lives in [`design/palette.md`](design/palette.md)** (demoted from this hub 2026-06-10 for progressive disclosure) and in the generated kit (`colors_and_type.css` / tokens JSON); the live source uses HSL strings (`sandworm-colors.ts`) so dark mode and accessibility math stay clean. Notable ramp quirk — five families ship identical `950`/`975` stops by design; see the palette spoke before "fixing" anything.
 
-**Brand spine** — `magenta-600` (`#a5318a`) is the AuthZed primary. It carries the wordmark, the in-prose emphasis (font-semibold + magenta-600 is the established pattern for highlighted phrases inside body copy), and the hover-state border on dark cards. `sand-300` (`#ffb370`) is the warm counterweight; it's the link color on dark backgrounds (`text-sand-300` → hover `text-sand-200`) and the lightest piece of the brand gradient. `teal-500` (`#549693`) is the cool tertiary — frequently used for secondary CTAs and success states.
+**Brand spine** — `magenta-600` is the AuthZed primary. It carries the wordmark, the in-prose emphasis (font-semibold + magenta-600 is the established pattern for highlighted phrases inside body copy), and the hover-state border on dark cards. `sand-300` is the warm counterweight; it's the link color on dark backgrounds (`text-sand-300` → hover `text-sand-200`) and the lightest piece of the brand gradient. `teal-500` is the cool tertiary — frequently used for secondary CTAs and success states. (Hex values for all tokens live in the frontmatter `colors` block — prose references token names so the two never drift.)
 
-**The brand gradient family** — Sandworm has a family of canonical gradients, not one. The PRIMARY warm 3-stop is `sand-300 (#ffb370) → red-400 (#f9808a) → violet` — where the violet end-stop ships as **both** `violet-500 (#7a5ce6)` and `violet-600 (#6242e0)` depending on surface (unresolved — see drift note below). This is the gradient on hero emphasis spans, customer story card halos, the homepage UseCaseTree gradient text, and product-page brand marks (UseCaseTree, CustomerStory, Materialize Hero, AI Authorization, etc.). Sister gradients used on specific surfaces:
+**The gradient family** — a temperature matrix, not one gradient: three roles (hero / accent / brand-landing) × two registers (warm / cool), plus two specials. **`warm-hero`** (`sand-300 → red-400 → violet-600`) is THE brand gradient — hero emphasis spans, GradientButton, customer-story card halos, product-page brand marks. Its cool counterpart **`cool-hero`** (`violet-500 → teal-400`) carries cloud / data / product surfaces where warm over-saturates. The matrix:
 
-- **Warm 2-stop sunset** — `sand-300 → red-500` (accent strips, narrower CTAs)
-- **Cool 2-stop** — `teal-300 → violet-500` (Cloud product page hero — the alternative "cool" register when warm would over-saturate)
-- **Sand to magenta** — `sand-300 → magenta-600` (careers page section underlines, transitions that need to land on the brand primary)
+- **Hero** — `warm-hero` sand→red→violet (3-stop) · `cool-hero` violet→teal (+ `cool-hero-alt` violet→red-150, a softer blend)
+- **Accent (2-stop)** — `warm-accent` sand-300→red-500 · `cool-accent` violet-400→blue-300
+- **Brand-landing (4-stop, light→deep)** — `warm-brand` sand-100→sand-300→magenta-600→magenta-900 · `cool-brand` blue-150→teal-300→violet-600→violet-900
+- **Specials** — `spectrum` (5-stop full warm↔cool sweep, rare showcase moments) · `depth` / `depth-light` (neutral stone washes — structural, not brand-expressive)
+
+> **Forward-canon (2026-06-09)** — this matrix was redesigned in the gradient-lab. `warm-hero` and `warm-accent` match shipped marketing code; `warm-brand`, the full cool register, and the specials diverge from or don't yet exist in `projects/web` — the code reconciles to this spec (reconcile list tracked internally). Supersedes the old `brand-warm / brand-sunset / brand-cool / brand-warm-to-magenta / brand-warm-magenta-3stop` names. The `warm-hero` violet end-stop was settled 2026-06-10: **`violet-600`**, matching the CTA — see the drift note below.
 
 **The brand gradient is NOT for use on every surface** — over-application kills the signal. Use the primary warm 3-stop on hero emphasis and primary CTAs; reach for the sister gradients only when their specific surface logic applies.
 
-> **Drift note — UNRESOLVED (2026-06-03)**: the violet end-stop ships as both `violet-500` (`#7a5ce6`) and `violet-600` (`#6242e0`) depending on surface. A 2026-06-03 source check found `#6242e0` (violet-600) in `UseCaseTree`, `globals.css:197`, **and** `GradientButton.tsx` — so violet-600 may be the *majority* form, not a GradientButton-only outlier as the prior (2026-05-28) draft assumed. **Do NOT canonize -500 vs -600 until a full repo grep settles which dominates.** Flagged for a follow-up reconciliation PR. (`projects/web/CLAUDE.md` line 101 also cites an older `from-violet-400 to-teal-400` cool reversal that is not currently shipped.)
+> **Drift note — RESOLVED (2026-06-10)**: a full `projects/web/src` grep settled the violet end-stop. `violet-600` (`#6242e0`) ships at ~10 warm-gradient sites — including `GradientButton.tsx`, the canonical CTA — vs 3 sites for `violet-500` (`UseCaseTree`, `CustomerStory`, `Materialize Hero`, all Tailwind-class form). **Canon = `violet-600`, matching the CTA.** The three `to-violet-500` sites are drift → reconcile in the gradients→code PR. Pattern worth knowing: token-class usages drifted to `-500`; hex-literal usages propagated `-600` from GradientButton. (`projects/web/CLAUDE.md` line 101 also cites an older `from-violet-400 to-teal-400` cool reversal that is not currently shipped.)
 
 **Stone** is the neutral spine. The dark-mode default surface is `stone-950/90` (with 90% opacity to let underlying gradients breathe through), bordered with `stone-700`, hovering to `magenta-600/60`. The light-mode surface is `stone-025`.
 
@@ -599,6 +552,8 @@ The system inverts cleanly: `stone-025` becomes the page surface, `stone-900` be
 
 **The brand gradient stays the same on light surfaces.** Sand → red → violet reads against both stone-025 and stone-975 because all three gradient stops are in the mid-saturation band. Do NOT flip to a lighter gradient variant on light surfaces.
 
+> **Print is a separate register — these light-mode rules do NOT carry over.** One-pagers and PDF artifacts ban the gradient and magenta emphasis entirely (ink + restraint is the print register, and the print page is pure white, not stone-025). See [`design/print.md`](design/print.md) before designing anything that goes to paper.
+
 **What does flip**:
 - Surface color: `stone-025` ↔ `stone-975`
 - Foreground text: `stone-900` ↔ `stone-025`
@@ -663,17 +618,19 @@ Users with vestibular disorders or attention sensitivities depend on this. The b
 
 ## Shapes
 
-**Radius scale**: the design system's `--radius` default is `0.5rem` (**8px**), and the shadcn-style scale derives from it (`lg = var(--radius)`, `md = calc(--radius − 2px)`, `sm = calc(--radius − 4px)`). The design-system `Card` ships `rounded-lg` (8px); marketing product cards often reach for a larger radius (`rounded-xl`). **There is no single canonical card radius — match the surface.** *(The literal-px labels below are the legacy Tailwind-scale framing from an earlier draft and don't all match the shadcn calc system; reconcile before canonizing. Verified default = 8px, 2026-06-03.)* The scale:
+**Radius scale** *(reconciled 2026-06-11)*: two shipped systems. **Marketing** (`projects/web`) has no Tailwind override — stock scale applies: `rounded-xl` = **12px** on product cards, `rounded-lg` = 8px, `rounded-md` = 6px. **The design-system app** derives from `--radius` = `0.5rem`: `lg = var(--radius)` (**8px**), `md = calc(−2px)` (6px), `sm = calc(−4px)` (4px); its base `Card` ships `rounded-lg` → 8px. **There is no single canonical card radius — match the surface.** The token scale (stock values):
 
-- `rounded-sm` (4px) — small chrome (input borders, badges)
-- `rounded-md` (8px) — buttons, inline elements
-- `rounded-lg` (12px) — callouts, terminal windows
-- `rounded-xl` (16px) — marketing product cards, primary content surfaces
+- `rounded-sm` (2px) — smallest chrome
+- `rounded` (4px) — input borders, badges
+- `rounded-md` (6px) — buttons, callouts, inline elements
+- `rounded-lg` (8px) — terminal windows, base Card
+- `rounded-xl` (12px) — marketing product cards, primary content surfaces
+- `rounded-2xl` (16px) — large feature surfaces, diagram group nodes
 - `rounded-pill` (9999px) — pill chrome on the SpiceDB tree hub, badges
 
-**Dashed borders** are the "connected system" motif — used on the use-case tree (Cyera-inspired hub + dashed-line fan, rounded corners), the relationship graph patterns, and any surface where the visual implication is "these are nodes in a graph". Solid borders are for atomic surfaces (cards, buttons); dashed borders are for systems.
+**Dashed borders** are the "scope container" motif in diagrams — they wrap a *set* of nodes (a vector-DB partition, a permission domain, a stack of related docs). Solid borders are for atomic surfaces (cards, buttons) and for individual diagram nodes; dashed borders group them. Note: connectors between nodes are **solid** (teal = allowed, red = denied), not dashed — the full diagram language, including the signature gradient **checkpoint beam**, lives in [`design/diagrams.md`](design/diagrams.md).
 
-**Iconography**: Lucide React is the icon system. Sizes default to `h-4 w-4` for inline, `h-5 w-5` for list items, `h-6 w-6` for section accents.
+**Iconography**: Lucide React is the icon system. Sizes follow the `icons` token scale: `h-3.5` inline-within-text-body, `h-4 w-4` small default (status badges), `h-5 w-5` list items / button icons, `h-6 w-6` section accents.
 
 ## Components
 
@@ -732,4 +689,26 @@ Full component token specs + per-component detail → `design/components.md`.
 
 ---
 
-> TODO[brand]: This DESIGN.md doesn't cover SpiceDB-specific or SpiceBox-specific deviations. If those products end up with sibling palettes/voices, add them as `## SpiceDB` / `## SpiceBox` subsections (or split into per-product spokes).
+## Iteration Guide
+
+This file is the canonical spec — AI tools and teammates design against it. Keep it trustworthy:
+
+1. **Ground claims in shipped code.** Before adding or changing a token/rule, grep `projects/web` + `projects/design/sandworm` to confirm it actually ships. Stamp verified facts `(verified YYYY-MM-DD)`. Plans written from memory are fiction.
+2. **Hex lives in `design/palette.md` + the generated kit; prose references names.** Write `magenta-600`, not `magenta-600 (#a5318a)`, in prose — so the two never drift. Token refs (`{colors.family.stop}`) resolve against the palette spoke; the kit generator merges both files. Exceptions are deliberate: drift callouts, the `#0F0E14` terminal exception, and historical wrong-hex guardrails keep their hex because the hex *is* the point.
+3. **Update the spoke + this hub in the SAME commit.** When a primitive changes, the index here and the spoke move together so nothing designs against stale rules.
+4. **Document rejected drift, don't bless it.** When shipped code diverges from canon (vendor magenta buttons, legacy logomark hexes), record it as drift the spec rejects — see Known Gaps — rather than silently canonizing the divergence.
+5. **Keep the hub lean.** Primitives + foundational prose live here; surface-specific depth spokes out to `design/*.md`. If a section outgrows its weight, spoke it.
+
+## Known Gaps
+
+Open reconciliations and out-of-scope areas, tracked so they don't masquerade as settled canon:
+
+- **Gradient violet end-stop SETTLED (2026-06-10)** — canon is `violet-600`, matching `GradientButton` and the shipped majority. Remaining work is code-side: reconcile the three `to-violet-500` sites (`UseCaseTree`, `CustomerStory`, `Materialize Hero`), and note the shipped cool gradient (`teal-300 → violet-500`, cloud pages + signup) runs the *reverse* direction of spec `cool-hero` (`violet-500 → teal-400`) — both tracked in the gradients→code reconcile (parking-lot 65).
+- ~~Radius literal-px labels~~ **RESOLVED 2026-06-11** — the `rounded` block now carries the stock Tailwind values shipped by marketing, with the design-system app's shadcn calc system documented alongside. (The old table matched neither.)
+- **App-tier components not promoted** — `Callout`, `TerminalWindow`, `RelationshipsTable`, `IfStatementsToCheckPermission` live in app code, not `components/ui/`. (See `design/components.md`.)
+- **Logomark SVG hex drift** — shipped logo SVGs carry legacy hexes (`#A43189` / `#F0546C` / `#FFB371`) that don't match canonical tokens. Use tokens, not the SVG hexes. (See `design/logo-brand.md`.)
+- **Diagram token corrected (2026-06-09)** — the old aspirational `dashed-border` token (dashed "4 4" connectors, magenta-active) never shipped; replaced with the real vocabulary (solid teal connectors, dashed "7 3" scope containers, the checkpoint beam). Canon: `design/diagrams.md`.
+- **Product-tier spoke unpublished** — `design/product-ui.md` exists in-repo but is ON HOLD pending review ("do not treat as canon"); it's excluded from the Deep Dives manifest and the kit skill until promoted.
+- **Voice & tone is out of scope** — brand voice/messaging lives in the separate messaging repo, not this design spec. Don't add a voice spoke here.
+- **No SpiceDB / SpiceBox deviations** — if those products grow sibling palettes/voices, add `## SpiceDB` / `## SpiceBox` subsections (or split into per-product spokes).
+- **`components:` token block absent** — the standard DESIGN.md-format `components` token group isn't populated; component specs live in prose + the components spoke instead. Intentional — noted so tooling that expects it doesn't read the absence as an error.
