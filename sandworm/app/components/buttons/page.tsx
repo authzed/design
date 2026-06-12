@@ -161,12 +161,12 @@ export default function ButtonsPage() {
         <section>
           <h2 className="text-2xl font-semibold mb-6">Pill Button Vocabulary</h2>
           <p className="text-sm text-muted-foreground mb-4">
-            Contextual pill buttons for situations where the gradient CTA is too loud. No dedicated component — compose with Tailwind matching the spec.
+            Contextual pill buttons for situations where the gradient CTA is too loud. No dedicated component — compose with Tailwind matching the spec. Shown on a dark panel — these are built for dark marketing surfaces.
           </p>
           <Card className="p-6 space-y-6">
             <div>
               <p className="text-xs text-muted-foreground uppercase tracking-widest font-mono mb-3">button-outline — stone-100 border, white on hover</p>
-              <div className="flex flex-wrap gap-4">
+              <div className="flex flex-wrap gap-4 rounded-lg bg-stone-950 p-5">
                 <button className="rounded-full border border-stone-100 bg-transparent px-6 py-2.5 font-mono text-xs font-medium uppercase tracking-widest text-stone-200 transition-colors duration-300 hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-magenta-600 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50">
                   Get Started
                 </button>
@@ -177,7 +177,7 @@ export default function ButtonsPage() {
             </div>
             <div>
               <p className="text-xs text-muted-foreground uppercase tracking-widest font-mono mb-3">button-subtle — stone-600 border (quieter)</p>
-              <div className="flex flex-wrap gap-4">
+              <div className="flex flex-wrap gap-4 rounded-lg bg-stone-950 p-5">
                 <button className="rounded-full border border-stone-600 bg-transparent px-6 py-2.5 font-mono text-xs font-medium uppercase tracking-widest text-stone-300 transition-colors duration-300 hover:border-stone-500 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-magenta-600 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50">
                   Learn More
                 </button>
@@ -195,7 +195,7 @@ export default function ButtonsPage() {
             The canonical marketing hero structure: mono-caps eyebrow → font-light h1 with magenta-600 emphasis → CTA pair (GradientButton outline + subtle secondary).
           </p>
           <Card className="p-6">
-            <div className="space-y-4">
+            <div className="space-y-4 rounded-lg bg-stone-950 p-8">
               <p className="font-mono text-xs font-medium uppercase tracking-widest text-stone-400">
                 Authorization Platform
               </p>

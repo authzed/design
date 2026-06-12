@@ -30,11 +30,11 @@ export default function AnimationPage() {
               (hover/focus feedback) or to ease a layout shift (accordion open,
               element entering on scroll) — not for decoration.
             </p>
-            <div className="rounded-lg border border-stone-800 bg-stone-900 px-4 py-3">
-              <p className="text-sm font-semibold text-stone-100">
+            <div className="rounded-lg border bg-muted px-4 py-3">
+              <p className="text-sm font-semibold text-foreground">
                 Sandworm motion does not bounce.
               </p>
-              <p className="text-sm text-stone-400 mt-1">
+              <p className="text-sm text-muted-foreground mt-1">
                 Only <code className="text-xs">ease-out</code>,{' '}
                 <code className="text-xs">ease-in</code>,{' '}
                 <code className="text-xs">ease-in-out</code>, and the Material
@@ -56,21 +56,21 @@ export default function AnimationPage() {
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="border-b border-stone-800 text-left">
-                    <th className="pb-3 pr-6 font-semibold text-stone-300">Token</th>
-                    <th className="pb-3 pr-6 font-semibold text-stone-300">Value</th>
-                    <th className="pb-3 pr-6 font-semibold text-stone-300">Use</th>
-                    <th className="pb-3 font-semibold text-stone-300">Live demo</th>
+                  <tr className="border-b border-border text-left">
+                    <th className="pb-3 pr-6 font-semibold text-muted-foreground">Token</th>
+                    <th className="pb-3 pr-6 font-semibold text-muted-foreground">Value</th>
+                    <th className="pb-3 pr-6 font-semibold text-muted-foreground">Use</th>
+                    <th className="pb-3 font-semibold text-muted-foreground">Live demo</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-stone-800">
+                <tbody className="divide-y divide-border">
                   <tr>
-                    <td className="py-3 pr-6 font-mono text-xs text-stone-200">fast</td>
-                    <td className="py-3 pr-6 font-mono text-xs text-stone-400">200ms</td>
-                    <td className="py-3 pr-6 text-stone-400">Hover/focus feedback</td>
+                    <td className="py-3 pr-6 font-mono text-xs text-foreground">fast</td>
+                    <td className="py-3 pr-6 font-mono text-xs text-muted-foreground">200ms</td>
+                    <td className="py-3 pr-6 text-muted-foreground">Hover/focus feedback</td>
                     <td className="py-3">
                       <span
-                        className="inline-block px-3 py-1 rounded text-xs bg-stone-800 text-stone-200 cursor-default"
+                        className="inline-block px-3 py-1 rounded text-xs bg-muted text-foreground cursor-default"
                         style={{ transition: 'background-color 200ms ease-out' }}
                         onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = 'hsl(var(--magenta-600))'; (e.currentTarget as HTMLElement).style.color = 'hsl(var(--stone-025))'; }}
                         onMouseLeave={e => { (e.currentTarget as HTMLElement).style.backgroundColor = ''; (e.currentTarget as HTMLElement).style.color = ''; }}
@@ -80,12 +80,12 @@ export default function AnimationPage() {
                     </td>
                   </tr>
                   <tr>
-                    <td className="py-3 pr-6 font-mono text-xs text-stone-200">base</td>
-                    <td className="py-3 pr-6 font-mono text-xs text-stone-400">300ms</td>
-                    <td className="py-3 pr-6 text-stone-400">Standard transitions</td>
+                    <td className="py-3 pr-6 font-mono text-xs text-foreground">base</td>
+                    <td className="py-3 pr-6 font-mono text-xs text-muted-foreground">300ms</td>
+                    <td className="py-3 pr-6 text-muted-foreground">Standard transitions</td>
                     <td className="py-3">
                       <span
-                        className="inline-block px-3 py-1 rounded text-xs bg-stone-800 text-stone-200 cursor-default"
+                        className="inline-block px-3 py-1 rounded text-xs bg-muted text-foreground cursor-default"
                         style={{ transition: 'background-color 300ms ease-in-out' }}
                         onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = 'hsl(var(--teal-600))'; (e.currentTarget as HTMLElement).style.color = 'hsl(var(--stone-025))'; }}
                         onMouseLeave={e => { (e.currentTarget as HTMLElement).style.backgroundColor = ''; (e.currentTarget as HTMLElement).style.color = ''; }}
@@ -95,12 +95,12 @@ export default function AnimationPage() {
                     </td>
                   </tr>
                   <tr>
-                    <td className="py-3 pr-6 font-mono text-xs text-stone-200">slow</td>
-                    <td className="py-3 pr-6 font-mono text-xs text-stone-400">500ms</td>
-                    <td className="py-3 pr-6 text-stone-400">Signature feature lifts, GradientButton</td>
+                    <td className="py-3 pr-6 font-mono text-xs text-foreground">slow</td>
+                    <td className="py-3 pr-6 font-mono text-xs text-muted-foreground">500ms</td>
+                    <td className="py-3 pr-6 text-muted-foreground">Signature feature lifts, GradientButton</td>
                     <td className="py-3">
                       <span
-                        className="inline-block px-3 py-1 rounded text-xs bg-stone-800 text-stone-200 cursor-default"
+                        className="inline-block px-3 py-1 rounded text-xs bg-muted text-foreground cursor-default"
                         style={{ transition: 'all 500ms ease-in-out' }}
                         onMouseEnter={e => {
                           const el = e.currentTarget as HTMLElement;
@@ -120,25 +120,25 @@ export default function AnimationPage() {
                     </td>
                   </tr>
                   <tr>
-                    <td className="py-3 pr-6 font-mono text-xs text-stone-200">dramatic</td>
-                    <td className="py-3 pr-6 font-mono text-xs text-stone-400">700ms</td>
-                    <td className="py-3 pr-6 text-stone-400 italic">Rare — deliberate reveals</td>
+                    <td className="py-3 pr-6 font-mono text-xs text-foreground">dramatic</td>
+                    <td className="py-3 pr-6 font-mono text-xs text-muted-foreground">700ms</td>
+                    <td className="py-3 pr-6 text-muted-foreground italic">Rare — deliberate reveals</td>
                     <td className="py-3">
-                      <span className="text-xs text-stone-600">—</span>
+                      <span className="text-xs text-muted-foreground">—</span>
                     </td>
                   </tr>
                   <tr>
-                    <td className="py-3 pr-6 font-mono text-xs text-stone-200">legato</td>
-                    <td className="py-3 pr-6 font-mono text-xs text-stone-400">2000ms</td>
-                    <td className="py-3 pr-6 text-stone-400 italic">One-off ambient loops only</td>
+                    <td className="py-3 pr-6 font-mono text-xs text-foreground">legato</td>
+                    <td className="py-3 pr-6 font-mono text-xs text-muted-foreground">2000ms</td>
+                    <td className="py-3 pr-6 text-muted-foreground italic">One-off ambient loops only</td>
                     <td className="py-3">
-                      <span className="text-xs text-stone-600">—</span>
+                      <span className="text-xs text-muted-foreground">—</span>
                     </td>
                   </tr>
                 </tbody>
               </table>
             </div>
-            <p className="text-xs text-stone-500 mt-4">
+            <p className="text-xs text-muted-foreground mt-4">
               Named keyframe animations layer additional durations on top of these tokens: 0.2s
               (accordion), 0.4s (logo slide), 0.8s (fade-in), 1s (logo reveal), and 2–10s looping
               ambient loops (float, twinkle, glow-pulse, shimmer).
@@ -153,32 +153,32 @@ export default function AnimationPage() {
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="border-b border-stone-800 text-left">
-                    <th className="pb-3 pr-6 font-semibold text-stone-300">Easing</th>
-                    <th className="pb-3 pr-6 font-semibold text-stone-300">Value</th>
-                    <th className="pb-3 font-semibold text-stone-300">When to use</th>
+                  <tr className="border-b border-border text-left">
+                    <th className="pb-3 pr-6 font-semibold text-muted-foreground">Easing</th>
+                    <th className="pb-3 pr-6 font-semibold text-muted-foreground">Value</th>
+                    <th className="pb-3 font-semibold text-muted-foreground">When to use</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-stone-800 text-sm">
+                <tbody className="divide-y divide-border text-sm">
                   <tr>
-                    <td className="py-3 pr-6 font-mono text-xs text-stone-200">ease-out</td>
-                    <td className="py-3 pr-6 font-mono text-xs text-stone-400">ease-out</td>
-                    <td className="py-3 text-stone-400">Entrances — element decelerates into view. Accordion, fade-in entrance.</td>
+                    <td className="py-3 pr-6 font-mono text-xs text-foreground">ease-out</td>
+                    <td className="py-3 pr-6 font-mono text-xs text-muted-foreground">ease-out</td>
+                    <td className="py-3 text-muted-foreground">Entrances — element decelerates into view. Accordion, fade-in entrance.</td>
                   </tr>
                   <tr>
-                    <td className="py-3 pr-6 font-mono text-xs text-stone-200">ease-in</td>
-                    <td className="py-3 pr-6 font-mono text-xs text-stone-400">ease-in</td>
-                    <td className="py-3 text-stone-400">Exits — element accelerates out. Logo slide-out.</td>
+                    <td className="py-3 pr-6 font-mono text-xs text-foreground">ease-in</td>
+                    <td className="py-3 pr-6 font-mono text-xs text-muted-foreground">ease-in</td>
+                    <td className="py-3 text-muted-foreground">Exits — element accelerates out. Logo slide-out.</td>
                   </tr>
                   <tr>
-                    <td className="py-3 pr-6 font-mono text-xs text-stone-200">ease-in-out</td>
-                    <td className="py-3 pr-6 font-mono text-xs text-stone-400">ease-in-out</td>
-                    <td className="py-3 text-stone-400">Default — symmetric ramp. GradientButton gradient pan, hover lifts, ambient loops.</td>
+                    <td className="py-3 pr-6 font-mono text-xs text-foreground">ease-in-out</td>
+                    <td className="py-3 pr-6 font-mono text-xs text-muted-foreground">ease-in-out</td>
+                    <td className="py-3 text-muted-foreground">Default — symmetric ramp. GradientButton gradient pan, hover lifts, ambient loops.</td>
                   </tr>
                   <tr>
-                    <td className="py-3 pr-6 font-mono text-xs text-stone-200">material</td>
-                    <td className="py-3 pr-6 font-mono text-xs text-stone-400">cubic-bezier(0.4, 0, 0.2, 1)</td>
-                    <td className="py-3 text-stone-400">Logo-fade-in, flipbook/storybook card lifts, shimmer. The only custom bezier.</td>
+                    <td className="py-3 pr-6 font-mono text-xs text-foreground">material</td>
+                    <td className="py-3 pr-6 font-mono text-xs text-muted-foreground">cubic-bezier(0.4, 0, 0.2, 1)</td>
+                    <td className="py-3 text-muted-foreground">Logo-fade-in, flipbook/storybook card lifts, shimmer. The only custom bezier.</td>
                   </tr>
                 </tbody>
               </table>
@@ -201,7 +201,7 @@ export default function AnimationPage() {
 
             <div>
               <h3 className="text-sm font-semibold mb-1">glow</h3>
-              <p className="text-sm text-stone-400 mb-2">
+              <p className="text-sm text-muted-foreground mb-2">
                 <code className="text-xs">2s ease-in-out infinite</code> — pulsing aura on a hovered or
                 featured element. Ramps <code className="text-xs">brightness(100%→150%)</code>,{' '}
                 <code className="text-xs">blur(0px→1px)</code>, and a{' '}
@@ -211,7 +211,7 @@ export default function AnimationPage() {
 
             <div>
               <h3 className="text-sm font-semibold mb-1">accordion-down / accordion-up</h3>
-              <p className="text-sm text-stone-400">
+              <p className="text-sm text-muted-foreground">
                 <code className="text-xs">0.2s ease-out</code> — animates <code className="text-xs">height</code> to/from{' '}
                 <code className="text-xs">var(--radix-accordion-content-height)</code>. Radix accordion content expand/collapse.
               </p>
@@ -219,7 +219,7 @@ export default function AnimationPage() {
 
             <div>
               <h3 className="text-sm font-semibold mb-1">fade-in</h3>
-              <p className="text-sm text-stone-400">
+              <p className="text-sm text-muted-foreground">
                 <code className="text-xs">0.8s ease-out forwards</code> — opacity{' '}
                 <code className="text-xs">0→1</code> with{' '}
                 <code className="text-xs">translateY(30px)→0</code>. Scroll/load entrance for
@@ -229,7 +229,7 @@ export default function AnimationPage() {
 
             <div>
               <h3 className="text-sm font-semibold mb-1">logo-fade-in</h3>
-              <p className="text-sm text-stone-400">
+              <p className="text-sm text-muted-foreground">
                 <code className="text-xs">1s cubic-bezier(0.4, 0, 0.2, 1) forwards</code> — opacity{' '}
                 <code className="text-xs">0→0.8</code>, scale{' '}
                 <code className="text-xs">0.85→1</code>,{' '}
@@ -239,7 +239,7 @@ export default function AnimationPage() {
 
             <div>
               <h3 className="text-sm font-semibold mb-1">logo-slide-out / logo-slide-in</h3>
-              <p className="text-sm text-stone-400">
+              <p className="text-sm text-muted-foreground">
                 Both <code className="text-xs">0.4s forwards</code> (ease-in out, ease-out in) — opacity +{' '}
                 <code className="text-xs">translateY</code> swap between rotating logos.
               </p>
@@ -247,7 +247,7 @@ export default function AnimationPage() {
 
             <div>
               <h3 className="text-sm font-semibold mb-1">Ambient float loops</h3>
-              <p className="text-sm text-stone-400">
+              <p className="text-sm text-muted-foreground">
                 <code className="text-xs">float</code> (4s), <code className="text-xs">float-reverse</code> (5s),{' '}
                 <code className="text-xs">float-gentle</code> (6s),{' '}
                 <code className="text-xs">illustration-float</code> (8s) — gentle{' '}
@@ -258,10 +258,10 @@ export default function AnimationPage() {
 
             <div>
               <h3 className="text-sm font-semibold mb-1">GradientButton gradient-slide</h3>
-              <p className="text-sm text-stone-400 mb-2">
+              <p className="text-sm text-muted-foreground mb-2">
                 The signature CTA pattern. Not a keyframe — a moving background:
               </p>
-              <ul className="text-sm text-stone-400 space-y-1 list-none">
+              <ul className="text-sm text-muted-foreground space-y-1 list-none">
                 <li>
                   Outer wrapper: <code className="text-xs">bg-gradient-to-r</code> from sand-300 → red-400 → violet-600,
                   sized <code className="text-xs">bg-[length:200%_200%]</code>, positioned <code className="text-xs">bg-left</code>.
@@ -287,7 +287,7 @@ export default function AnimationPage() {
               <h3 className="text-sm font-semibold mb-3">fast (200ms ease-out) — hover feedback</h3>
               <div className="flex flex-wrap gap-3">
                 <button
-                  className="px-4 py-2 rounded text-sm font-medium bg-stone-800 text-stone-200"
+                  className="px-4 py-2 rounded text-sm font-medium bg-muted text-foreground"
                   style={{ transition: 'background-color 200ms ease-out, color 200ms ease-out' }}
                   onMouseEnter={e => {
                     const el = e.currentTarget as HTMLElement;
@@ -309,7 +309,7 @@ export default function AnimationPage() {
               <h3 className="text-sm font-semibold mb-3">slow (500ms ease-in-out) — signature lift</h3>
               <div className="flex flex-wrap gap-3">
                 <button
-                  className="px-4 py-2 rounded text-sm font-medium bg-stone-800 text-stone-200"
+                  className="px-4 py-2 rounded text-sm font-medium bg-muted text-foreground"
                   style={{ transition: 'all 500ms ease-in-out' }}
                   onMouseEnter={e => {
                     const el = e.currentTarget as HTMLElement;
@@ -333,7 +333,7 @@ export default function AnimationPage() {
               <h3 className="text-sm font-semibold mb-3">material bezier (500ms) — card lift</h3>
               <div className="flex flex-wrap gap-3">
                 <div
-                  className="px-4 py-3 rounded-lg text-sm font-medium bg-stone-800 text-stone-200 cursor-default select-none"
+                  className="px-4 py-3 rounded-lg text-sm font-medium bg-muted text-foreground cursor-default select-none"
                   style={{ transition: 'transform 500ms cubic-bezier(0.4, 0, 0.2, 1), box-shadow 500ms cubic-bezier(0.4, 0, 0.2, 1)' }}
                   onMouseEnter={e => {
                     const el = e.currentTarget as HTMLElement;
@@ -396,7 +396,7 @@ if (!prefersReducedMotion) {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-3">
                 <h3 className="text-sm font-semibold text-teal-400">Do</h3>
-                <ul className="space-y-2 text-sm text-stone-300">
+                <ul className="space-y-2 text-sm text-muted-foreground">
                   <li className="flex gap-2">
                     <span className="text-teal-400 shrink-0">✓</span>
                     <span>Run hover/focus feedback on <code className="text-xs">fast (200ms)</code></span>
@@ -417,7 +417,7 @@ if (!prefersReducedMotion) {
               </div>
               <div className="space-y-3">
                 <h3 className="text-sm font-semibold text-red-400">Don&apos;t</h3>
-                <ul className="space-y-2 text-sm text-stone-300">
+                <ul className="space-y-2 text-sm text-muted-foreground">
                   <li className="flex gap-2">
                     <span className="text-red-400 shrink-0">✗</span>
                     <span>Add spring or overshoot easing — none ships, and bounce breaks the restrained register</span>
