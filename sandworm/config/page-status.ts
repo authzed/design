@@ -8,6 +8,7 @@ export const pageStatus: PageStatusConfig = {
   // Foundations
   "/colors": "ready",
   "/typography": "ready",
+  "/gradients": "ready",
   "/logo": "ready",
   "/icons": "ready",
 
@@ -24,10 +25,15 @@ export const pageStatus: PageStatusConfig = {
   "/components/data-entry": "ready",
   "/components/toggle": "ready",
 
+  // Patterns
+  "/diagrams": "ready",
+  "/dataviz": "ready",
+
   // Guidelines
+  "/accessibility": "ready",
   "/guidelines/voice-tone": "ready",
   "/guidelines/photography": "draft",
-  "/guidelines/animation": "draft",
+  "/guidelines/animation": "ready",
 
   // Assets
   "/assets/banners": "ready",

@@ -179,15 +179,15 @@ export default function ColorsPage() {
         </div>
         <h2 className="text-2xl">A Desert-Inspired Palette</h2>
         <p className="text-lg text-muted-foreground">
-          Our color system draws inspiration from the subtle hues of desert landscapes, 
-          featuring warm sand tones and cool stone grays. This palette ensures excellent 
-          contrast and accessibility while maintaining visual harmony across light and dark themes.
+          Our color system draws inspiration from the subtle hues of desert landscapes,
+          featuring warm sand tones and cool stone grays. Contrast is computed per-pair in the spec (see the accessibility spoke); not all combinations are interchangeable. Key caveat: magenta-600 on dark surfaces is 3.1:1 — large/display text only; use magenta-400 for small text on dark.
         </p>
       </div>
 
       <div className="space-y-8">
         <div>
           <h2 className="text-2xl font-semibold mb-6">Semantic Colors</h2>
+          <p className="text-sm text-muted-foreground mb-4">These are the app&apos;s shadcn semantic tokens, not the brand tokens. The brand primary is magenta-600; accent is sand-300 (see DESIGN.md).</p>
           <SemanticColorGrid colors={semanticColors} />
         </div>
 

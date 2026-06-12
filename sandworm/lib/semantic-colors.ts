@@ -10,8 +10,8 @@ export const semanticColorMappings = {
   error: { token: 'red-050', darkToken: 'red-900' },
   creative: { token: 'violet-050', darkToken: 'violet-900' },
   destructive: { token: 'stone-975', darkToken: 'stone-025' },
-  border: { token: 'stone-150', darkToken: 'stone-850' },
-  input: { token: 'stone-150', darkToken: 'stone-850' },
+  border: { token: 'stone-150', darkToken: 'stone-700' },
+  input: { token: 'stone-150', darkToken: 'stone-700' },
   ring: { token: 'stone-150', darkToken: 'stone-800' },
 };
 

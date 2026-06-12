@@ -35,6 +35,10 @@ const sidebarNavItems: NavSection[] = [
         href: "/typography",
       },
       {
+        title: "Gradients",
+        href: "/gradients",
+      },
+      {
         title: "Logo",
         href: "/logo",
       },
@@ -94,8 +98,25 @@ const sidebarNavItems: NavSection[] = [
     ],
   },
   {
+    title: "Patterns",
+    items: [
+      {
+        title: "Diagrams",
+        href: "/diagrams",
+      },
+      {
+        title: "Data Viz",
+        href: "/dataviz",
+      },
+    ],
+  },
+  {
     title: "Guidelines",
     items: [
+      {
+        title: "Accessibility",
+        href: "/accessibility",
+      },
       {
         title: "Voice & Tone",
         href: "/guidelines/voice-tone",

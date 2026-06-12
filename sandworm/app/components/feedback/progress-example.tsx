@@ -33,7 +33,7 @@ export function ProgressExample() {
                 "[&>div]:bg-gradient-to-r",
                 "[&>div]:from-[hsl(var(--sand-300))]",
                 "[&>div]:via-[hsl(var(--red-400))]",
-                "[&>div]:to-[hsl(var(--magenta-500))]",
+                "[&>div]:to-[hsl(var(--violet-600))]",
                 "[&>div]:shadow-[0_0_8px_rgba(255,255,255,0.5)]",
                 "[&>div]:transition-all",
                 "[&>div]:duration-300",
@@ -46,7 +46,7 @@ export function ProgressExample() {
                 "opacity-40 dark:opacity-80"
               )}
               style={{
-                background: `linear-gradient(to right, hsl(var(--sand-300)), hsl(var(--red-400)), hsl(var(--magenta-600)))`,
+                background: `linear-gradient(to right, hsl(var(--sand-300)), hsl(var(--red-400)), hsl(var(--violet-600)))`,
                 width: `${progress}%`,
                 transition: 'width 300ms ease-in-out'
               }}
