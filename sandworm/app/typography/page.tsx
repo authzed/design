@@ -7,6 +7,7 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/component
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
+import { Card } from '@/components/ui/card';
 
 export default function TypographyPage() {
   const [openSections, setOpenSections] = useState({
@@ -290,6 +291,49 @@ export default function TypographyPage() {
                   </p>
                 </div>
               </div>
+            </div>
+
+            <div>
+              <h3 className="text-xl font-semibold mb-4">Brand Emphasis Modes — Live Demo</h3>
+              <p className="text-muted-foreground mb-4">
+                Two ways to add brand emphasis inside a headline. Use solid magenta-600 for in-prose punchlines;
+                reserve the gradient text-fill for the page&apos;s hero brand mark (once per hero, never in body paragraphs).
+              </p>
+              <div className="space-y-4">
+                <Card className="p-6 space-y-3">
+                  <p className="font-mono text-xs font-medium uppercase tracking-widest text-stone-400 mb-2">
+                    Solid magenta-600 semibold — in-prose emphasis
+                  </p>
+                  <p className="text-3xl font-light leading-snug">
+                    Every authorization use case.{" "}
+                    <span className="font-semibold text-magenta-600">One system.</span>
+                  </p>
+                  <p className="text-xs text-muted-foreground font-mono">
+                    font-light + <span className="text-magenta-600">font-semibold text-magenta-600</span> — standard in-prose emphasis
+                  </p>
+                </Card>
+
+                <Card className="p-6 space-y-3">
+                  <p className="font-mono text-xs font-medium uppercase tracking-widest text-stone-400 mb-2">
+                    Brand-gradient text-fill — hero brand mark
+                  </p>
+                  <p className="text-3xl font-light leading-snug">
+                    Built for teams that{" "}
+                    <span
+                      className="font-semibold bg-gradient-to-r from-sand-300 via-red-400 to-violet-600 bg-clip-text text-transparent [-webkit-background-clip:text] [-webkit-text-fill-color:transparent]"
+                    >
+                      can&apos;t afford to get it wrong.
+                    </span>
+                  </p>
+                  <p className="text-xs text-muted-foreground font-mono">
+                    bg-gradient-to-r from-sand-300 via-red-400 to-violet-600 · bg-clip-text text-transparent · Safari: -webkit-background-clip -webkit-text-fill-color
+                  </p>
+                </Card>
+              </div>
+              <p className="text-sm text-muted-foreground mt-3">
+                Gradient text-fill is <strong>hero-only</strong> — never in body paragraphs. Use solid{" "}
+                <code className="bg-muted px-1 py-0.5 rounded">text-magenta-600</code> for in-prose emphasis.
+              </p>
             </div>
 
             <div>
