@@ -108,7 +108,8 @@ is frequently the one that interrupts a feed of dark ones. Both are in-system.
 
 > ⚠️ **Pull gradient hexes from tokens, never from the logo SVGs.** The shipped logo SVGs carry legacy
 > hexes that are known drift (see the hub's Open Questions). Sampling a colour out of
-> `authzed-logo-multi.svg` gives you `#FFB471 / #F0546C / #A43189`; the canonical stops are
+> the logo SVG (`public/AuthZed-Wordmark-Color-Dark.svg`, or its marketing-repo copy
+> `authzed-logo-multi.svg`) gives you `#FFB471 / #F0546C / #A43189`; the canonical stops are
 > the `warm-hero` stops (`sand-300 / red-400 / violet-600`). `red-400` is the one that bites — the SVG value is markedly more
 > saturated than canon. Reference token names; resolve hex from [`palette.md`](palette.md).
 

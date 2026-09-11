@@ -17,18 +17,27 @@ part-of: Sandworm
 #   "Wordmark" means the FULL LOCKUP (logomark + type), not the type on its own.
 #   Every asset needs a -Dark or -Light suffix; the bare name does not exist on disk.
 #   "-Dark" = FOR DARK SURFACES (light type, #F1F0F2). "-Light" = for light surfaces.
-#   Real location is public/ and public/Stacked/ — NOT public/assets/brand/ as listed
-#   below. Paths in this block are stale; see the hub's Known Gaps.
+#   Assets live at public/ and public/Stacked/. Paths below are verified 2026-09-11.
 logo:
   assets:
-    wordmark-color: "public/assets/brand/AuthZed-Wordmark-Color.svg"
-    wordmark-slate: "public/assets/brand/AuthZed-Wordmark-Slate.svg"
-    logomark-circle-color: "public/assets/brand/logomark/authzed-logomark-circle-color.svg"
-    logomark-circle-slate: "public/assets/brand/logomark/authzed-logomark-circle-slate.svg"
-    stacked-color: "public/assets/brand/AuthZed-Stacked-Color.svg"
-    # SpiceDB sibling
-    spicedb-wordmark-color: "public/assets/brand/SpiceDB-Wordmark-Color.svg"
-    spicedb-wordmark-dark: "public/assets/brand/SpiceDB-Wordmark-Dark.svg"
+    # Every asset is -Dark (for DARK surfaces, light type) or -Light (for LIGHT surfaces).
+    # There is no un-suffixed variant except the colour logomark. Verified 2026-09-11.
+    wordmark-color-dark:    "public/AuthZed-Wordmark-Color-Dark.svg"      # full lockup, light type
+    wordmark-color-light:   "public/AuthZed-Wordmark-Color-Light.svg"
+    wordmark-slate-dark:    "public/AuthZed-Wordmark-Slate-Dark.svg"
+    wordmark-slate-light:   "public/AuthZed-Wordmark-Slate-Light.svg"
+    logomark-circle-color:  "public/AuthZed-Logomark-Circle-Color.svg"    # NOTE: no -Dark/-Light — works on both
+    logomark-circle-slate-dark:  "public/AuthZed-Logomark-Circle-Slate-Dark.svg"
+    logomark-circle-slate-light: "public/AuthZed-Logomark-Circle-Slate-Light.svg"
+    stacked-color-dark:     "public/Stacked/AuthZed-Wordmark-Stacked-Color-Dark.svg"
+    stacked-color-light:    "public/Stacked/AuthZed-Wordmark-Stacked-Color-Light.svg"
+    stacked-slate-dark:     "public/Stacked/AuthZed-Wordmark-Stacked-Slate-Dark.svg"
+    stacked-slate-light:    "public/Stacked/AuthZed-Wordmark-Stacked-Slate-Light.svg"
+    # SpiceDB siblings — same four-way matrix, plus Stacked/
+    spicedb-wordmark-color-dark:  "public/SpiceDB-Wordmark-Color-Dark.svg"
+    spicedb-wordmark-color-light: "public/SpiceDB-Wordmark-Color-Light.svg"
+    spicedb-wordmark-slate-dark:  "public/SpiceDB-Wordmark-Slate-Dark.svg"
+    spicedb-wordmark-slate-light: "public/SpiceDB-Wordmark-Slate-Light.svg"
 
   # Logomark gradient — uses the canonical Sandworm palette tokens.
   # The shipped SVGs currently carry legacy near-match hexes that predate the palette
