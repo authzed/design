@@ -104,14 +104,24 @@ components:
     title:
       typography: "{typography.h1}"
       marginBottom: "{spacing.6}"
-    titleEmphasis:                           # the "One system." span inside the h1
+    # ⚠ CORRECTED 2026-09-11 — these two were inverted. The block previously made solid
+    # magenta-600 the primary emphasis and the gradient the "alt". Ground-truthing
+    # projects/web/src found ZERO solid-magenta headline emphasis spans, and this block's
+    # OWN worked example ("Every authorization use case." / "One system.",
+    # app/(main)/home/UseCaseTree.tsx:196-201) ships the GRADIENT. Primacy swapped;
+    # solid magenta-600 removed as a headline option. Full audit: ../design/typography.md.
+    titleEmphasis:                           # DEFAULT — neutral semibold (~17 shipped uses)
       fontWeight: 600
-      color: "{colors.magenta.600}"
-    titleEmphasisAlt:                        # alternate brand-gradient emphasis (hero brand mark)
+      color: "{colors.stone.050}"            # or text-white / inherited. The weight IS the emphasis.
+    titleEmphasisGradient:                   # expressive variant (~8 shipped uses) — one per page
       fontWeight: 600
       background: linear-gradient(to right, "{colors.sand.300}", "{colors.red.400}", "{colors.violet.600}")
       backgroundClip: text                   # ⚠ REQUIRES -webkit-background-clip + -webkit-text-fill-color for Safari — accessibility.md §Gradient text fill
       textColor: transparent
+      # NOTE: 3 sites ship to-violet-500 (UseCaseTree, CustomerStory, Materialize Hero) —
+      # known drift, reconcile to -600. See the hub's gradient block.
+    # titleEmphasis solid-magenta: REMOVED. magenta-600 + semibold IS canon, but as the
+    # EYEBROW (text-xs|sm, uppercase, tracking-widest) — not as headline emphasis.
     subtitle:
       typography: "{typography.body}"
       color: "{colors.stone.300}"

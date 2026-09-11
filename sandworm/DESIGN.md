@@ -430,6 +430,8 @@ This hub holds the primitive tokens (colors, typography, spacing, motion, etc.) 
 - [`design/accessibility.md`](design/accessibility.md) — contrast ratios, focus/states, vendor-prefix gotchas
 - [`design/animation.md`](design/animation.md) — motion patterns, keyframes, reduced-motion
 - [`design/web-ui.md`](design/web-ui.md) — *(draft)* page-level composition for authzed.com: nav, footer, hero variants, section archetypes, use-case registry
+- [`design/typography.md`](design/typography.md) — *(draft)* the type system as rules: weight pairing, the emphasis contract, display metrics, the two competing scales
+- [`design/social.md`](design/social.md) — *(draft)* feed tier: organic social + paid + OG cards, canvas formats, the feed-legibility floor, logo-wall rules
 - [`design/print.md`](design/print.md) — *(draft)* print artifacts: one-pagers, DocSend icon tiles, the print-media contract for generating agents
 - [`design/slides.md`](design/slides.md) — *(draft)* 16:9 deck language: type scale, layout grid, the gradient agenda capsule, layout recipes
 
@@ -437,7 +439,7 @@ This hub holds the primitive tokens (colors, typography, spacing, motion, etc.) 
 
 Sandworm uses seven color families, each on a 15-stop HSL-derived ramp (`025` → `975`). **The full hex table lives in [`design/palette.md`](design/palette.md)** (demoted from this hub 2026-06-10 for progressive disclosure) and in the generated kit (`colors_and_type.css` / tokens JSON); the live source uses HSL strings (`sandworm-colors.ts`) so dark mode and accessibility math stay clean. Notable ramp quirk — five families ship identical `950`/`975` stops by design; see the palette spoke before "fixing" anything.
 
-**Brand spine** — `magenta-600` is the AuthZed primary. It carries the wordmark, the in-prose emphasis (font-semibold + magenta-600 is the established pattern for highlighted phrases inside body copy), and the hover-state border on dark cards. `sand-300` is the warm counterweight; it's the link color on dark backgrounds (`text-sand-300` → hover `text-sand-200`) and the lightest piece of the brand gradient. `teal-500` is the cool tertiary — frequently used for secondary CTAs and success states. (Hex values for all tokens live in the frontmatter `colors` block — prose references token names so the two never drift.)
+**Brand spine** — `magenta-600` is the AuthZed primary. It carries the wordmark, the in-prose emphasis (in prose, magenta-600 marks highlighted phrases — the one shipped instance is a `[&_strong]` rule at font-bold, not semibold, so treat this as a prose-only device and see `design/typography.md` for why it is NOT the headline-emphasis pattern), and the hover-state border on dark cards. `sand-300` is the warm counterweight; it's the link color on dark backgrounds (`text-sand-300` → hover `text-sand-200`) and the lightest piece of the brand gradient. `teal-500` is the cool tertiary — frequently used for secondary CTAs and success states. (Hex values for all tokens live in the frontmatter `colors` block — prose references token names so the two never drift.)
 
 **The gradient family** — a temperature matrix, not one gradient: three roles (hero / accent / brand-landing) × two registers (warm / cool), plus two specials. **`warm-hero`** (`sand-300 → red-400 → violet-600`) is THE brand gradient — hero emphasis spans, GradientButton, customer-story card halos, product-page brand marks. Its cool counterpart **`cool-hero`** (`violet-500 → teal-400`) carries cloud / data / product surfaces where warm over-saturates. The matrix:
 
@@ -471,7 +473,19 @@ Three families, all loaded via `next/font`:
 - **JetBrains Mono** (variable) is the mono. Used for inline code, code blocks, mono-caps section labels, and terminal-window chrome.
 - **Roboto Mono** is the marketing-site mono fallback. New surfaces should prefer JetBrains Mono.
 
-**Brand weight is light.** Hero headlines run `font-light` (300) — the lightness is part of the warm-authority register. Marketing body prose also runs `font-light`. **Bold weight is reserved for emphasis spans** inside otherwise-light copy — `font-semibold text-magenta-600` is the AuthZed pattern (e.g., headline structure: `font-light "Every authorization use case."` + `font-semibold text-magenta-600 "One system."`).
+**Brand weight is light.** Hero headlines run `font-light` (300) — the lightness is part of the warm-authority register. Marketing body prose also runs `font-light`. **Semibold (600) is reserved for the emphasis clause** inside otherwise-light copy. The system is a TWO-WEIGHT PAIRING, not a five-weight ramp: light sets up, semibold lands.
+
+Shipped weight frequency in `projects/web/src` (verified 2026-09-11): `font-light` 295 · `font-semibold` 223 · `font-medium` 161 · `font-bold` 51 · `font-normal` 29 · `font-extralight` 21 · `font-extrabold` 4 · `font-thin` 2. Weights above 600 are effectively absent — treat 700+ as off-system.
+
+**Emphasis colour — CORRECTED 2026-09-11.** An earlier draft of this block claimed `font-semibold text-magenta-600` was "the AuthZed pattern" for headline emphasis. Ground-truthing disproved it: across `projects/web/src` there are **zero** instances of solid `text-magenta-600` used as a headline emphasis span. All 12 `font-semibold` + magenta co-occurrences are eyebrows (5), gradient stops (5), or button/chip backgrounds (2). The two patterns that actually ship:
+
+1. **Neutral semibold** (~17 uses) — the default. `font-semibold` with `text-white` / `text-stone-050` / inherited. The canonical hero is `projects/web/src/app/(main)/page.tsx:18-23`:
+   `font-light "AI Moves Fast."` + `font-semibold "Permissions Must Keep Up."`
+2. **Brand-gradient clip-text semibold** (~8 uses) — the expressive variant, for a hero that needs more lift. Use the `warm-hero` stops: `bg-gradient-to-r from-sand-300 via-red-400 to-violet-600 bg-clip-text font-semibold text-transparent`. (End-stop is **violet-600**, SETTLED 2026-06-10 — see the gradients block above and Known Gaps. Shipped warm clip-text end-stops verified 2026-09-11: `to-violet-500` ×4 = known drift reconciling to -600, `to-[#6242e0]` ×1 = violet-600, `to-magenta-600` ×1, `to-magenta-500` ×1. Violet is canon at 5 of 7.)
+
+`magenta-600` + semibold IS canon — as the **eyebrow/kicker**, not headline emphasis: `text-xs`/`text-sm`, `uppercase`, `tracking-widest`, `text-magenta-600` (PressResources, Conferences, events/[slug], EventDate).
+
+**Display headline metrics.** Tight leading: `leading-none` on the homepage hero, `leading-tight` on the industry/use-case heroes. **Tracking has a ceiling, not a ban** — `tracking-tight` (-0.025em) is the largest value that ships on a light display headline (IndustryHero, UseCaseHero, AssessmentFlow); the homepage hero sets none. Both are in-system. Do NOT go past -0.025em: Inter Light is already narrow, and roughly double the shipped ceiling (-0.045em) reads as generic tech-poster rather than AuthZed. Headline case is **Title Case**. Break display headlines EXPLICITLY with `<br>`: the semibold clause must start its own line and never be split across a wrap, which auto-wrapping cannot guarantee.
 
 **Mono-caps section labels** (`text-xs`, `letterSpacing: 0.08em`, uppercase) signal structural transitions — section titles, "Resources", "Load more". Always paired with horizontal rules in the blog/archive treatment.
 
@@ -698,6 +712,11 @@ This file is the canonical spec — AI tools and teammates design against it. Ke
 3. **Update the spoke + this hub in the SAME commit.** When a primitive changes, the index here and the spoke move together so nothing designs against stale rules.
 4. **Document rejected drift, don't bless it.** When shipped code diverges from canon (vendor magenta buttons, legacy logomark hexes), record it as drift the spec rejects — see Known Gaps — rather than silently canonizing the divergence.
 5. **Keep the hub lean.** Primitives + foundational prose live here; surface-specific depth spokes out to `design/*.md`. If a section outgrows its weight, spoke it.
+6. **Precedence, when the hub and a spoke disagree.** Added 2026-09-11 after a spoke silently overrode a settled hub decision and a reader followed the spoke.
+   1. **A dated SETTLED / CORRECTED decision in this hub outranks every spoke.** Those markers exist because the question was already litigated against shipped code. A spoke that contradicts one is *the bug* — fix the spoke; do not follow it.
+   2. **Otherwise the spoke governs its own surface.** Surface-specific depth is exactly what spokes are for, and the hub should not be re-litigating print margins or feed floors.
+   3. **Ground truth outranks both.** If the codebase disagrees with the spec, neither document wins by seniority — re-verify and correct whichever is wrong, then record it under Known Gaps.
+   4. **Flag a conflict; never silently pick.** Surfacing "these two disagree and I chose X because Y" is what catches an authoring error. Quietly resolving it is what lets the error ship.
 
 ## Known Gaps
 
@@ -706,6 +725,7 @@ Open reconciliations and out-of-scope areas, tracked so they don't masquerade as
 - **Gradient violet end-stop SETTLED (2026-06-10)** — canon is `violet-600`, matching `GradientButton` and the shipped majority. Remaining work is code-side: reconcile the three `to-violet-500` sites (`UseCaseTree`, `CustomerStory`, `Materialize Hero`), and note the shipped cool gradient (`teal-300 → violet-500`, cloud pages + signup) runs the *reverse* direction of spec `cool-hero` (`violet-500 → teal-400`) — both tracked in the gradients→code reconcile (parking-lot 65).
 - ~~Radius literal-px labels~~ **RESOLVED 2026-06-11** — the `rounded` block now carries the stock Tailwind values shipped by marketing, with the design-system app's shadcn calc system documented alongside. (The old table matched neither.)
 - **App-tier components not promoted** — `Callout`, `TerminalWindow`, `RelationshipsTable`, `IfStatementsToCheckPermission` live in app code, not `components/ui/`. (See `design/components.md`.)
+- **Logo asset paths in `logo-brand.md` don't resolve (found 2026-09-11)** — the catalogued paths are wrong in two ways: the directory is `public/assets/brand/` but the files live at `public/` (plus `public/Stacked/`), and the catalogue omits the mandatory `-Dark` / `-Light` suffix, so `AuthZed-Wordmark-Color.svg` does not exist — it is `AuthZed-Wordmark-Color-Dark.svg`. Also worth stating because it misleads readers: in AuthZed's naming **"Wordmark" means the full lockup** (logomark + type), not the type alone, and the `-Dark` suffix means *for dark surfaces* (it carries the near-white `#F1F0F2` type). Correct the catalogue to the real paths.
 - **Logomark SVG hex drift** — shipped logo SVGs carry legacy hexes (`#A43189` / `#F0546C` / `#FFB371`) that don't match canonical tokens. Use tokens, not the SVG hexes. (See `design/logo-brand.md`.)
 - **Diagram token corrected (2026-06-09)** — the old aspirational `dashed-border` token (dashed "4 4" connectors, magenta-active) never shipped; replaced with the real vocabulary (solid teal connectors, dashed "7 3" scope containers, the checkpoint beam). Canon: `design/diagrams.md`.
 - **Product-tier spoke unpublished** — `design/product-ui.md` exists in-repo but is ON HOLD pending review ("do not treat as canon"); it's excluded from the Deep Dives manifest and the kit skill until promoted.
