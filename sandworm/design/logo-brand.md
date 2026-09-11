@@ -13,6 +13,12 @@ part-of: Sandworm
 ```yaml
 # Logo & brand marks — fixed assets, fixed colors, strict usage
 # The mark is the load-bearing brand artifact — drift here is the most expensive kind.
+# NAMING — read this before reaching for a file (clarified 2026-09-11):
+#   "Wordmark" means the FULL LOCKUP (logomark + type), not the type on its own.
+#   Every asset needs a -Dark or -Light suffix; the bare name does not exist on disk.
+#   "-Dark" = FOR DARK SURFACES (light type, #F1F0F2). "-Light" = for light surfaces.
+#   Real location is public/ and public/Stacked/ — NOT public/assets/brand/ as listed
+#   below. Paths in this block are stale; see the hub's Known Gaps.
 logo:
   assets:
     wordmark-color: "public/assets/brand/AuthZed-Wordmark-Color.svg"
