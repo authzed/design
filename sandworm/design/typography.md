@@ -69,8 +69,12 @@ emphasis:
     pattern: "font-semibold + text-white | text-stone-050 | inherited"
     use-when: "Almost always. The weight change alone is the emphasis."
   brand-gradient:                # ~8 uses — the expressive variant
-    pattern: "bg-gradient-to-r from-sand-300 via-red-400 to-magenta-600 bg-clip-text font-semibold text-transparent"
+    pattern: "bg-gradient-to-r from-sand-300 via-red-400 to-violet-600 bg-clip-text font-semibold text-transparent"
+    token: "warm-hero"           # end-stop violet-600, SETTLED 2026-06-10 — see the hub
     use-when: "A hero that needs lift. One per page, never two competing."
+    # Shipped warm clip-text end-stops (verified 2026-09-11): to-violet-500 ×4 (known drift,
+    # reconciles to -600), to-[#6242e0] ×1 (= violet-600), to-magenta-600 ×1, to-magenta-500 ×1.
+    # Violet is the canonical end-stop; the magenta variants are the minority, not the pattern.
   eyebrow:                       # 5 uses — NOT headline emphasis
     pattern: "text-xs|text-sm + uppercase + tracking-widest + text-magenta-600"
     use-when: "Small label above a headline. This is where magenta-600 lives."

@@ -105,10 +105,10 @@ is frequently the one that interrupts a feed of dark ones. Both are in-system.
 > ⚠️ **Pull gradient hexes from tokens, never from the logo SVGs.** The shipped logo SVGs carry legacy
 > hexes that are known drift (see the hub's Open Questions). Sampling a colour out of
 > `authzed-logo-multi.svg` gives you `#FFB471 / #F0546C / #A43189`; the canonical stops are
-> `sand-300 / red-400 / magenta-600`. `red-400` is the one that bites — the SVG value is markedly more
+> the `warm-hero` stops (`sand-300 / red-400 / violet-600`). `red-400` is the one that bites — the SVG value is markedly more
 > saturated than canon. Reference token names; resolve hex from [`palette.md`](palette.md).
 
-**Use the brand gradient as composition, not decoration.** `sand-300 → red-400 → magenta-600` is the
+**Use the brand gradient as composition, not decoration.** `warm-hero` (`sand-300 → red-400 → violet-600`) is the
 brand's strongest visual asset and it is routinely wasted on a 40px logo while a generic purple radial
 does the actual work. Let the gradient be a spine, an arc, or the clip-text payoff.
 
@@ -181,7 +181,7 @@ check the row as a row.
 - ✅ 32px floor for ALL secondary text; verify on a 0.30× contact sheet
 - ✅ Cut content when the floor doesn't fit
 - ✅ Brand gradient as composition; light boards as a deliberate differentiator
-- ✅ Gradient stops from tokens (`sand-300 → red-400 → magenta-600`), not sampled from a logo SVG
+- ✅ Gradient stops from the `warm-hero` token (ends on **violet-600**, settled 2026-06-10 — see the hub), never sampled from a logo SVG
 - ✅ Confirm customer-logo clearance per campaign
 - ✅ One gradient moment per board; 96px edge padding; left-aligned; centred stack
 - ❌ Don't uppercase a URL, and don't judge balance from the CSS — look at the render
