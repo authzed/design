@@ -70,7 +70,8 @@ legibility:
     mono-code:        34        # 34–40; below this code is texture, not content
     footer-url:       32
     customer-logo:    50        # logo HEIGHT in a wall
-    brand-mark:       62        # 96–112 when the mark is the lockup
+    brand-mark:       48        # 48–64 for a footer lockup. See 'Lockup scale' below —
+                                # the 96–112 figure this line used to carry was wrong.
 ```
 
 **Nothing below 32px, and that includes the eyebrow.** The floor outranks every per-element
@@ -128,10 +129,37 @@ composition:
                                       # does NOT extend to feed units — left-align.
   gradient-moments: 1                 # exactly one gradient device per board, full stop.
                                       # A clip-text payoff AND a gradient rule is two. Pick one.
-  divider: "optional hairline, stone-700"   # licensed here, not only in a logo-wall band
+  divider: "at most one, full-width, ONLY as a terminator"   # see 'Rules and lockups' below
   url-case: "natural case"            # authzed.com, never uppercased — label-caps is for section
                                       # labels, and uppercasing a URL misrepresents it
 ```
+
+**Lockup scale — the mark is subordinate, always.** Corrected 2026-09-11: an earlier draft of this
+spoke said 96–112px for a footer lockup, which was derived from feed legibility alone and ignored
+hierarchy. At that size the wordmark competes with the headline and the board reads bottom-heavy and
+logo-forward. Observed directly on two test boards.
+
+```yaml
+lockup:
+  footer-default: "48–64px tall on a 1200 canvas"
+  ceiling: "never taller than ~60% of the headline's cap height"
+  hero-lockup: "96–112px — ONLY when the mark IS the composition (brand-led board, no long headline)"
+```
+
+The test: squint at the board. If your eye lands on the wordmark before the headline, the mark is too
+big. A social card is a claim with a signature, not a logo with a caption.
+
+**Rules and lockups — a hairline is a terminator, not decoration.** Corrected 2026-09-11: this spoke
+previously said "optional hairline," which gave no length, position, or purpose, and test boards duly
+invented floating stubs and redundant double rules.
+
+- **At most one** hairline per board.
+- **Full-width** across the content measure (edge padding to edge padding). Never a short stub — a
+  rule that stops arbitrarily reads as a mistake, because nothing explains where it stopped.
+- **It separates two things.** Put it *between* the claim and the signature. A rule with nothing
+  below it terminates nothing and is the single most common way these boards go wrong.
+- **Optional means omit it.** A board with headline and lockup alone is complete. Reach for the rule
+  only when the footer would otherwise float.
 
 **Where to break the headline.** The type spoke mandates explicit `<br>` breaks but gives no method
 for choosing where. The method: render at full size and at 0.30×, then pick the split with (a) no
@@ -185,6 +213,7 @@ check the row as a row.
 - ✅ Confirm customer-logo clearance per campaign
 - ✅ One gradient moment per board; 96px edge padding; left-aligned; centred stack
 - ❌ Don't uppercase a URL, and don't judge balance from the CSS — look at the render
+- ❌ Don't oversize the lockup (48–64px footer default) or leave a hairline with nothing beneath it
 - ❌ Don't use 1.91:1 for a native image post
 - ❌ Don't ship a logo wall under a headline that makes no claim
 - ❌ Don't let a headline auto-wrap on a fixed canvas
