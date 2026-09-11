@@ -481,7 +481,7 @@ Shipped weight frequency in `projects/web/src` (verified 2026-09-11): `font-ligh
 
 1. **Neutral semibold** (~17 uses) — the default. `font-semibold` with `text-white` / `text-stone-050` / inherited. The canonical hero is `projects/web/src/app/(main)/page.tsx:18-23`:
    `font-light "AI Moves Fast."` + `font-semibold "Permissions Must Keep Up."`
-2. **Brand-gradient clip-text semibold** (~8 uses) — the expressive variant, for a hero that needs more lift. `bg-gradient-to-r from-sand-300 via-red-400 to-magenta-600 bg-clip-text font-semibold text-transparent`.
+2. **Brand-gradient clip-text semibold** (~8 uses) — the expressive variant, for a hero that needs more lift. Use the `warm-hero` stops: `bg-gradient-to-r from-sand-300 via-red-400 to-violet-600 bg-clip-text font-semibold text-transparent`. (End-stop is **violet-600**, SETTLED 2026-06-10 — see the gradients block above and Known Gaps. Shipped warm clip-text end-stops verified 2026-09-11: `to-violet-500` ×4 = known drift reconciling to -600, `to-[#6242e0]` ×1 = violet-600, `to-magenta-600` ×1, `to-magenta-500` ×1. Violet is canon at 5 of 7.)
 
 `magenta-600` + semibold IS canon — as the **eyebrow/kicker**, not headline emphasis: `text-xs`/`text-sm`, `uppercase`, `tracking-widest`, `text-magenta-600` (PressResources, Conferences, events/[slug], EventDate).
 
