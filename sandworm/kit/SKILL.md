@@ -23,6 +23,8 @@ is the source of truth, the kit is its machine-readable export.
    - `../design/accessibility.md` — contrast ratios, focus/disabled states, vendor-prefix gotchas
    - `../design/animation.md` — motion patterns, keyframes, reduced-motion
    - `../design/web-ui.md` — *(draft)* page-level composition for authzed.com
+   - `../design/typography.md` — *(draft)* weight pairing, emphasis contract, display metrics, the two scales
+   - `../design/social.md` — *(draft)* feed tier: canvas formats, the 32px legibility floor, logo-wall rules
    - `../design/print.md` — *(draft)* print one-pagers, icon tiles, the print-media contract
    - `../design/slides.md` — *(draft)* 16:9 deck language: type scale, agenda capsule, layout recipes
 > **Draft policy**: spokes marked *(draft)* are code-grounded but pending review — design against them,

@@ -430,6 +430,8 @@ This hub holds the primitive tokens (colors, typography, spacing, motion, etc.) 
 - [`design/accessibility.md`](design/accessibility.md) — contrast ratios, focus/states, vendor-prefix gotchas
 - [`design/animation.md`](design/animation.md) — motion patterns, keyframes, reduced-motion
 - [`design/web-ui.md`](design/web-ui.md) — *(draft)* page-level composition for authzed.com: nav, footer, hero variants, section archetypes, use-case registry
+- [`design/typography.md`](design/typography.md) — *(draft)* the type system as rules: weight pairing, the emphasis contract, display metrics, the two competing scales
+- [`design/social.md`](design/social.md) — *(draft)* feed tier: organic social + paid + OG cards, canvas formats, the feed-legibility floor, logo-wall rules
 - [`design/print.md`](design/print.md) — *(draft)* print artifacts: one-pagers, DocSend icon tiles, the print-media contract for generating agents
 - [`design/slides.md`](design/slides.md) — *(draft)* 16:9 deck language: type scale, layout grid, the gradient agenda capsule, layout recipes
 
