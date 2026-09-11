@@ -61,18 +61,20 @@ text under that scale must survive being divided by three.
 
 ```yaml
 legibility:
-  floor: 32                     # px on a 1200px canvas ≈ 10px at mobile feed scale
+  floor: 32                     # px on a 1200px canvas ≈ 10px at mobile feed scale.
+                                # HARD MINIMUM — every entry below is >= this. No exceptions.
   minimums:                     # measured on a 1200×1200 canvas
     display-headline: 88        # 90–130 typical
     subhead:          38
-    eyebrow:          30
+    eyebrow:          32        # was 30 — raised 2026-09-11 to stop contradicting the floor
     mono-code:        34        # 34–40; below this code is texture, not content
     footer-url:       32
     customer-logo:    50        # logo HEIGHT in a wall
     brand-mark:       62        # 96–112 when the mark is the lockup
 ```
 
-**Nothing below 32px.** At 19px (a reasonable web footer) a viewer sees 5.7px and the element is
+**Nothing below 32px, and that includes the eyebrow.** The floor outranks every per-element
+number; if a table entry ever reads lower, the floor wins and the table is the bug. At 19px (a reasonable web footer) a viewer sees 5.7px and the element is
 decoration. This is the same principle as `print.md`'s DocSend tile rule (`display-target: 75 — the
 tile must read at this size`); only the divisor changes.
 
