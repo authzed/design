@@ -83,16 +83,30 @@ to a 100px headline clause, and producing something that ships nowhere in the ac
 
 ```yaml
 display:
-  leading: "leading-none (1.0)"     # light weight needs tight leading to read as one block
-  tracking: "NONE"                  # do not apply negative letter-spacing
+  leading:
+    homepage-hero: "leading-none (1.0)"      # page.tsx:18
+    section-hero:  "leading-tight (1.25)"    # IndustryHero, UseCaseHero
+  tracking:
+    ceiling: "-0.025em (tracking-tight)"     # the LARGEST value shipped on a light headline
+    homepage-hero: "none"                    # page.tsx:18 sets no tracking
+    shipped-at: "IndustryHero.tsx:40 · UseCaseHero.tsx:31 · AssessmentFlow.tsx (×3)"
+    blog-prose: "h2 -0.015em · h3 -0.005em"  # globals.css:199,221 — scoped to .blog-prose
   case: "Title Case"
   breaking: "explicit <br> — never auto-wrap a display headline"
 ```
 
-**No negative letter-spacing.** The shipped hero sets none. Inter Light is already narrow, and
-tightened tracking is the single fastest way to make a Sandworm headline read as generic tech-poster
-rather than as the brand. (The one documented exception is braille/ASCII art in JetBrains Mono, which
-needs `letter-spacing: -0.2em` + `line-height: 0.95` to stop fragmenting — see the hub.)
+**Tracking has a ceiling, not a ban — CORRECTED 2026-09-11.** An earlier draft of this spoke said "no
+negative letter-spacing." That was wrong: `tracking-tight` (-0.025em) ships on light display headlines
+in `IndustryHero.tsx:40`, `UseCaseHero.tsx:31`, and three places in `AssessmentFlow.tsx`. The homepage
+hero sets none. **Both are in-system** — pick one and be consistent within a surface.
+
+What is off-system is *magnitude*. -0.025em is the shipped ceiling; roughly double it (-0.045em) on a
+large light headline reads as generic tech-poster rather than as AuthZed. Inter Light is already
+narrow, so the tightening you think you need is usually already there. If you are unsure, set none:
+that is what the canonical hero does.
+
+(Separate documented exception: braille/ASCII art in JetBrains Mono needs `letter-spacing: -0.2em` +
+`line-height: 0.95` to stop fragmenting — see the hub.)
 
 **Break display headlines explicitly.** The semibold clause must begin its own line and must never be
 split across a wrap. Auto-wrapping cannot guarantee this: a container a few pixels narrower strands
@@ -141,7 +155,7 @@ in the surface spoke rather than inventing new scale tokens.
 - ✅ `text-magenta-600` for eyebrows (uppercase, tracking-widest, small)
 - ✅ Title Case on display headlines
 - ❌ Don't use weights above 600 in marketing — treat 700+ as off-system
-- ❌ Don't apply negative letter-spacing
+- ❌ Don't exceed `tracking-tight` (-0.025em) on a display headline — tracking is capped, not banned
 - ❌ Don't use solid `text-magenta-600` as headline emphasis — it ships zero times
 - ❌ Don't let a display headline auto-wrap
 - ❌ Don't cite `.text2xlarge` / `.semibold` — those are docs-site classes only

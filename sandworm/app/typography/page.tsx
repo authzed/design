@@ -141,8 +141,11 @@ export default function TypographyPage() {
                   in the entire site. Treat 700+ as off-system.
                 </li>
                 <li>
-                  No negative letter-spacing. The shipped hero sets none. Inter Light is already
-                  narrow, and tightened tracking reads instantly off-brand.
+                  Don&apos;t exceed{' '}
+                  <code className="bg-muted px-1 py-0.5 rounded">tracking-tight</code> (&minus;0.025em)
+                  on a display headline. Tracking is capped, not banned &mdash; the homepage hero sets
+                  none, the industry heroes use tracking-tight, and both are in-system. Roughly double
+                  the ceiling reads as generic tech-poster.
                 </li>
                 <li>
                   Don&apos;t let a display headline auto-wrap. A wrap that orphans one word of the

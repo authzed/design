@@ -485,7 +485,7 @@ Shipped weight frequency in `projects/web/src` (verified 2026-09-11): `font-ligh
 
 `magenta-600` + semibold IS canon — as the **eyebrow/kicker**, not headline emphasis: `text-xs`/`text-sm`, `uppercase`, `tracking-widest`, `text-magenta-600` (PressResources, Conferences, events/[slug], EventDate).
 
-**Display headline metrics.** `leading-none` (or `leading-[1.0]`) on display sizes; the light weight needs the tight leading to read as one block. **Do NOT apply negative letter-spacing** — the shipped hero sets none, and tightened tracking reads instantly off-brand (Inter Light is already narrow). Headline case is **Title Case**. Break display headlines EXPLICITLY with `<br>`: the semibold clause must start its own line and never be split across a wrap, which auto-wrapping cannot guarantee.
+**Display headline metrics.** Tight leading: `leading-none` on the homepage hero, `leading-tight` on the industry/use-case heroes. **Tracking has a ceiling, not a ban** — `tracking-tight` (-0.025em) is the largest value that ships on a light display headline (IndustryHero, UseCaseHero, AssessmentFlow); the homepage hero sets none. Both are in-system. Do NOT go past -0.025em: Inter Light is already narrow, and roughly double the shipped ceiling (-0.045em) reads as generic tech-poster rather than AuthZed. Headline case is **Title Case**. Break display headlines EXPLICITLY with `<br>`: the semibold clause must start its own line and never be split across a wrap, which auto-wrapping cannot guarantee.
 
 **Mono-caps section labels** (`text-xs`, `letterSpacing: 0.08em`, uppercase) signal structural transitions — section titles, "Resources", "Load more". Always paired with horizontal rules in the blog/archive treatment.
 
