@@ -67,6 +67,8 @@ legibility:
     display-headline: 88        # 90–130 typical
     subhead:          38
     eyebrow:          32        # was 30 — raised 2026-09-11 to stop contradicting the floor
+                                # COLOUR: sand-300 on dark (AAA + it's a gradient stop),
+                                # magenta-600 only on light. See typography.md.
     mono-code:        34        # 34–40; below this code is texture, not content
     footer-url:       32
     customer-logo:    50        # logo HEIGHT in a wall

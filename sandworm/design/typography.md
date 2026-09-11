@@ -76,12 +76,35 @@ emphasis:
     # reconciles to -600), to-[#6242e0] ×1 (= violet-600), to-magenta-600 ×1, to-magenta-500 ×1.
     # Violet is the canonical end-stop; the magenta variants are the minority, not the pattern.
   eyebrow:                       # 5 uses — NOT headline emphasis
-    pattern: "text-xs|text-sm + uppercase + tracking-widest + text-magenta-600"
-    use-when: "Small label above a headline. This is where magenta-600 lives."
+    pattern: "text-xs|text-sm + uppercase + tracking-widest"
+    color-on-light: "{colors.magenta.600}"   # 5.8 on stone-025 — AA, the shipped pattern
+    color-on-dark:  "{colors.sand.300}"      # AAA. DEFAULT for dark boards — see below
+    fallback-on-dark: "{colors.magenta.400}" # 5.6 — use if the eyebrow must read magenta
+    use-when: "Small label above a headline."
 ```
 
 The failure mode this correction prevents: reading "magenta-600 is the emphasis colour", applying it
 to a 100px headline clause, and producing something that ships nowhere in the actual product.
+
+### Eyebrow colour on dark — CORRECTED 2026-09-11
+
+`magenta-600` is the shipped eyebrow colour, and on a **light** surface it is correct (5.8, AA). On a
+**dark** surface it is wrong on two counts, and an earlier draft of this spoke recommended it anyway.
+
+1. **Contrast.** `magenta-600` on dark measures **3.1** — large-text territory only, per
+   [`accessibility.md`](accessibility.md). An eyebrow is the smallest type on the board, so it is the
+   worst possible place to spend a 3.1 ratio. The accessible magenta on dark is `magenta-400` (5.6).
+2. **It doesn't belong to the composition.** The brand gradient runs `sand-300 → red-400 →
+   violet-600`. A magenta eyebrow shares no stop with it, so the label reads as imported from another
+   board rather than as part of this one.
+
+**Default the dark-board eyebrow to `sand-300`.** It is comfortable AAA on dark, it is the canonical
+dark-surface link colour, and it is the gradient's own warm end-stop — so it connects to the payoff
+clause instead of floating free. If the eyebrow genuinely must be magenta, use `magenta-400`, never
+`magenta-600`.
+
+This is the general rule, not a one-off: **an accent on a dark board should already exist somewhere
+else in the composition.** If a colour appears exactly once, it reads as a mistake.
 
 ## Display metrics
 
@@ -156,11 +179,12 @@ in the surface spoke rather than inventing new scale tokens.
 - ✅ Light setup, semibold payoff — two weights, never more
 - ✅ `leading-none` on display sizes
 - ✅ Explicit `<br>`; the semibold clause owns its line
-- ✅ `text-magenta-600` for eyebrows (uppercase, tracking-widest, small)
+- ✅ Eyebrows: `sand-300` on dark (AAA, in the gradient), `magenta-600` on light
 - ✅ Title Case on display headlines
 - ❌ Don't use weights above 600 in marketing — treat 700+ as off-system
 - ❌ Don't exceed `tracking-tight` (-0.025em) on a display headline — tracking is capped, not banned
 - ❌ Don't use solid `text-magenta-600` as headline emphasis — it ships zero times
 - ❌ Don't let a display headline auto-wrap
 - ❌ Don't cite `.text2xlarge` / `.semibold` — those are docs-site classes only
+- ❌ Don't put `magenta-600` on a dark eyebrow — 3.1 contrast and it matches nothing else there
 - ❌ Don't set prose in mono or code in Inter
