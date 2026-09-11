@@ -136,10 +136,19 @@ for choosing where. The method: render at full size and at 0.30×, then pick the
 orphaned word, (b) no line dramatically wider than its neighbours, and (c) the semibold clause whole
 on its own line. Rule (c) outranks the other two — rebalance the setup clause, never the payoff.
 
-**Balance check.** A centred stack can still read bottom-heavy when the footer is visually lighter
-than the headline. Look at the rendered board, not the CSS: if the lower third is empty, either
-raise the stack or let the footer carry more weight (a larger mark, a wall). Centring the box is not
-the same as balancing the image.
+**Balance check — space before content is headroom, space after content is void.** This is the part
+that surprises people: a stack can be centred to the pixel and still read bottom-heavy. Measured on
+the 2026-09-11 test board, the gap above the headline was 326px and the gap below the footer 340px,
+a 14px difference — and the board still read as having an empty bottom third. The asymmetry is
+perceptual, not metric: the upper gap is *framed* by the content that follows it, so it reads as
+headroom, while the lower gap is terminated only by the canvas edge, so it reads as nothing there.
+
+So **do not centre by measurement.** Either:
+- **Optically raise the stack** — bias it above true centre so the lower gap is the smaller one, or
+- **Give the lower gap something to terminate on** — a logo wall, a larger mark, a full-width rule.
+
+Judge it from the rendered image at 0.30×, never from the CSS. `justify-content: center` is a
+mathematical claim about a box; it is not a claim about how the image reads.
 
 ## Logo walls
 
