@@ -110,6 +110,37 @@ is frequently the one that interrupts a feed of dark ones. Both are in-system.
 brand's strongest visual asset and it is routinely wasted on a 40px logo while a generic purple radial
 does the actual work. Let the gradient be a spine, an arc, or the clip-text payoff.
 
+## Composition on a fixed canvas
+
+Grounded 2026-09-11 by testing this spoke with a fresh agent: every item below was a documented
+**guess** it had to make because the system was silent. They are now decided.
+
+```yaml
+composition:
+  edge-padding: "{spacing.24}"        # 96px on a 1200 canvas. NOT the web section token
+                                      # (spacing.10 / 40px) — that reads as a nested page margin
+                                      # on a poster-scale canvas.
+  vertical-anchor: "centred stack"    # headline + rule + footer centred as ONE block.
+                                      # Do not top-anchor; do not distribute to the edges.
+  alignment: "left"                   # the hub's "centre only for announcement-style" exception
+                                      # does NOT extend to feed units — left-align.
+  gradient-moments: 1                 # exactly one gradient device per board, full stop.
+                                      # A clip-text payoff AND a gradient rule is two. Pick one.
+  divider: "optional hairline, stone-700"   # licensed here, not only in a logo-wall band
+  url-case: "natural case"            # authzed.com, never uppercased — label-caps is for section
+                                      # labels, and uppercasing a URL misrepresents it
+```
+
+**Where to break the headline.** The type spoke mandates explicit `<br>` breaks but gives no method
+for choosing where. The method: render at full size and at 0.30×, then pick the split with (a) no
+orphaned word, (b) no line dramatically wider than its neighbours, and (c) the semibold clause whole
+on its own line. Rule (c) outranks the other two — rebalance the setup clause, never the payoff.
+
+**Balance check.** A centred stack can still read bottom-heavy when the footer is visually lighter
+than the headline. Look at the rendered board, not the CSS: if the lower third is empty, either
+raise the stack or let the footer carry more weight (a larger mark, a wall). Centring the box is not
+the same as balancing the image.
+
 ## Logo walls
 
 ```yaml
@@ -141,6 +172,8 @@ check the row as a row.
 - ✅ Brand gradient as composition; light boards as a deliberate differentiator
 - ✅ Gradient stops from tokens (`sand-300 → red-400 → magenta-600`), not sampled from a logo SVG
 - ✅ Confirm customer-logo clearance per campaign
+- ✅ One gradient moment per board; 96px edge padding; left-aligned; centred stack
+- ❌ Don't uppercase a URL, and don't judge balance from the CSS — look at the render
 - ❌ Don't use 1.91:1 for a native image post
 - ❌ Don't ship a logo wall under a headline that makes no claim
 - ❌ Don't let a headline auto-wrap on a fixed canvas
