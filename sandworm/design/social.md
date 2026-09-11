@@ -63,12 +63,13 @@ text under that scale must survive being divided by three.
 legibility:
   floor: 32                     # px on a 1200px canvas ≈ 10px at mobile feed scale.
                                 # HARD MINIMUM — every entry below is >= this. No exceptions.
+  # SIZES ONLY. Colour rules live in typography.md — notably the eyebrow is sand-300 on
+  # dark (AAA, and a gradient stop) and magenta-600 only on light. Do not read the sizes
+  # below as carrying colour guidance.
   minimums:                     # measured on a 1200×1200 canvas
     display-headline: 88        # 90–130 typical
     subhead:          38
     eyebrow:          32        # was 30 — raised 2026-09-11 to stop contradicting the floor
-                                # COLOUR: sand-300 on dark (AAA + it's a gradient stop),
-                                # magenta-600 only on light. See typography.md.
     mono-code:        34        # 34–40; below this code is texture, not content
     footer-url:       32
     customer-logo:    50        # logo HEIGHT in a wall
@@ -140,6 +141,11 @@ composition:
 spoke said 96–112px for a footer lockup, which was derived from feed legibility alone and ignored
 hierarchy. At that size the wordmark competes with the headline and the board reads bottom-heavy and
 logo-forward. Observed directly on two test boards.
+
+> **This is a sanctioned exception to `logo-brand.md`.** That spoke sets a general floor of 80px
+> *wide* for the colour wordmark. The numbers below are *heights* on a fixed 1200px canvas, and a
+> 56px-tall lockup renders roughly 270px wide — clear of that floor. Where the two ever do conflict,
+> the feed-tier number governs a feed board (hub precedence rule 6.2: the spoke governs its surface).
 
 ```yaml
 lockup:
