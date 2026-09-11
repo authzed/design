@@ -712,6 +712,11 @@ This file is the canonical spec — AI tools and teammates design against it. Ke
 3. **Update the spoke + this hub in the SAME commit.** When a primitive changes, the index here and the spoke move together so nothing designs against stale rules.
 4. **Document rejected drift, don't bless it.** When shipped code diverges from canon (vendor magenta buttons, legacy logomark hexes), record it as drift the spec rejects — see Known Gaps — rather than silently canonizing the divergence.
 5. **Keep the hub lean.** Primitives + foundational prose live here; surface-specific depth spokes out to `design/*.md`. If a section outgrows its weight, spoke it.
+6. **Precedence, when the hub and a spoke disagree.** Added 2026-09-11 after a spoke silently overrode a settled hub decision and a reader followed the spoke.
+   1. **A dated SETTLED / CORRECTED decision in this hub outranks every spoke.** Those markers exist because the question was already litigated against shipped code. A spoke that contradicts one is *the bug* — fix the spoke; do not follow it.
+   2. **Otherwise the spoke governs its own surface.** Surface-specific depth is exactly what spokes are for, and the hub should not be re-litigating print margins or feed floors.
+   3. **Ground truth outranks both.** If the codebase disagrees with the spec, neither document wins by seniority — re-verify and correct whichever is wrong, then record it under Known Gaps.
+   4. **Flag a conflict; never silently pick.** Surfacing "these two disagree and I chose X because Y" is what catches an authoring error. Quietly resolving it is what lets the error ship.
 
 ## Known Gaps
 
