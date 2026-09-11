@@ -176,8 +176,15 @@ perceptual, not metric: the upper gap is *framed* by the content that follows it
 headroom, while the lower gap is terminated only by the canvas edge, so it reads as nothing there.
 
 So **do not centre by measurement.** Either:
-- **Optically raise the stack** — bias it above true centre so the lower gap is the smaller one, or
+- **Settle the stack DOWNWARD** — bias it *below* true centre (roughly 20–40px on a 1200 canvas) so the
+  footer sits nearer the bottom edge and the larger gap lands *above* the headline, where it reads as
+  headroom. Corrected 2026-09-11: this bullet previously said "optically raise the stack," which is
+  backwards — raising it shrinks the headroom and grows the void. Measured on a test board, shifting
+  up made the lower gap worse (240px → 275px); shifting down ~24px closed it.
 - **Give the lower gap something to terminate on** — a logo wall, a larger mark, a full-width rule.
+
+Both remedies follow from the same principle: you want the **big gap above** and the **small gap
+below**. If a remedy moves you the other way, it is the wrong remedy.
 
 Judge it from the rendered image at 0.30×, never from the CSS. `justify-content: center` is a
 mathematical claim about a box; it is not a claim about how the image reads.
