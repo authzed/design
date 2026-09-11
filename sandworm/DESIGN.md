@@ -471,7 +471,19 @@ Three families, all loaded via `next/font`:
 - **JetBrains Mono** (variable) is the mono. Used for inline code, code blocks, mono-caps section labels, and terminal-window chrome.
 - **Roboto Mono** is the marketing-site mono fallback. New surfaces should prefer JetBrains Mono.
 
-**Brand weight is light.** Hero headlines run `font-light` (300) — the lightness is part of the warm-authority register. Marketing body prose also runs `font-light`. **Bold weight is reserved for emphasis spans** inside otherwise-light copy — `font-semibold text-magenta-600` is the AuthZed pattern (e.g., headline structure: `font-light "Every authorization use case."` + `font-semibold text-magenta-600 "One system."`).
+**Brand weight is light.** Hero headlines run `font-light` (300) — the lightness is part of the warm-authority register. Marketing body prose also runs `font-light`. **Semibold (600) is reserved for the emphasis clause** inside otherwise-light copy. The system is a TWO-WEIGHT PAIRING, not a five-weight ramp: light sets up, semibold lands.
+
+Shipped weight frequency in `projects/web/src` (verified 2026-09-11): `font-light` 295 · `font-semibold` 223 · `font-medium` 161 · `font-bold` 51 · `font-normal` 29 · `font-extralight` 21 · `font-extrabold` 4 · `font-thin` 2. Weights above 600 are effectively absent — treat 700+ as off-system.
+
+**Emphasis colour — CORRECTED 2026-09-11.** An earlier draft of this block claimed `font-semibold text-magenta-600` was "the AuthZed pattern" for headline emphasis. Ground-truthing disproved it: across `projects/web/src` there are **zero** instances of solid `text-magenta-600` used as a headline emphasis span. All 12 `font-semibold` + magenta co-occurrences are eyebrows (5), gradient stops (5), or button/chip backgrounds (2). The two patterns that actually ship:
+
+1. **Neutral semibold** (~17 uses) — the default. `font-semibold` with `text-white` / `text-stone-050` / inherited. The canonical hero is `projects/web/src/app/(main)/page.tsx:18-23`:
+   `font-light "AI Moves Fast."` + `font-semibold "Permissions Must Keep Up."`
+2. **Brand-gradient clip-text semibold** (~8 uses) — the expressive variant, for a hero that needs more lift. `bg-gradient-to-r from-sand-300 via-red-400 to-magenta-600 bg-clip-text font-semibold text-transparent`.
+
+`magenta-600` + semibold IS canon — as the **eyebrow/kicker**, not headline emphasis: `text-xs`/`text-sm`, `uppercase`, `tracking-widest`, `text-magenta-600` (PressResources, Conferences, events/[slug], EventDate).
+
+**Display headline metrics.** `leading-none` (or `leading-[1.0]`) on display sizes; the light weight needs the tight leading to read as one block. **Do NOT apply negative letter-spacing** — the shipped hero sets none, and tightened tracking reads instantly off-brand (Inter Light is already narrow). Headline case is **Title Case**. Break display headlines EXPLICITLY with `<br>`: the semibold clause must start its own line and never be split across a wrap, which auto-wrapping cannot guarantee.
 
 **Mono-caps section labels** (`text-xs`, `letterSpacing: 0.08em`, uppercase) signal structural transitions — section titles, "Resources", "Load more". Always paired with horizontal rules in the blog/archive treatment.
 

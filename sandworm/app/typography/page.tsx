@@ -45,12 +45,19 @@ export default function TypographyPage() {
     { name: 'Mono Extra Large', class: 'mono-extralarge', specs: '20px / 24px' },
   ];
 
+  // Ordered by real shipped frequency in authzed.com, not by numeric weight.
+  // Sandworm is a two-weight pairing (light sets up, semibold lands), not a five-weight ramp.
   const weights = [
-    { name: 'Light', class: 'light', weight: '300' },
-    { name: 'Regular', class: 'regular', weight: '400' },
-    { name: 'Medium', class: 'medium', weight: '500' },
-    { name: 'Semibold', class: 'semibold', weight: '600' },
-    { name: 'Bold', class: 'bold', weight: '700' },
+    { name: 'Light', class: 'light', tw: 'font-light', weight: '300', uses: 295,
+      role: 'Headlines and marketing body. The brand default.' },
+    { name: 'Semibold', class: 'semibold', tw: 'font-semibold', weight: '600', uses: 223,
+      role: 'The emphasis clause in a headline. UI labels.' },
+    { name: 'Medium', class: 'medium', tw: 'font-medium', weight: '500', uses: 161,
+      role: 'Dense UI only \u2014 table headers, small controls.' },
+    { name: 'Bold', class: 'bold', tw: 'font-bold', weight: '700', uses: 51,
+      role: 'Off-system for marketing. Use Semibold instead.' },
+    { name: 'Regular', class: 'regular', tw: 'font-normal', weight: '400', uses: 29,
+      role: 'Rare. Product UI body where light is too airy.' },
   ];
 
   const styles = [
@@ -75,6 +82,83 @@ export default function TypographyPage() {
       </div>
 
       <div className="space-y-12">
+        <section>
+          <div className="mb-6">
+            <h2 className="text-2xl font-semibold">Headline Pairing</h2>
+            <p className="mt-2 text-muted-foreground">
+              The most load-bearing rule in the system. A display headline is two clauses: a{' '}
+              <code className="bg-muted px-1 py-0.5 rounded">font-light</code> setup and a{' '}
+              <code className="bg-muted px-1 py-0.5 rounded">font-semibold</code> payoff. The weight
+              change carries the hierarchy, so the type size does not have to.
+            </p>
+          </div>
+
+          <div className="rounded-lg border p-6">
+            <div className="text-4xl leading-none">
+              <span className="font-light">
+                AI Moves Fast.
+                <br />
+                <span className="font-semibold">Permissions Must Keep Up.</span>
+              </span>
+            </div>
+            <p className="mt-4 text-sm text-muted-foreground">
+              The canonical hero, from{' '}
+              <code className="bg-muted px-1 py-0.5 rounded">
+                projects/web/src/app/(main)/page.tsx:18
+              </code>
+            </p>
+          </div>
+
+          <div className="mt-6 grid gap-4 md:grid-cols-2">
+            <div className="rounded-lg border border-green-600/30 bg-green-600/5 p-5">
+              <h3 className="font-semibold text-green-700 dark:text-green-500">Do</h3>
+              <ul className="mt-3 space-y-2 text-sm text-muted-foreground">
+                <li>Light setup, semibold payoff. Two weights, never more.</li>
+                <li>
+                  <code className="bg-muted px-1 py-0.5 rounded">leading-none</code> on display
+                  sizes. The light weight needs tight leading to read as one block.
+                </li>
+                <li>Title Case.</li>
+                <li>
+                  Break lines explicitly with{' '}
+                  <code className="bg-muted px-1 py-0.5 rounded">&lt;br /&gt;</code>. The semibold
+                  clause starts its own line and is never split by a wrap.
+                </li>
+                <li>
+                  Emphasis is neutral (
+                  <code className="bg-muted px-1 py-0.5 rounded">text-white</code> /{' '}
+                  <code className="bg-muted px-1 py-0.5 rounded">text-stone-050</code>) or the brand
+                  gradient via <code className="bg-muted px-1 py-0.5 rounded">bg-clip-text</code>.
+                </li>
+              </ul>
+            </div>
+            <div className="rounded-lg border border-red-600/30 bg-red-600/5 p-5">
+              <h3 className="font-semibold text-red-700 dark:text-red-500">Don&apos;t</h3>
+              <ul className="mt-3 space-y-2 text-sm text-muted-foreground">
+                <li>
+                  No weights above 600.{' '}
+                  <code className="bg-muted px-1 py-0.5 rounded">font-extrabold</code> ships 4 times
+                  in the entire site. Treat 700+ as off-system.
+                </li>
+                <li>
+                  No negative letter-spacing. The shipped hero sets none. Inter Light is already
+                  narrow, and tightened tracking reads instantly off-brand.
+                </li>
+                <li>
+                  Don&apos;t let a display headline auto-wrap. A wrap that orphans one word of the
+                  semibold clause breaks the pairing.
+                </li>
+                <li>
+                  Don&apos;t use solid{' '}
+                  <code className="bg-muted px-1 py-0.5 rounded">text-magenta-600</code> for headline
+                  emphasis. That is the eyebrow pattern (uppercase, tracking-widest, small) and
+                  ships zero times as headline emphasis.
+                </li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
         <section>
           <div className="mb-6">
             <h2 className="text-2xl font-semibold">Primary Font (Inter)</h2>
@@ -158,8 +242,10 @@ export default function TypographyPage() {
           <div className="mb-6">
             <h2 className="text-2xl font-semibold">Font Weights</h2>
             <p className="mt-2 text-muted-foreground">
-              A variety of font weights—from light to bold—create typographic hierarchy, helping
-              users distinguish important content at a glance.
+              Sandworm is a two-weight pairing, not a five-weight ramp. Light sets up, Semibold
+              lands. Each weight below is listed with how many times it actually ships in
+              authzed.com, so the ramp is ranked by real use rather than shown as five equal
+              options.
             </p>
           </div>
           <Collapsible open={openSections.weights} onOpenChange={() => toggleSection('weights')}>
@@ -185,8 +271,10 @@ export default function TypographyPage() {
                       The quick brown fox jumps over the lazy dog
                     </div>
                     <div className="mt-2 text-sm text-muted-foreground">
-                      <code className="bg-muted px-1 py-0.5 rounded">.{weight.class}</code>
-                      <span className="ml-2">Font Weight: {weight.weight}</span>
+                      <code className="bg-muted px-1 py-0.5 rounded">{weight.tw}</code>
+                      <span className="ml-2">Weight {weight.weight}</span>
+                      <span className="ml-2">· {weight.uses} uses in authzed.com</span>
+                      <div className="mt-1">{weight.role}</div>
                     </div>
                   </div>
                 ))}
