@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Email Signature Generator — AuthZed</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --violet:#9278ed;
+  --sand:#ffb370;
+  --bg:#0a0710;
+  --bgL:#170d1c;
+  --bgLL:#1e1424;
+  --bgLLL:#2a2130;
+  --border:#3a3144;
+  --text:#e0d8e8;
+  --textMid:#b0a4bc;
+  --textDim:#8a7a96;
+  --sidebar-width:360px;
+}
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Inter',system-ui,sans-serif;font-size:14px;line-height:1.5}
+#app{display:flex;height:100vh;overflow:hidden}
+@media(max-width:900px){
+  #app{flex-direction:column;height:auto;overflow:auto}
+  #sidebar{width:100%!important;min-width:unset;border-right:none;border-bottom:1px solid var(--bgLLL)}
+  #main{overflow:visible}
+}
+#sidebar{width:var(--sidebar-width);min-width:var(--sidebar-width);background:var(--bgL);border-right:1px solid var(--bgLLL);display:flex;flex-direction:column;overflow-y:auto;padding-bottom:32px;scrollbar-width:thin;scrollbar-color:var(--bgLLL) transparent}
+#main{flex:1;overflow-y:auto;padding:32px;display:flex;flex-direction:column;gap:24px;scrollbar-width:thin;scrollbar-color:var(--bgLLL) transparent}
+#sidebar-header{padding:24px 20px 16px;border-bottom:1px solid var(--bgLLL)}
+#sidebar-header h1{font-size:15px;font-weight:700;color:var(--text);letter-spacing:-0.01em}
+#sidebar-header p{font-size:11px;color:var(--textDim);margin-top:4px;line-height:1.5}
+.section{border-bottom:1px solid var(--bgLLL)}
+.section-header{padding:12px 20px;font-size:10px;font-weight:600;color:var(--textDim);text-transform:uppercase;letter-spacing:.8px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;user-select:none;transition:color .15s}
+.section-header:hover{color:var(--textMid)}
+.section-header .chevron{font-size:8px;transition:transform .2s}
+.section-header.collapsed .chevron{transform:rotate(-90deg)}
+.section-body{padding:4px 20px 12px;display:flex;flex-direction:column;gap:10px}
+.section-body.collapsed{display:none}
+.field{display:flex;flex-direction:column;gap:5px}
+.field label{font-size:11px;font-weight:500;color:var(--textMid)}
+.field label small{font-weight:400;color:var(--textDim)}
+.field input,.field select{background:var(--bgLL);border:1px solid var(--border);color:var(--text);padding:7px 10px;border-radius:6px;font-size:13px;font-family:'Inter',system-ui,sans-serif;transition:border-color .15s;width:100%}
+.field input:focus,.field select:focus{outline:none;border-color:var(--violet)}
+.field input::placeholder{color:var(--textDim)}
+.field select option{background:var(--bgL)}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+#templates-bar{display:flex;gap:8px;padding:10px 20px;border-bottom:1px solid var(--bgLLL);align-items:center}
+#templates-bar select{flex:1;background:var(--bgLL);border:1px solid var(--border);color:var(--text);padding:6px 10px;border-radius:6px;font-size:12px;font-family:'Inter',system-ui,sans-serif}
+#templates-bar select:focus{outline:none;border-color:var(--violet)}
+#templates-bar select option{background:var(--bgL)}
+.btn{background:var(--bgLLL);border:1px solid var(--border);color:var(--textMid);padding:6px 12px;border-radius:6px;cursor:pointer;font-size:12px;font-family:'Inter',system-ui,sans-serif;font-weight:500;transition:all .15s;display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.btn:hover{background:var(--border);color:var(--text)}
+.btn.primary{background:var(--violet);border-color:var(--violet);color:#fff}
+.btn.primary:hover{background:#7d65d6;border-color:#7d65d6}
+.btn svg{width:14px;height:14px;flex-shrink:0}
+#element-list{display:flex;flex-direction:column;gap:4px}
+.element-item{display:flex;align-items:center;gap:10px;padding:8px 10px;background:var(--bgLL);border:1px solid var(--bgLLL);border-radius:6px;cursor:grab;user-select:none;transition:all .15s}
+.element-item:active{cursor:grabbing}
+.element-item.drag-over{border-color:var(--violet);background:rgba(146,120,237,0.08)}
+.element-item.dragging{opacity:.4}
+.grip-icon{color:var(--textDim);flex-shrink:0}
+.element-item span{flex:1;font-size:12px;font-weight:500;color:var(--textMid)}
+.toggle{position:relative;display:inline-block;width:32px;height:18px;flex-shrink:0}
+.toggle input{opacity:0;width:0;height:0}
+.toggle-track{position:absolute;inset:0;background:var(--bgLLL);border:1px solid var(--border);border-radius:9px;cursor:pointer;transition:all .2s}
+.toggle input:checked+.toggle-track{background:var(--violet);border-color:var(--violet)}
+.toggle-thumb{position:absolute;top:2px;left:2px;width:12px;height:12px;background:#fff;border-radius:50%;transition:transform .2s;pointer-events:none}
+.toggle input:checked~.toggle-thumb{transform:translateX(14px)}
+#main h2{font-size:24px;font-weight:700;letter-spacing:-0.02em;color:var(--text)}
+#main .subtitle{font-size:13px;color:var(--textDim);margin-top:4px}
+#preview-card{background:var(--bgL);border:1px solid var(--bgLLL);border-radius:12px;overflow:hidden}
+#preview-card .card-header{padding:16px 20px 14px;border-bottom:1px solid var(--bgLLL);display:flex;align-items:center;justify-content:space-between}
+#preview-card .card-title{font-size:13px;font-weight:600;color:var(--text)}
+#preview-card .card-desc{font-size:11px;color:var(--textDim);margin-top:2px}
+.preview-window{margin:20px;background:#ffffff;border-radius:8px;padding:24px;min-height:80px;box-shadow:0 0 0 1px rgba(0,0,0,0.06),0 2px 12px rgba(0,0,0,0.12)}
+#preview-empty{color:#aaa5ac;font-size:13px;font-family:Helvetica,Arial,sans-serif;text-align:center;padding:24px 0}
+#preview-actions{padding:0 20px 20px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+#copy-hint{font-size:11px;color:var(--textDim);padding:0 20px 16px;line-height:1.6}
+#copy-hint strong{color:var(--textMid)}
+#html-source-card{background:var(--bgL);border:1px solid var(--bgLLL);border-radius:12px;overflow:hidden}
+#html-source-card .card-header{padding:14px 20px;border-bottom:1px solid var(--bgLLL);display:flex;align-items:center;justify-content:space-between}
+#html-source-card .card-title{font-size:13px;font-weight:600;color:var(--text)}
+#html-source{padding:16px 20px;font-family:'SF Mono','Fira Code',monospace;font-size:11px;color:var(--textDim);line-height:1.6;white-space:pre-wrap;word-break:break-all;max-height:200px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--bgLLL) transparent}
+#toast{position:fixed;bottom:24px;right:24px;background:var(--bgL);border:1px solid var(--border);color:var(--text);padding:10px 18px;border-radius:8px;font-size:12px;font-weight:500;opacity:0;transition:opacity .25s,transform .25s;transform:translateY(8px);pointer-events:none;z-index:999;max-width:280px;box-shadow:0 4px 24px rgba(0,0,0,0.4)}
+#toast.show{opacity:1;transform:translateY(0)}
+#toast.success{border-color:var(--violet);color:var(--violet)}
+#toast.error{border-color:#e05d5d;color:#e05d5d}
+</style>
+</head>
+<body>
+<div id="app">
+
+  <div id="sidebar">
+    <div id="sidebar-header">
+      <h1>Email Signature Generator</h1>
+      <p>Build on-brand signatures for Gmail &amp; Outlook with live preview.</p>
+    </div>
+    <div id="templates-bar">
+      <button class="btn" id="btn-save">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 13H3a1 1 0 01-1-1V4l3-3h8a1 1 0 011 1v10a1 1 0 01-1 1z"/><rect x="5" y="9" width="6" height="4"/><rect x="5" y="2" width="4" height="3"/></svg>
+        Save
+      </button>
+      <select id="template-select"><option value="">Load template&hellip;</option></select>
+    </div>
+    <div class="section">
+      <div class="section-header" data-section="contact"><span>Contact Info</span><span class="chevron">&#9660;</span></div>
+      <div class="section-body" id="contact-body">
+        <div class="field"><label for="f-name">Full Name</label><input id="f-name" type="text" placeholder="Dibs" data-field="name"></div>
+        <div class="field"><label for="f-title">Title</label><input id="f-title" type="text" placeholder="Chief Treat Officer" data-field="title"></div>
+        <div class="field"><label for="f-company">Company</label><input id="f-company" type="text" placeholder="AuthZed" data-field="company"></div>
+        <div class="field"><label for="f-email">Email</label><input id="f-email" type="email" placeholder="dibs@authzed.com" data-field="email"></div>
+        <div class="grid-2">
+          <div class="field"><label for="f-phone">Phone</label><input id="f-phone" type="tel" placeholder="1.555.867.5309" data-field="phone"></div>
+          <div class="field"><label for="f-pronouns">Pronouns</label><input id="f-pronouns" type="text" placeholder="they/them" data-field="pronouns"></div>
+        </div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="section-header" data-section="branding"><span>Branding &amp; Links</span><span class="chevron">&#9660;</span></div>
+      <div class="section-body" id="branding-body">
+        <div class="field"><label for="f-logo">Logo URL <small>(PNG for Gmail)</small></label><input id="f-logo" type="url" placeholder="https://example.com/logo.png" data-field="logoUrl"></div>
+        <div class="field"><label for="f-website">Website URL</label><input id="f-website" type="url" placeholder="https://authzed.com" data-field="website"></div>
+        <div class="field"><label for="f-website-text">Website Display Text</label><input id="f-website-text" type="text" placeholder="authzed.com" data-field="websiteText"></div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="section-header" data-section="cta"><span>Call to Action</span><span class="chevron">&#9660;</span></div>
+      <div class="section-body" id="cta-body">
+        <div class="field"><label for="f-cta-text">CTA Text</label><input id="f-cta-text" type="text" placeholder="Learn More" data-field="ctaText"></div>
+        <div class="field"><label for="f-cta-link">CTA Link</label><input id="f-cta-link" type="url" placeholder="https://authzed.com/contact" data-field="ctaLink"></div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="section-header" data-section="layout"><span>Layout</span><span class="chevron">&#9660;</span></div>
+      <div class="section-body" id="layout-body">
+        <div class="grid-2">
+          <div class="field"><label for="f-layout">Style</label>
+            <select id="f-layout" data-field="layout"><option value="horizontal">Horizontal</option><option value="stacked">Stacked</option></select>
+          </div>
+          <div class="field"><label for="f-alignment">Alignment</label>
+            <select id="f-alignment" data-field="alignment"><option value="left">Left</option><option value="center">Center</option></select>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="section-header" data-section="elements"><span>Element Order</span><span class="chevron">&#9660;</span></div>
+      <div class="section-body" id="elements-body">
+        <p style="font-size:11px;color:var(--textDim)">Drag to reorder. Toggle visibility with the switch.</p>
+        <div id="element-list"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="main">
+    <div>
+      <h2>Preview</h2>
+      <p class="subtitle">Live preview — this is how it looks in email clients.</p>
+    </div>
+    <div id="preview-card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">Signature Preview</div>
+          <div class="card-desc">White background mirrors the email client environment</div>
+        </div>
+      </div>
+      <div class="preview-window"><div id="preview-output"><div id="preview-empty">Fill in your details to preview</div></div></div>
+      <div id="preview-actions">
+        <button class="btn primary" id="btn-copy-sig">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="5" width="9" height="9" rx="1"/><path d="M2 11V2h9"/></svg>
+          Copy Signature
+        </button>
+        <button class="btn" id="btn-copy-html">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 2l4 6-4 6M6 2L2 8l4 6"/></svg>
+          Copy HTML Source
+        </button>
+      </div>
+      <p id="copy-hint"><strong>Gmail:</strong> Settings &rarr; Signature &rarr; Paste &nbsp;&middot;&nbsp; <strong>Outlook:</strong> Settings &rarr; Email signature &rarr; Paste</p>
+    </div>
+    <div id="html-source-card">
+      <div class="card-header">
+        <div class="card-title">HTML Source</div>
+        <button class="btn" id="btn-copy-html-2" style="font-size:11px;padding:4px 10px">Copy</button>
+      </div>
+      <pre id="html-source">// enter your name to generate HTML</pre>
+    </div>
+  </div>
+
+</div>
+<div id="toast"></div>
+<script>
+const LOGO_URL = 'https://authzed.com/assets/brand/logomark/authzed-logomark-circle-color.png';
+const TEMPLATE_KEY = 'az-sig-templates';
+
+const DEFAULT_FIELDS = {
+  name:'Dibs', title:'Chief Treat Officer', company:'AuthZed',
+  email:'dibs@authzed.com', phone:'', pronouns:'they/them',
+  logoUrl:LOGO_URL, website:'https://authzed.com', websiteText:'authzed.com',
+  ctaText:'', ctaLink:'', layout:'horizontal', alignment:'left'
+};
+
+const DEFAULT_ELEMENTS = [
+  {id:'logo',label:'Logo',visible:true},
+  {id:'name',label:'Name',visible:true},
+  {id:'title',label:'Title',visible:true},
+  {id:'company',label:'Company',visible:true},
+  {id:'divider',label:'Divider',visible:true},
+  {id:'email',label:'Email',visible:true},
+  {id:'phone',label:'Phone',visible:true},
+  {id:'website',label:'Website',visible:true},
+  {id:'cta',label:'CTA',visible:true}
+];
+
+let fields = Object.assign({}, DEFAULT_FIELDS);
+let elements = DEFAULT_ELEMENTS.map(function(e){return Object.assign({},e);});
+
+// HTML entity encoding — all user input passes through this before
+// being placed inside the generated table markup.
+function esc(s){
+  return String(s)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+function sanitizeUrl(u){
+  try{var p=new URL(u);if(['http:','https:','mailto:'].includes(p.protocol))return u;}catch(x){}
+  return '';
+}
+
+// ── Email HTML generators ──────────────────────────────────────
+// All user values are passed through esc() and sanitizeUrl()
+// before string concatenation, producing safe table-based HTML.
+function renderElement(id,data,align){
+  var a=align==='center'?'center':'left';
+  switch(id){
+    case 'logo':{
+      var ls=sanitizeUrl(data.logoUrl)||LOGO_URL;
+      return '<tr><td align="'+a+'" style="padding:0 0 6px 0;"><a href="https://authzed.com"><img src="'+esc(ls)+'" width="80" height="80" alt="AuthZed" style="width:80px;height:80px;display:block;border:0;"></a></td></tr>';
+    }
+    case 'name':{
+      if(!data.name)return '';
+      var ps=data.pronouns?' <span style="font-size:11px;font-weight:400;color:#aaa5ac;letter-spacing:0.01em;">('+esc(data.pronouns)+')</span>':'';
+      return '<tr><td align="'+a+'" style="font-size:16px;font-weight:700;color:#1e1424;padding:0 0 1px 0;font-family:Helvetica,Arial,sans-serif;line-height:1.3;">'+esc(data.name)+ps+'</td></tr>';
+    }
+    case 'title':
+      if(!data.title)return '';
+      return '<tr><td align="'+a+'" style="font-size:13px;color:#655d69;padding:0;font-family:Helvetica,Arial,sans-serif;line-height:1.4;">'+esc(data.title)+'</td></tr>';
+    case 'company':
+      if(!data.company)return '';
+      return '<tr><td align="'+a+'" style="font-size:12px;font-weight:600;color:#8e8891;padding:2px 0 0 0;font-family:Helvetica,Arial,sans-serif;line-height:1.4;">'+esc(data.company).toUpperCase()+'</td></tr>';
+    case 'email':
+      if(!data.email)return '';
+      return '<tr><td align="'+a+'" style="font-size:12px;color:#655d69;padding:0;font-family:Helvetica,Arial,sans-serif;line-height:1.45;"><a href="mailto:'+esc(data.email)+'" style="color:#655d69;text-decoration:none;">'+esc(data.email)+'</a></td></tr>';
+    case 'divider':
+      return '<tr><td align="'+a+'" style="padding:4px 0;"><table cellpadding="0" cellspacing="0" border="0"'+(align==='center'?' align="center"':'')+' ><tr><td style="width:60px;height:2px;background-color:#ffb370;font-size:1px;line-height:1px;">&nbsp;</td></tr></table></td></tr>';
+    case 'phone':{
+      if(!data.phone)return '';
+      var c=data.phone.replace(/[^+\d]/g,'');
+      return '<tr><td align="'+a+'" style="font-size:12px;color:#655d69;padding:0;font-family:Helvetica,Arial,sans-serif;line-height:1.45;"><a href="tel:'+esc(c)+'" style="color:#655d69;text-decoration:none;">'+esc(data.phone)+'</a></td></tr>';
+    }
+    case 'website':{
+      if(!data.websiteText&&!data.website)return '';
+      var wu=sanitizeUrl(data.website)||'https://authzed.com';
+      var wt=data.websiteText||'authzed.com';
+      return '<tr><td align="'+a+'" style="font-size:12px;padding:0;font-family:Helvetica,Arial,sans-serif;line-height:1.45;"><a href="'+esc(wu)+'" style="color:#655d69;text-decoration:none;">'+esc(wt)+'</a></td></tr>';
+    }
+    case 'cta':{
+      if(!data.ctaText)return '';
+      var cu=sanitizeUrl(data.ctaLink)||'#';
+      return '<tr><td align="'+a+'" style="padding:4px 0 2px 0;"><a href="'+esc(cu)+'" style="font-size:12px;font-weight:600;font-family:Helvetica,Arial,sans-serif;text-decoration:none;color:#ffb370;line-height:1.4;">'+esc(data.ctaText)+' &rarr;</a></td></tr>';
+    }
+    default: return '';
+  }
+}
+
+function buildStackedHTML(data,order){
+  var al=data.alignment,ta=al==='center'?' align="center"':'',rows='';
+  order.forEach(function(item){if(item.visible)rows+=renderElement(item.id,data,al);});
+  return '<table cellpadding="0" cellspacing="0" border="0"'+ta+' style="font-family:Helvetica,Arial,sans-serif;">'+rows+'</table>';
+}
+
+function buildHorizontalHTML(data,order){
+  var ir='';
+  order.forEach(function(item){if(item.visible&&item.id!=='logo')ir+=renderElement(item.id,data,'left');});
+  var showLogo=order.some(function(item){return item.id==='logo'&&item.visible;});
+  var ls=sanitizeUrl(data.logoUrl)||LOGO_URL;
+  var lc;
+  if(showLogo){
+    lc='<td style="vertical-align:top;padding-right:14px;padding-top:2px;"><a href="https://authzed.com"><img src="'+esc(ls)+'" width="48" height="48" alt="AuthZed" style="width:48px;height:48px;display:block;border:0;"></a></td>'+
+       '<td style="border-left:2px solid #dedddf;padding-left:14px;vertical-align:top;">';
+  }else{
+    lc='<td style="vertical-align:top;">';
+  }
+  return '<table cellpadding="0" cellspacing="0" border="0" style="font-family:Helvetica,Arial,sans-serif;"><tr>'+lc+'<table cellpadding="0" cellspacing="0" border="0">'+ir+'</table></td></tr></table>';
+}
+
+function buildSignatureHTML(data,order){
+  return data.layout==='horizontal'?buildHorizontalHTML(data,order):buildStackedHTML(data,order);
+}
+
+// ── Template persistence ──────────────────────────────────────
+function getTemplates(){try{return JSON.parse(localStorage.getItem(TEMPLATE_KEY)||'{}');}catch(x){return {};}}
+function saveTemplates(t){localStorage.setItem(TEMPLATE_KEY,JSON.stringify(t));}
+
+// ── Toast ──────────────────────────────────────────────────────
+var toastTimer=null;
+function showToast(msg,type){
+  var el=document.getElementById('toast');
+  el.textContent=msg;
+  el.className=type?('show '+type):'show';
+  if(toastTimer)clearTimeout(toastTimer);
+  toastTimer=setTimeout(function(){el.className='';},2400);
+}
+
+// ── State helpers ─────────────────────────────────────────────
+function getOrder(){return elements.map(function(e){return {id:e.id,visible:e.visible};});}
+
+// ── Preview update ────────────────────────────────────────────
+// The email preview container shows generated table HTML. All user values
+// have been encoded via esc() before being placed in the HTML string.
+// We use createRange+createContextualFragment so the browser parses it
+// into a DocumentFragment, then we replace the container's children.
+function setPreviewContent(container, htmlStr) {
+  var range = document.createRange();
+  range.selectNodeContents(container);
+  range.deleteContents();
+  var frag = range.createContextualFragment(htmlStr);
+  container.appendChild(frag);
+}
+
+function updatePreview(){
+  var output=document.getElementById('preview-output');
+  var source=document.getElementById('html-source');
+  if(!fields.name){
+    var empty=document.createElement('div');
+    empty.id='preview-empty';
+    empty.textContent='Fill in your details to preview';
+    output.replaceChildren(empty);
+    source.textContent='// enter your name to generate HTML';
+    return;
+  }
+  var html=buildSignatureHTML(fields,getOrder());
+  setPreviewContent(output, html);
+  source.textContent=html;
+}
+
+// ── Drag-and-drop element list ─────────────────────────────────
+var dragSrcIndex=null;
+function buildGripSVG(){
+  var svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
+  svg.setAttribute('class','grip-icon');svg.setAttribute('viewBox','0 0 16 16');
+  svg.setAttribute('width','14');svg.setAttribute('height','14');
+  svg.setAttribute('fill','none');svg.setAttribute('stroke','currentColor');
+  svg.setAttribute('stroke-width','1.5');
+  ['5','8','11'].forEach(function(y){
+    var l=document.createElementNS('http://www.w3.org/2000/svg','line');
+    l.setAttribute('x1','4');l.setAttribute('y1',y);l.setAttribute('x2','12');l.setAttribute('y2',y);
+    svg.appendChild(l);
+  });
+  return svg;
+}
+
+function renderElementList(){
+  var list=document.getElementById('element-list');
+  list.replaceChildren();
+  elements.forEach(function(el,idx){
+    var item=document.createElement('div');
+    item.className='element-item';item.draggable=true;item.dataset.index=idx;
+    item.appendChild(buildGripSVG());
+    var lbl=document.createElement('span');lbl.textContent=el.label;item.appendChild(lbl);
+    var tl=document.createElement('label');tl.className='toggle';
+    var cb=document.createElement('input');cb.type='checkbox';cb.checked=el.visible;
+    (function(i){cb.addEventListener('change',function(e){elements[i].visible=e.target.checked;updatePreview();});})(idx);
+    var track=document.createElement('div');track.className='toggle-track';
+    var thumb=document.createElement('div');thumb.className='toggle-thumb';
+    tl.appendChild(cb);tl.appendChild(track);tl.appendChild(thumb);item.appendChild(tl);
+    item.addEventListener('dragstart',function(e){dragSrcIndex=idx;item.classList.add('dragging');e.dataTransfer.effectAllowed='move';});
+    item.addEventListener('dragend',function(){item.classList.remove('dragging');document.querySelectorAll('.element-item').forEach(function(i){i.classList.remove('drag-over');});});
+    item.addEventListener('dragover',function(e){e.preventDefault();e.dataTransfer.dropEffect='move';document.querySelectorAll('.element-item').forEach(function(i){i.classList.remove('drag-over');});item.classList.add('drag-over');});
+    (function(i){item.addEventListener('drop',function(e){e.preventDefault();if(dragSrcIndex===null||dragSrcIndex===i)return;var m=elements.splice(dragSrcIndex,1)[0];elements.splice(i,0,m);dragSrcIndex=null;renderElementList();updatePreview();});})(idx);
+    list.appendChild(item);
+  });
+}
+
+// ── Field inputs ──────────────────────────────────────────────
+document.querySelectorAll('[data-field]').forEach(function(input){
+  var key=input.dataset.field;
+  if(input.tagName==='SELECT'){
+    for(var i=0;i<input.options.length;i++){if(input.options[i].value===fields[key]){input.selectedIndex=i;break;}}
+  }else{input.value=fields[key]||'';}
+  input.addEventListener('input',function(){fields[key]=input.value;updatePreview();});
+  input.addEventListener('change',function(){fields[key]=input.value;updatePreview();});
+});
+
+// ── Section collapsing ────────────────────────────────────────
+document.querySelectorAll('.section-header[data-section]').forEach(function(h){
+  h.addEventListener('click',function(){
+    var b=document.getElementById(h.dataset.section+'-body');
+    var c=b.classList.toggle('collapsed');h.classList.toggle('collapsed',c);
+  });
+});
+
+// ── Copy signature (rich text) ────────────────────────────────
+document.getElementById('btn-copy-sig').addEventListener('click',function(){
+  if(!fields.name){showToast('Enter your name first','error');return;}
+  var html=buildSignatureHTML(fields,getOrder());
+  try{
+    var blob=new Blob([html],{type:'text/html'});
+    var tb=new Blob([html],{type:'text/plain'});
+    navigator.clipboard.write([new ClipboardItem({'text/html':blob,'text/plain':tb})])
+      .then(function(){showToast('Signature copied — paste into email settings','success');})
+      .catch(function(){showToast('Copy failed — try again','error');});
+  }catch(x){showToast('Copy failed — try again','error');}
+});
+
+// ── Copy HTML source ──────────────────────────────────────────
+function copyHTMLSource(){
+  if(!fields.name){showToast('Enter your name first','error');return;}
+  var html=buildSignatureHTML(fields,getOrder());
+  navigator.clipboard.writeText(html)
+    .then(function(){showToast('HTML source copied to clipboard','success');})
+    .catch(function(){showToast('Copy failed','error');});
+}
+document.getElementById('btn-copy-html').addEventListener('click',copyHTMLSource);
+document.getElementById('btn-copy-html-2').addEventListener('click',copyHTMLSource);
+
+// ── Save template ─────────────────────────────────────────────
+document.getElementById('btn-save').addEventListener('click',function(){
+  if(!fields.name){showToast('Fill in your name first','error');return;}
+  var t=getTemplates();
+  t[fields.name]={fields:Object.assign({},fields),order:getOrder()};
+  saveTemplates(t);refreshTemplateSelect(fields.name);
+  showToast('Template saved as "'+fields.name+'"','success');
+});
+
+// ── Template select ───────────────────────────────────────────
+function refreshTemplateSelect(sel){
+  var select=document.getElementById('template-select');
+  var t=getTemplates(),names=Object.keys(t);
+  while(select.options.length>0)select.remove(0);
+  var def=document.createElement('option');def.value='';def.textContent='Load template\u2026';select.appendChild(def);
+  names.forEach(function(name){
+    var opt=document.createElement('option');opt.value=name;opt.textContent=name;
+    if(name===sel)opt.selected=true;select.appendChild(opt);
+  });
+}
+
+document.getElementById('template-select').addEventListener('change',function(e){
+  var name=e.target.value;if(!name)return;
+  var t=getTemplates(),tmpl=t[name];if(!tmpl)return;
+  fields=Object.assign({},tmpl.fields);
+  if(tmpl.order){
+    var ro=[];
+    tmpl.order.forEach(function(item){
+      var ex=DEFAULT_ELEMENTS.find(function(el){return el.id===item.id;});
+      if(ex)ro.push(Object.assign({},ex,{visible:item.visible}));
+    });
+    DEFAULT_ELEMENTS.forEach(function(el){
+      if(!ro.find(function(r){return r.id===el.id;}))ro.push(Object.assign({},el));
+    });
+    elements=ro;
+  }
+  document.querySelectorAll('[data-field]').forEach(function(input){
+    var key=input.dataset.field;
+    if(input.tagName==='SELECT'){
+      for(var i=0;i<input.options.length;i++){if(input.options[i].value===fields[key]){input.selectedIndex=i;break;}}
+    }else{input.value=fields[key]||'';}
+  });
+  renderElementList();updatePreview();
+  showToast('Loaded "'+name+'"','success');
+});
+
+// ── Init ──────────────────────────────────────────────────────
+refreshTemplateSelect('');
+renderElementList();
+updatePreview();
+</script>
+</body>
+</html>
