@@ -16,10 +16,12 @@ import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { usePageStatus } from '@/hooks/use-page-status';
 import { useToast } from '@/hooks/use-toast';
 
-// The stage is the rig itself (drawings, handles, bones): a build artifact from the Dibs rig in
-// public/embeds/dibs-turn-studio (see its README). This page owns every control and drives the stage
-// through its DibsStudio API (same-origin iframe).
-const STAGE_SRC = '/embeds/dibs-turn-studio/stage.html';
+import { STAGE_HTML } from './stage-html';
+
+// The stage is the rig itself (drawings, handles, bones), a build artifact from the Dibs rig (see README.md
+// here). It loads through srcDoc, a same-origin document that needs no hosting rules (as a public/*.html file
+// Vercel's static export redirected it to a missing route). This page owns every control and drives the
+// stage through its DibsStudio API.
 
 type View = 'front' | 'side';
 type FrontState = { mouth: string | null; eye: string; lookX: number; lookY: number; padsL: boolean; padsR: boolean };
@@ -175,7 +177,7 @@ export default function DibsTurnStudioPage() {
         <div className="overflow-hidden rounded-xl border bg-muted">
           <iframe
             ref={frame}
-            src={STAGE_SRC}
+            srcDoc={STAGE_HTML}
             title="Dibs Turn Studio stage"
             className="block aspect-square max-h-[78vh] w-full"
             onLoad={() => { connect(); }}
