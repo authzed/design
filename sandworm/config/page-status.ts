@@ -42,4 +42,5 @@ export const pageStatus: PageStatusConfig = {
   // Tools
   "/tools/slack-theme": "ready",
   "/tools/email-signature": "ready",
+  "/tools/dibs-turn-studio": "draft",
 };

@@ -155,6 +155,10 @@ const sidebarNavItems: NavSection[] = [
         title: "Email Signature",
         href: "/tools/email-signature",
       },
+      {
+        title: "Dibs Turn Studio",
+        href: "/tools/dibs-turn-studio",
+      },
     ],
   },
 ];

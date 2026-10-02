@@ -28,6 +28,7 @@ import {
   Slack,
   Mail,
   type LucideIcon,
+  Rabbit,
 } from "lucide-react";
 import { Container } from "@/components/ui/container";
 
@@ -108,6 +109,7 @@ const groups: HubGroup[] = [
     items: [
       { name: "Slack Theme", href: "/tools/slack-theme", icon: Slack, tagline: "Branded Slack color themes" },
       { name: "Email Signature", href: "/tools/email-signature", icon: Mail, tagline: "Generate a branded signature" },
+      { name: "Dibs Turn Studio", href: "/tools/dibs-turn-studio", icon: Rabbit, tagline: "Pose and export the mascot" },
     ],
   },
 ];
