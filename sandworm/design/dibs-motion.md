@@ -5,7 +5,7 @@ part-of: Sandworm
 status: draft
 ---
 
-> **Draft, not v1.** 14 recipes so far, more in progress. Clips are reference renders on grey, not final assets.
+> **Draft, not v1.** 16 recipes so far, more in progress. Clips are reference renders on grey, not final assets.
 
 Back to [Sandworm DESIGN.md](../DESIGN.md)
 
@@ -46,7 +46,7 @@ curl -s https://queue.fal.run/minimax/h3-max-turbo/image-to-video \
 - **Lean, don't turn.** Head turns warp the ears. "Leans forward to sniff" works.
 - **Excited is slower than you think.** Three bounces in 4 s read as frantic; over 5 s with "springy, not frantic" it works.
 - **Natural speed.** A big hop with long hang time reads as slow motion. Say "short hang time, at natural speed".
-- **Head gestures: body still.** For a nod or head shake, extra body motion reads wrong. Say "sits still ... only the head moves". Every other motion still needs a body move.
+- **Head gestures: small, level, body still.** For a head shake, extra body motion or a tilt reads wrong. Say "small", "the head stays level and the body stays completely still". Every other motion still needs a body move.
 - **Big enough to see.** A sniff or blink on its own reads as nothing happening. Pair every motion with a body move.
 - **Too loose is a thing.** Telling the body to sway with the tail made it wobbly. A still body with a moving tail looked better.
 - **Stay on grey.** Cutting Dibs out (AI matting, green screen and keying) was tested and dropped: edges never looked right. Renders on dark were worse. Use the grey clips as reference; final placement is a design job.
@@ -183,8 +183,27 @@ Clip: [`14-excited.mp4`](../public/dibs/motion/14-excited.mp4)
 5 s · seed 1
 > The cartoon jerboa bounces up and down three times with small springy hops, not frantic. The ears flap with each bounce and the tail swings. Eyes stay open, same face. Ends in exactly the same seated pose. Static camera, plain grey background.
 
+### 15 Head shake (no)
+
+![head shake (no)](../public/dibs/motion/15-head-shake-strip.png)
+
+Clip: [`15-head-shake.mp4`](../public/dibs/motion/15-head-shake.mp4)
+
+3 s · seed 1
+> The cartoon jerboa gives a small head shake, turning the head slightly left and right twice. The head stays level and the body stays completely still. Eyes stay open, same face. Ends in exactly the same seated pose. Static camera, plain grey background.
+
+### 16 Look left and right
+
+![look left and right](../public/dibs/motion/16-look-left-right-strip.png)
+
+Clip: [`16-look-left-right.mp4`](../public/dibs/motion/16-look-left-right.mp4)
+
+3.5 s · seed 1
+> The cartoon jerboa slowly turns its head a little to the left, then a little to the right, then back to center. The head stays level and the body stays still. Eyes stay open, same face. Ends in exactly the same seated pose. Static camera, plain grey background.
+
 ## Not covered yet
 
+- **Nod:** not possible with this setup yet. Every nod wording moved the whole body (a bow or bounce), even with "the body stays completely still". Likely a job for the rig or Remotion.
 - **Idle loop:** a separate Remotion idle kit exists; not part of this set.
 - **Other angles and poses:** every recipe was tested on one seated 3/4 keyframe. A new keyframe means re-checking them.
 - **Placement on brand backgrounds:** cutouts (matting, green screen) were tested and dropped. Treat the grey clips as reference.
