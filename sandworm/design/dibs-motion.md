@@ -5,7 +5,7 @@ part-of: Sandworm
 status: draft
 ---
 
-> **Draft, not v1.** 7 recipes so far, more in progress. Clips are reference renders on grey, not final assets.
+> **Draft, not v1.** 12 recipes so far, more in progress. Clips are reference renders on grey, not final assets.
 
 Back to [Sandworm DESIGN.md](../DESIGN.md)
 
@@ -45,6 +45,7 @@ curl -s https://queue.fal.run/minimax/h3-max-turbo/image-to-video \
 - **Pick verbs that are pure body.** "Startles" brought in an open mouth with teeth. "Flinches: the body jolts back" kept the face.
 - **Lean, don't turn.** Head turns warp the ears. "Leans forward to sniff" works.
 - **Natural speed.** A big hop with long hang time reads as slow motion. Say "short hang time, at natural speed".
+- **Head gestures: body still.** For a nod or head shake, extra body motion reads wrong. Say "sits still ... only the head moves". Every other motion still needs a body move.
 - **Big enough to see.** A sniff or blink on its own reads as nothing happening. Pair every motion with a body move.
 - **Too loose is a thing.** Telling the body to sway with the tail made it wobbly. A still body with a moving tail looked better.
 - **Stay on grey.** Cutting Dibs out (AI matting, green screen and keying) was tested and dropped: edges never looked right. Renders on dark were worse. Use the grey clips as reference; final placement is a design job.
@@ -115,6 +116,53 @@ Clip: [`07-flinch.mp4`](../public/dibs/motion/07-flinch.mp4)
 
 3.5 s · seed 1 (5 s also approved)
 > The cartoon jerboa flinches: the body jolts back and the ears shoot straight up, then it relaxes, the ears flop and settle and the tail flicks. Same face throughout. Ends in exactly the same seated pose. Static camera, plain grey background.
+
+### 08 Point
+
+![point](../public/dibs/motion/08-point-strip.png)
+
+Clip: [`08-point.mp4`](../public/dibs/motion/08-point.mp4)
+
+3.5 s · seed 1
+> The cartoon jerboa points with one front paw toward the right side of the frame, the ears perk toward it, then it lowers the paw. Eyes stay open, same face. Ends in exactly the same seated pose. Static camera, plain grey background.
+
+Points toward the right side, for UI callouts. A left point is untested.
+
+### 09 Sad
+
+![sad](../public/dibs/motion/09-sad-strip.png)
+
+Clip: [`09-sad.mp4`](../public/dibs/motion/09-sad.mp4)
+
+5 s · seed 1
+> The cartoon jerboa's ears droop down slowly and its body slumps a little, the tail drops, then the ears lift back up and it sits up again. Ends in exactly the same seated pose. Static camera, plain grey background.
+
+### 10 Sleepy
+
+![sleepy](../public/dibs/motion/10-sleepy-strip.png)
+
+Clip: [`10-sleepy.mp4`](../public/dibs/motion/10-sleepy.mp4)
+
+5 s · seed 1
+> The cartoon jerboa slowly nods off: the head droops and the ears flop down, then it jerks back awake and sits up. Ends in exactly the same seated pose. Static camera, plain grey background.
+
+### 11 Look up
+
+![look up](../public/dibs/motion/11-look-up-strip.png)
+
+Clip: [`11-look-up.mp4`](../public/dibs/motion/11-look-up.mp4)
+
+4 s · seed 1
+> The cartoon jerboa leans back to look up, the ears swivel back and the tail sways, then it leans forward again. Eyes stay open, same face. Ends in exactly the same seated pose. Static camera, plain grey background.
+
+### 12 Clap
+
+![clap](../public/dibs/motion/12-clap-strip.png)
+
+Clip: [`12-clap.mp4`](../public/dibs/motion/12-clap.mp4)
+
+3.5 s · seed 1
+> The cartoon jerboa claps its two front paws together twice, happily. The ears bob with each clap and the tail swings. Eyes stay open, same face. Ends in exactly the same seated pose. Static camera, plain grey background.
 
 ## Not covered yet
 
