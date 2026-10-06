@@ -5,7 +5,7 @@ part-of: Sandworm
 status: draft
 ---
 
-> **Draft, not v1.** 12 recipes so far, more in progress. Clips are reference renders on grey, not final assets.
+> **Draft, not v1.** 14 recipes so far, more in progress. Clips are reference renders on grey, not final assets.
 
 Back to [Sandworm DESIGN.md](../DESIGN.md)
 
@@ -44,6 +44,7 @@ curl -s https://queue.fal.run/minimax/h3-max-turbo/image-to-video \
 - **Don't name what you don't want.** "No teeth" still produced teeth. Describe the body and leave the face alone.
 - **Pick verbs that are pure body.** "Startles" brought in an open mouth with teeth. "Flinches: the body jolts back" kept the face.
 - **Lean, don't turn.** Head turns warp the ears. "Leans forward to sniff" works.
+- **Excited is slower than you think.** Three bounces in 4 s read as frantic; over 5 s with "springy, not frantic" it works.
 - **Natural speed.** A big hop with long hang time reads as slow motion. Say "short hang time, at natural speed".
 - **Head gestures: body still.** For a nod or head shake, extra body motion reads wrong. Say "sits still ... only the head moves". Every other motion still needs a body move.
 - **Big enough to see.** A sniff or blink on its own reads as nothing happening. Pair every motion with a body move.
@@ -163,6 +164,24 @@ Clip: [`12-clap.mp4`](../public/dibs/motion/12-clap.mp4)
 
 3.5 s · seed 1
 > The cartoon jerboa claps its two front paws together twice, happily. The ears bob with each clap and the tail swings. Eyes stay open, same face. Ends in exactly the same seated pose. Static camera, plain grey background.
+
+### 13 Think
+
+![think](../public/dibs/motion/13-think-strip.png)
+
+Clip: [`13-think.mp4`](../public/dibs/motion/13-think.mp4)
+
+4 s · seed 1
+> The cartoon jerboa taps its chin with one front paw and the ears tilt to one side, then it lowers the paw. The tail sways gently. Eyes stay open, same face. Ends in exactly the same seated pose. Static camera, plain grey background.
+
+### 14 Excited
+
+![excited](../public/dibs/motion/14-excited-strip.png)
+
+Clip: [`14-excited.mp4`](../public/dibs/motion/14-excited.mp4)
+
+5 s · seed 1
+> The cartoon jerboa bounces up and down three times with small springy hops, not frantic. The ears flap with each bounce and the tail swings. Eyes stay open, same face. Ends in exactly the same seated pose. Static camera, plain grey background.
 
 ## Not covered yet
 
