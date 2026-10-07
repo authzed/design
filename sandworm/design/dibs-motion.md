@@ -5,9 +5,9 @@ part-of: Sandworm
 status: draft
 ---
 
-> **Draft, not v1.** 16 recipes so far, more in progress. Clips are reference renders on grey, not final assets.
+> **Draft, not v1.** 20 recipes so far, more in progress. Clips are reference renders on grey, not final assets.
 
-Back to [Sandworm DESIGN.md](../DESIGN.md)
+Back to [Sandworm DESIGN.md](../DESIGN.md) · Browse the clips on the site: **Mascot → Dibs motion** (`/dibs`)
 
 # Dibs motion recipes
 
@@ -17,6 +17,7 @@ Recipes, not ingredients. Each card is a prompt plus the clip that prompt produc
 
 - **Model:** H3 Max Turbo on fal, endpoint `minimax/h3-max-turbo/image-to-video`. Cheap (about 1.5 to 2.5 cents a second at 480P) and fast (seconds per clip), so iterate here. Move to a pricier model (Seedance 2.5) only once a motion is approved and you need more quality.
 - **Keyframe:** use the approved still [`keyframe-seated-3q.png`](../public/dibs/motion/keyframe-seated-3q.png) as **both** the first and the last frame. That keeps Dibs on-model and makes the clip loop.
+- **Entrances and exits:** use the empty plate [`empty-plate.png`](../public/dibs/motion/empty-plate.png) (the same grey, no Dibs) as the first frame for an entrance or the last frame for an exit, and the keyframe for the other end.
 - **Settings:** 480P while iterating, prompt rewriting **off**, and keep the **seed** listed on the card. The same words can move differently on another seed.
 
 ```bash
@@ -201,9 +202,50 @@ Clip: [`16-look-left-right.mp4`](../public/dibs/motion/16-look-left-right.mp4)
 3.5 s · seed 1
 > The cartoon jerboa slowly turns its head a little to the left, then a little to the right, then back to center. The head stays level and the body stays still. Eyes stay open, same face. Ends in exactly the same seated pose. Static camera, plain grey background.
 
+### Entrances and exits
+
+These start or end on the empty plate instead of looping.
+
+### 17 Hop in from the right
+
+![hop in from the right](../public/dibs/motion/17-hop-in-right-strip.png)
+
+Clip: [`17-hop-in-right.mp4`](../public/dibs/motion/17-hop-in-right.mp4)
+
+4 s · seed 1 · empty plate → keyframe
+> The cartoon jerboa hops into the frame from the right edge with quick, springy hops, short hang time, at natural speed, and lands in its seated pose. On the way up the ears trail behind, on landing they flop forward and settle; the tail swings for balance. Eyes stay open, same face. Static camera, plain grey background.
+
+### 18 Drop in from above
+
+![drop in from above](../public/dibs/motion/18-drop-in-strip.png)
+
+Clip: [`18-drop-in.mp4`](../public/dibs/motion/18-drop-in.mp4)
+
+3.5 s · seed 1 · empty plate → keyframe
+> The cartoon jerboa drops into view from above the top edge of the frame and lands in its seated pose with a small bounce, at natural speed. On the way up the ears trail behind, on landing they flop forward and settle; the tail swings for balance. Eyes stay open, same face. Static camera, plain grey background.
+
+### 19 Jump in from below
+
+![jump in from below](../public/dibs/motion/19-jump-in-strip.png)
+
+Clip: [`19-jump-in.mp4`](../public/dibs/motion/19-jump-in.mp4)
+
+3.5 s · seed 1 · empty plate → keyframe
+> The cartoon jerboa jumps up into view from below the bottom edge of the frame, arcs up, and lands in its seated pose, at natural speed. On the way up the ears trail behind, on landing they flop forward and settle; the tail swings for balance. Eyes stay open, same face. Static camera, plain grey background.
+
+### 20 Leap out to the right
+
+![leap out to the right](../public/dibs/motion/20-leap-out-right-strip.png)
+
+Clip: [`20-leap-out-right.mp4`](../public/dibs/motion/20-leap-out-right.mp4)
+
+3.5 s · seed 1 · keyframe → empty plate
+> The cartoon jerboa turns to face right and does one quick, springy leap out of the frame to the right, short hang time, at natural speed. On the way up the ears trail behind, on landing they flop forward and settle; the tail swings for balance. Eyes stay open, same face. Static camera, plain grey background.
+
 ## Not covered yet
 
 - **Nod:** not possible with this setup yet. Every nod wording moved the whole body (a bow or bounce), even with "the body stays completely still". Likely a job for the rig or Remotion.
+- **Exit left and duck out:** no take held up yet. Exits tend to blink on the turn; entrances that start on the empty plate are more reliable.
 - **Idle loop:** a separate Remotion idle kit exists; not part of this set.
 - **Other angles and poses:** every recipe was tested on one seated 3/4 keyframe. A new keyframe means re-checking them.
 - **Placement on brand backgrounds:** cutouts (matting, green screen) were tested and dropped. Treat the grey clips as reference.
