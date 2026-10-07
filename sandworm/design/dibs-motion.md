@@ -58,7 +58,7 @@ The strips show each clip at 3 frames a second.
 
 ### 01 Small hop
 
-![small hop](../public/dibs/motion/01-small-hop-strip.png)
+![small hop](dibs-motion/01-small-hop-strip.png)
 
 Clip: [`01-small-hop.mp4`](../public/dibs/motion/01-small-hop.mp4)
 
@@ -67,7 +67,7 @@ Clip: [`01-small-hop.mp4`](../public/dibs/motion/01-small-hop.mp4)
 
 ### 02 Big hop
 
-![big hop](../public/dibs/motion/02-big-hop-strip.png)
+![big hop](dibs-motion/02-big-hop-strip.png)
 
 Clip: [`02-big-hop.mp4`](../public/dibs/motion/02-big-hop.mp4)
 
@@ -76,7 +76,7 @@ Clip: [`02-big-hop.mp4`](../public/dibs/motion/02-big-hop.mp4)
 
 ### 03 Curious sniff
 
-![curious sniff](../public/dibs/motion/03-curious-sniff-strip.png)
+![curious sniff](dibs-motion/03-curious-sniff-strip.png)
 
 Clip: [`03-curious-sniff.mp4`](../public/dibs/motion/03-curious-sniff.mp4)
 
@@ -85,7 +85,7 @@ Clip: [`03-curious-sniff.mp4`](../public/dibs/motion/03-curious-sniff.mp4)
 
 ### 04 Tail swish
 
-![tail swish](../public/dibs/motion/04-tail-swish-strip.png)
+![tail swish](dibs-motion/04-tail-swish-strip.png)
 
 Clip: [`04-tail-swish.mp4`](../public/dibs/motion/04-tail-swish.mp4)
 
@@ -94,7 +94,7 @@ Clip: [`04-tail-swish.mp4`](../public/dibs/motion/04-tail-swish.mp4)
 
 ### 05 Wave
 
-![wave](../public/dibs/motion/05-wave-strip.png)
+![wave](dibs-motion/05-wave-strip.png)
 
 Clip: [`05-wave.mp4`](../public/dibs/motion/05-wave.mp4)
 
@@ -103,7 +103,7 @@ Clip: [`05-wave.mp4`](../public/dibs/motion/05-wave.mp4)
 
 ### 06 Cheer
 
-![cheer](../public/dibs/motion/06-cheer-strip.png)
+![cheer](dibs-motion/06-cheer-strip.png)
 
 Clip: [`06-cheer.mp4`](../public/dibs/motion/06-cheer.mp4)
 
@@ -112,7 +112,7 @@ Clip: [`06-cheer.mp4`](../public/dibs/motion/06-cheer.mp4)
 
 ### 07 Flinch
 
-![flinch](../public/dibs/motion/07-flinch-strip.png)
+![flinch](dibs-motion/07-flinch-strip.png)
 
 Clip: [`07-flinch.mp4`](../public/dibs/motion/07-flinch.mp4)
 
@@ -121,7 +121,7 @@ Clip: [`07-flinch.mp4`](../public/dibs/motion/07-flinch.mp4)
 
 ### 08 Point
 
-![point](../public/dibs/motion/08-point-strip.png)
+![point](dibs-motion/08-point-strip.png)
 
 Clip: [`08-point.mp4`](../public/dibs/motion/08-point.mp4)
 
@@ -132,7 +132,7 @@ Points toward the right side, for UI callouts. A left point is untested.
 
 ### 09 Sad
 
-![sad](../public/dibs/motion/09-sad-strip.png)
+![sad](dibs-motion/09-sad-strip.png)
 
 Clip: [`09-sad.mp4`](../public/dibs/motion/09-sad.mp4)
 
@@ -141,7 +141,7 @@ Clip: [`09-sad.mp4`](../public/dibs/motion/09-sad.mp4)
 
 ### 10 Sleepy
 
-![sleepy](../public/dibs/motion/10-sleepy-strip.png)
+![sleepy](dibs-motion/10-sleepy-strip.png)
 
 Clip: [`10-sleepy.mp4`](../public/dibs/motion/10-sleepy.mp4)
 
@@ -150,7 +150,7 @@ Clip: [`10-sleepy.mp4`](../public/dibs/motion/10-sleepy.mp4)
 
 ### 11 Look up
 
-![look up](../public/dibs/motion/11-look-up-strip.png)
+![look up](dibs-motion/11-look-up-strip.png)
 
 Clip: [`11-look-up.mp4`](../public/dibs/motion/11-look-up.mp4)
 
@@ -159,7 +159,7 @@ Clip: [`11-look-up.mp4`](../public/dibs/motion/11-look-up.mp4)
 
 ### 12 Clap
 
-![clap](../public/dibs/motion/12-clap-strip.png)
+![clap](dibs-motion/12-clap-strip.png)
 
 Clip: [`12-clap.mp4`](../public/dibs/motion/12-clap.mp4)
 
@@ -168,7 +168,7 @@ Clip: [`12-clap.mp4`](../public/dibs/motion/12-clap.mp4)
 
 ### 13 Think
 
-![think](../public/dibs/motion/13-think-strip.png)
+![think](dibs-motion/13-think-strip.png)
 
 Clip: [`13-think.mp4`](../public/dibs/motion/13-think.mp4)
 
@@ -177,7 +177,7 @@ Clip: [`13-think.mp4`](../public/dibs/motion/13-think.mp4)
 
 ### 14 Excited
 
-![excited](../public/dibs/motion/14-excited-strip.png)
+![excited](dibs-motion/14-excited-strip.png)
 
 Clip: [`14-excited.mp4`](../public/dibs/motion/14-excited.mp4)
 
@@ -186,7 +186,7 @@ Clip: [`14-excited.mp4`](../public/dibs/motion/14-excited.mp4)
 
 ### 15 Head shake (no)
 
-![head shake (no)](../public/dibs/motion/15-head-shake-strip.png)
+![head shake (no)](dibs-motion/15-head-shake-strip.png)
 
 Clip: [`15-head-shake.mp4`](../public/dibs/motion/15-head-shake.mp4)
 
@@ -195,7 +195,7 @@ Clip: [`15-head-shake.mp4`](../public/dibs/motion/15-head-shake.mp4)
 
 ### 16 Look left and right
 
-![look left and right](../public/dibs/motion/16-look-left-right-strip.png)
+![look left and right](dibs-motion/16-look-left-right-strip.png)
 
 Clip: [`16-look-left-right.mp4`](../public/dibs/motion/16-look-left-right.mp4)
 
@@ -208,7 +208,7 @@ These start or end on the empty plate instead of looping.
 
 ### 17 Hop in from the right
 
-![hop in from the right](../public/dibs/motion/17-hop-in-right-strip.png)
+![hop in from the right](dibs-motion/17-hop-in-right-strip.png)
 
 Clip: [`17-hop-in-right.mp4`](../public/dibs/motion/17-hop-in-right.mp4)
 
@@ -217,7 +217,7 @@ Clip: [`17-hop-in-right.mp4`](../public/dibs/motion/17-hop-in-right.mp4)
 
 ### 18 Drop in from above
 
-![drop in from above](../public/dibs/motion/18-drop-in-strip.png)
+![drop in from above](dibs-motion/18-drop-in-strip.png)
 
 Clip: [`18-drop-in.mp4`](../public/dibs/motion/18-drop-in.mp4)
 
@@ -226,7 +226,7 @@ Clip: [`18-drop-in.mp4`](../public/dibs/motion/18-drop-in.mp4)
 
 ### 19 Jump in from below
 
-![jump in from below](../public/dibs/motion/19-jump-in-strip.png)
+![jump in from below](dibs-motion/19-jump-in-strip.png)
 
 Clip: [`19-jump-in.mp4`](../public/dibs/motion/19-jump-in.mp4)
 
@@ -235,7 +235,7 @@ Clip: [`19-jump-in.mp4`](../public/dibs/motion/19-jump-in.mp4)
 
 ### 20 Leap out to the right
 
-![leap out to the right](../public/dibs/motion/20-leap-out-right-strip.png)
+![leap out to the right](dibs-motion/20-leap-out-right-strip.png)
 
 Clip: [`20-leap-out-right.mp4`](../public/dibs/motion/20-leap-out-right.mp4)
 
