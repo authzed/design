@@ -12,6 +12,10 @@ export const pageStatus: PageStatusConfig = {
   "/logo": "ready",
   "/icons": "ready",
 
+  // Mascot
+  "/mascot/motion": "draft",
+  "/mascot/turn-studio": "draft",
+
   // Components
   "/components/buttons": "ready",
   "/components/forms": "ready",

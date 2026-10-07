@@ -49,6 +49,19 @@ const sidebarNavItems: NavSection[] = [
     ],
   },
   {
+    title: "Mascot",
+    items: [
+      {
+        title: "Dibs motion",
+        href: "/mascot/motion",
+      },
+      {
+        title: "Turn Studio",
+        href: "/mascot/turn-studio",
+      },
+    ],
+  },
+  {
     title: "Components",
     items: [
       {
