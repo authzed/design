@@ -7,7 +7,7 @@ status: draft
 
 > **Draft, not v1.** 20 recipes so far, more in progress. Clips are reference renders on grey, not final assets.
 
-Back to [Sandworm DESIGN.md](../DESIGN.md) · Browse the clips on the site: **Mascot → Dibs motion** (`/dibs`)
+Back to [Sandworm DESIGN.md](../DESIGN.md) · Browse the clips on the site: **Mascot → Dibs motion** (`/mascot/motion`), next to the Turn Studio (`/mascot/turn-studio`)
 
 # Dibs motion recipes
 

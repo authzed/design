@@ -29,6 +29,7 @@ import {
   Mail,
   type LucideIcon,
   Rabbit,
+  Clapperboard,
 } from "lucide-react";
 import { Container } from "@/components/ui/container";
 
@@ -58,6 +59,14 @@ const groups: HubGroup[] = [
       { name: "Gradients", href: "/gradients", icon: Blend, tagline: "The temperature matrix — warm, cool, spectrum", isNew: true },
       { name: "Logo", href: "/logo", icon: Hexagon, tagline: "Marks, lockups, and clear-space rules" },
       { name: "Icons", href: "/icons", icon: Shapes, tagline: "Lucide at 2px, the Sandworm way" },
+    ],
+  },
+  {
+    label: "Mascot",
+    accent: "text-sand-500",
+    items: [
+      { name: "Dibs Motion", href: "/mascot/motion", icon: Clapperboard, tagline: "AI video prompts that keep Dibs on-model", isNew: true },
+      { name: "Turn Studio", href: "/mascot/turn-studio", icon: Rabbit, tagline: "Pose and export the mascot", isNew: true },
     ],
   },
   {
@@ -109,7 +118,6 @@ const groups: HubGroup[] = [
     items: [
       { name: "Slack Theme", href: "/tools/slack-theme", icon: Slack, tagline: "Branded Slack color themes" },
       { name: "Email Signature", href: "/tools/email-signature", icon: Mail, tagline: "Generate a branded signature" },
-      { name: "Dibs Turn Studio", href: "/tools/dibs-turn-studio", icon: Rabbit, tagline: "Pose and export the mascot" },
     ],
   },
 ];

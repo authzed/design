@@ -13,7 +13,8 @@ export const pageStatus: PageStatusConfig = {
   "/icons": "ready",
 
   // Mascot
-  "/dibs": "draft",
+  "/mascot/motion": "draft",
+  "/mascot/turn-studio": "draft",
 
   // Components
   "/components/buttons": "ready",
@@ -45,5 +46,4 @@ export const pageStatus: PageStatusConfig = {
   // Tools
   "/tools/slack-theme": "ready",
   "/tools/email-signature": "ready",
-  "/tools/dibs-turn-studio": "draft",
 };

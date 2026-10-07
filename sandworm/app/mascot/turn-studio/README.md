@@ -1,7 +1,7 @@
 # Dibs Turn Studio
 
 `stage-html.ts` holds the Dibs rig itself (as an HTML string): the front and side drawings, the drag handles on the character, and the
-bones, with no controls of its own. The Sandworm page `/tools/dibs-turn-studio` (app/tools/dibs-turn-studio)
+bones, with no controls of its own. The Sandworm page `/mascot/turn-studio` (app/mascot/turn-studio)
 owns every control, built from the Sandworm component library, and loads it with `<iframe srcDoc>` and drives it through
 `frame.contentWindow.DibsStudio` (setView, front/side presets, face, mixes, settings/load, exportPng, setTheme).
 The stage fires a `dibschange` event on its window whenever the pose changes.

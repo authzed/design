@@ -53,7 +53,11 @@ const sidebarNavItems: NavSection[] = [
     items: [
       {
         title: "Dibs motion",
-        href: "/dibs",
+        href: "/mascot/motion",
+      },
+      {
+        title: "Turn Studio",
+        href: "/mascot/turn-studio",
       },
     ],
   },
@@ -163,10 +167,6 @@ const sidebarNavItems: NavSection[] = [
       {
         title: "Email Signature",
         href: "/tools/email-signature",
-      },
-      {
-        title: "Dibs Turn Studio",
-        href: "/tools/dibs-turn-studio",
       },
     ],
   },
