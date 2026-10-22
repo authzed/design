@@ -1,0 +1,3 @@
+/* AuthZed Display: AuthZed display face, variable wdth 82-115%, wght 300-600. Modified from Inter (SIL OFL 1.1); renamed, since Inter is a Reserved Font Name, and stays OFL. Display only, 32px and up. */
+@font-face { font-family: 'AuthZed Display'; font-weight: 300 600; font-stretch: 82% 115%; font-style: normal; font-display: swap; src: url('../fonts/AuthZedDisplay[wdth,wght].woff2') format('woff2-variations'); }
+:root { --font-headline: 'AuthZed Display', 'Inter', system-ui, sans-serif; }

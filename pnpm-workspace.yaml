@@ -1,8 +1,9 @@
 packages:
   - sandworm
+  - packages/*
 
-# unrs-resolver is a transitive dep of ESLint tooling that needs to build
-# native binaries on install. Trusted package, used widely; allow build.
+# Native-build packages used by Next.js Image (sharp) and ESLint tooling (unrs-resolver).
+# Trusted, widely used; allow their install scripts.
 allowBuilds:
   sharp: true
   unrs-resolver: true

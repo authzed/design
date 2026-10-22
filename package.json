@@ -3,9 +3,15 @@
   "private": true,
   "packageManager": "pnpm@11.1.1",
   "scripts": {
-    "build": "pnpm --filter @authzed/sandworm build",
+    "build": "pnpm -r build",
+    "build:packages": "pnpm --filter './packages/*' build",
     "dev": "pnpm --filter @authzed/sandworm dev",
     "lint": "pnpm --filter @authzed/sandworm lint",
-    "clean": "pnpm --filter @authzed/sandworm clean"
+    "clean": "pnpm --filter @authzed/sandworm clean",
+    "changeset": "changeset",
+    "release": "pnpm build:packages && changeset publish"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^3.0.3"
   }
 }
