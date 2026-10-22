@@ -1,6 +1,6 @@
 # AuthZed display type: rules for agents
 
-Draft for `authzed/design` DESIGN.md. One face: **AuthZed Display**, variable on width (82-115%, `font-stretch`) and weight (300-600).
+Draft for `authzed/design` DESIGN.md. One face: **AuthZed Display**, variable on width (58.5-165%, `font-stretch`) and weight (300-600).
 
 ## Which face
 
@@ -14,7 +14,7 @@ Draft for `authzed/design` DESIGN.md. One face: **AuthZed Display**, variable on
 - Everything else is Inter: body, nav, buttons, labels, tables, captions, eyebrows under 32px. Code stays JetBrains Mono.
 - Two weights, used as a pair at the same size: **300 sets up, 600 lands.** The 600 clause owns its own line (explicit `<br>`). Weights in between (400, 500) exist for motion and fine-tuning, not as a third voice.
 - Motion: the 600 clause may sweep 300 → 600 on entry (`font-variation-settings` or `font-weight` transition). Once per page, never on loop.
-- Width: Normal (100%) by default. Condensed (82%) is for long headlines that must fit (OG titles, narrow phone heroes): step width down before stepping size down. Wide (115%) is for short lines only (a word or two). Never mix widths inside one headline.
+- Width: Normal (100%) by default. Condensed (80.5%) is for long headlines that must fit (OG titles, narrow phone heroes): step width down before stepping size down. Compressed (58.5%) is for all-caps hero lines only (tall, stacked); its lowercase is not for use. Wide (117%) and Expanded (165%) are for short lines only (a word or two). Never mix widths inside one headline. Every join carries the notch (a node + neck); at Compressed and Condensed some joins have none, by design.
 - Tracking: none by default. `-0.025em` is the ceiling, on 300 only. Spacing is already tightened in the font.
 - Gradient clip text (sand-300 → red-400 → violet-600) goes on the 600 clause only.
 
@@ -22,8 +22,8 @@ Draft for `authzed/design` DESIGN.md. One face: **AuthZed Display**, variable on
 
 | Surface | Use |
 |---|---|
-| Website (Next.js) | `next/font/local` on `fonts/AuthZedDisplay[wdth,wght].woff2`, `weight: '300 600'`, `declarations: [{prop: 'font-stretch', value: '82% 115%'}]`, `variable: '--font-headline'`; Tailwind `fontFamily.headline: ['var(--font-headline)', 'Inter', ...]`, then `font-headline` |
-| OG images (Satori / `next/og`) | The **static** TTFs `AuthZedDisplay-Light.ttf` / `-SemiBold.ttf` (or `-CondensedLight` ... `-WideSemiBold`) (Satori reads neither woff2 nor variable fonts), `weight: 300` and `600` |
+| Website (Next.js) | `next/font/local` on `fonts/AuthZedDisplay[wdth,wght].woff2`, `weight: '300 600'`, `declarations: [{prop: 'font-stretch', value: '58.5% 165%'}]`, `variable: '--font-headline'`; Tailwind `fontFamily.headline: ['var(--font-headline)', 'Inter', ...]`, then `font-headline` |
+| OG images (Satori / `next/og`) | The **static** TTFs `AuthZedDisplay-Light.ttf` / `-SemiBold.ttf` (or `-CompressedLight` ... `-ExpandedSemiBold`) (Satori reads neither woff2 nor variable fonts), `weight: 300` and `600` |
 | Claude artifacts, Claude Design, offline HTML | `css/display-embedded.css` inlined in a `<style>` (only Google Fonts may be linked there) |
 | Video (ffmpeg/libass, Puppeteer bumpers) | Install the static TTFs; libass family names are `AuthZed Display Light` / `AuthZed Display SemiBold` (`AuthZed Display Condensed Light` etc. for other widths). Puppeteer pages can use the variable woff2 |
 | Figma, Keynote | Install the variable TTF (Figma: org font upload); the statics if a tool shows no weight axis |
