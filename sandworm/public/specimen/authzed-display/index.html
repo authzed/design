@@ -294,7 +294,7 @@ footer { margin-top: 96px; border-top: 1px solid var(--line); padding: 28px 0 40
         <div class="ctl">
           <label class="mono" for="t-s">Size <output id="t-so">120px</output></label>
           <input type="range" id="t-s" min="32" max="260" step="1" value="120">
-          <div class="chips"><button class="chip" data-tr="-0.025">Track −0.025</button><button class="chip on" data-tr="0">Track 0</button></div>
+          <div class="chips"><button class="chip" data-tr="-0.025">Track −0.025</button><button class="chip on" data-tr="0">Track 0</button><button class="chip" data-tr="0.04">Track +0.04</button><button class="chip" id="t-bb" title="Named style: wdth 130, wght 370, +0.04em">Broad Book</button></div>
         </div>
         <div class="ctl">
           <label class="mono">Set on</label>
@@ -595,6 +595,7 @@ h1 strong { font-weight: 600; } /* lands */</pre><button class="copy" data-copy-
     $('t-go').textContent = Math.round(T.g);
     $('t-so').textContent = T.s + 'px';
     tW(T.w); tG(T.g);
+    $('t-bb').classList.toggle('on', T.w === 130 && Math.round(T.g) === 370 && T.tr === 0.04);
     const css = [`font-family: var(--font-headline);`, `font-stretch: ${(+T.w).toFixed(1).replace(/\.0$/, '')}%;`, `font-weight: ${Math.round(T.g)};`, `font-size: ${T.s}px;`];
     if (T.tr) css.push(`letter-spacing: ${T.tr}em;`);
     if (T.up) css.push('text-transform: uppercase;');
@@ -606,6 +607,11 @@ h1 strong { font-weight: 600; } /* lands */</pre><button class="copy" data-copy-
   document.querySelectorAll('[data-tr]').forEach(b => b.addEventListener('click', () => {
     T.tr = +b.dataset.tr; document.querySelectorAll('[data-tr]').forEach(x => x.classList.toggle('on', x === b)); tester();
   }));
+  // named style Broad Book (an instance in the font): wdth 130, wght 370, +0.04em
+  $('t-bb').addEventListener('click', () => {
+    T.w = 130; T.g = 370; T.tr = 0.04; $('t-w').value = 130; $('t-g').value = 370;
+    document.querySelectorAll('[data-tr]').forEach(x => x.classList.toggle('on', +x.dataset.tr === 0.04)); tester();
+  });
   $('t-bg').querySelectorAll('[data-bg]').forEach(b => b.addEventListener('click', () => {
     T.bg = b.dataset.bg; $('t-bg').querySelectorAll('.chip').forEach(x => x.classList.toggle('on', x === b)); tester();
   }));

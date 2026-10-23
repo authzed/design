@@ -26,6 +26,9 @@ pnpm add @authzed/fonts
 | Figma | the variable TTF (org font upload) |
 | Google Slides, most email | not possible; falls back to Inter |
 
+Named style **Broad Book** (width 130%, weight 370, `+0.04em`, leading 0.9): `.az-display-broad-book`, or the
+`--az-broad-book-*` custom properties from `display.css`.
+
 `tokens.json` has the stack, weights, widths and file paths for tools. `RULES.md` is the usage
 guide for people and agents (when to use it, the 300 sets up / 600 lands pairing, minimum size).
 `npx lint-display <dir>` flags the face used below 32px.

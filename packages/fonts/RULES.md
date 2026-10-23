@@ -16,6 +16,7 @@ Draft for `authzed/design` DESIGN.md. One face: **AuthZed Display**, variable on
 - Motion: the 600 clause may sweep 300 → 600 on entry (`font-variation-settings` or `font-weight` transition). Once per page, never on loop.
 - Width: Normal (100%) by default. Condensed (80.5%) is for long headlines that must fit (OG titles, narrow phone heroes): step width down before stepping size down. Compressed (58.5%) is for all-caps hero lines only (tall, stacked); its lowercase is not for use. Wide (117%) and Expanded (165%) are for short lines only (a word or two). Never mix widths inside one headline. Every join carries the notch (a node + neck); at Compressed and Condensed some joins have none, by design.
 - Tracking: none by default. `-0.025em` is the ceiling, on 300 only. Spacing is already tightened in the font.
+- Named style **Broad Book**: width 130%, weight 370, tracking `+0.04em`, leading 0.9. The one exception to the tracking rule, for closer lines (the v2 homepage closer). Use the class `.az-display-broad-book` or the `--az-broad-book-*` custom properties; the font carries it as a named instance (`AuthZed Display Broad Book`) for Figma and Keynote.
 - Gradient clip text (sand-300 → red-400 → violet-600) goes on the 600 clause only.
 
 ## How to load it, by surface
