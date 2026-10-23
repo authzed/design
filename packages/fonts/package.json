@@ -1,0 +1,36 @@
+{
+  "name": "@authzed/fonts",
+  "version": "0.4.0-pre.0",
+  "description": "AuthZed Display, the brand display face. Variable width and weight. Display only, 32px and up.",
+  "license": "OFL-1.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/authzed/design.git",
+    "directory": "packages/fonts"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "fonts",
+    "css",
+    "tokens.json",
+    "LICENSE.txt",
+    "RULES.md",
+    "lint-display.mjs"
+  ],
+  "exports": {
+    "./display.css": "./css/display.css",
+    "./display-embedded.css": "./css/display-embedded.css",
+    "./tokens.json": "./tokens.json",
+    "./fonts/*": "./fonts/*",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "lint-display": "./lint-display.mjs"
+  },
+  "scripts": {
+    "build": "node scripts/verify.mjs",
+    "sync": "node scripts/sync-from-lab.mjs"
+  }
+}

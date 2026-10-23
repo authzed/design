@@ -1,13 +1,17 @@
 {
   "name": "@authzed/design",
   "private": true,
-  "workspaces": [
-    "sandworm"
-  ],
+  "packageManager": "pnpm@11.1.1",
   "scripts": {
-    "build": "cd sandworm && npm run build",
-    "dev": "cd sandworm && npm run dev",
-    "lint": "cd sandworm && npm run lint",
-    "clean": "cd sandworm && npm run clean"
+    "build": "pnpm -r build",
+    "build:packages": "pnpm --filter './packages/*' build",
+    "dev": "pnpm --filter @authzed/sandworm dev",
+    "lint": "pnpm --filter @authzed/sandworm lint",
+    "clean": "pnpm --filter @authzed/sandworm clean",
+    "changeset": "changeset",
+    "release": "pnpm build:packages && changeset publish"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^3.0.3"
   }
 }

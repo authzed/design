@@ -1,0 +1,9 @@
+packages:
+  - sandworm
+  - packages/*
+
+# Native-build packages used by Next.js Image (sharp) and ESLint tooling (unrs-resolver).
+# Trusted, widely used; allow their install scripts.
+allowBuilds:
+  sharp: true
+  unrs-resolver: true

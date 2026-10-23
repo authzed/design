@@ -1,0 +1,826 @@
+<!doctype html>
+<!-- AuthZed Display specimen. AuthZedDisplay-VF.woff2 is a copy of packages/fonts/fonts/AuthZedDisplay[wdth,wght].woff2; xray.json comes from packages/fonts/scripts/xray_data.py. Refresh both when the font changes. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AuthZed Display</title>
+<meta name="description" content="Specimen and type tester for AuthZed Display, AuthZed's variable display face: width 58.5 to 165, weight 300 to 600.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="preload" href="AuthZedDisplay-VF.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+@font-face {
+  font-family: 'AuthZed Display';
+  src: url('AuthZedDisplay-VF.woff2') format('woff2-variations');
+  font-weight: 300 600;
+  font-stretch: 58.5% 165%;
+  font-display: block;
+}
+
+:root {
+  --night: #0C050F;
+  --dusk: #1E1424;
+  --dusk-2: #2A2130;
+  --line: #3A2F40;
+  --ink: #F8F6F8;
+  --ink-2: #B9B2BD;
+  --ink-3: #8E8891;
+  --sand: #FFB370;
+  --ember: #F9808A;
+  --violet: #6242E0;
+  --violet-2: #9278ED;
+  --teal: #72B1AD;
+  --ring: #D46BB8;
+  --grad: linear-gradient(90deg, var(--sand) 0%, var(--ember) 50%, var(--violet) 100%);
+  --xr-fill: rgba(248, 246, 248, .07);
+  --xr-stroke: #F8F6F8;
+  --xr-on: var(--sand);
+  --xr-off: var(--violet-2);
+  --xr-metric: rgba(185, 178, 189, .28);
+  --bg: var(--night);
+  --surface: var(--dusk);
+  --surface-2: var(--dusk-2);
+  color-scheme: dark;
+}
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --bg: #FBFAFB; --surface: #F1EFF2; --surface-2: #E6E3E8; --line: #D3CED6;
+    --ink: #0C050F; --ink-2: #514856; --ink-3: #7A727E;
+    --grad: linear-gradient(90deg, #E07A3E 0%, #C94A5D 50%, var(--violet) 100%);
+    --xr-fill: rgba(12, 5, 15, .06); --xr-stroke: #0C050F; --xr-on: #C9682A; --xr-off: var(--violet);
+    --xr-metric: rgba(81, 72, 86, .25);
+    color-scheme: light;
+  }
+}
+:root[data-theme="light"] {
+  --bg: #FBFAFB; --surface: #F1EFF2; --surface-2: #E6E3E8; --line: #D3CED6;
+  --ink: #0C050F; --ink-2: #514856; --ink-3: #7A727E;
+  --grad: linear-gradient(90deg, #E07A3E 0%, #C94A5D 50%, var(--violet) 100%);
+  --xr-fill: rgba(12, 5, 15, .06); --xr-stroke: #0C050F; --xr-on: #C9682A; --xr-off: var(--violet);
+  --xr-metric: rgba(81, 72, 86, .25);
+  color-scheme: light;
+}
+:root[data-theme="dark"] { color-scheme: dark; }
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: var(--bg); color: var(--ink);
+  font: 400 16px/1.55 Inter, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+.disp { font-family: 'AuthZed Display', Inter, system-ui, sans-serif; font-kerning: normal; }
+.mono { font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 12px; letter-spacing: .02em; }
+a { color: inherit; }
+button, input { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--ring); outline-offset: 3px; border-radius: 4px; }
+.wrap { width: min(1240px, 100% - 32px); margin-inline: auto; }
+
+/* top bar */
+.bar { position: sticky; top: 0; z-index: 20; background: color-mix(in srgb, var(--bg) 82%, transparent); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+.bar .wrap { display: flex; align-items: center; gap: 20px; height: 52px; }
+.bar b { font-weight: 600; font-size: 14px; }
+.bar nav { display: flex; gap: 18px; margin-left: auto; font-size: 13px; color: var(--ink-2); }
+.bar nav a { text-decoration: none; }
+.bar nav a:hover { color: var(--ink); }
+.ver { color: var(--ink-3); }
+.theme { background: none; border: 1px solid var(--line); border-radius: 999px; width: 30px; height: 30px; display: grid; place-items: center; cursor: pointer; color: var(--ink-2); }
+@media (max-width: 760px) { .bar nav { display: none; } .bar .theme { margin-left: auto; } }
+
+/* hero: the type is the instrument */
+.hero { position: relative; height: min(88vh, 860px); min-height: 520px; overflow: hidden; cursor: crosshair; touch-action: pan-y; user-select: none; -webkit-user-select: none; }
+.hero:focus-visible { outline-offset: -6px; }
+.hero-word { position: absolute; inset: 0 0 56px 44px; display: grid; place-items: center; line-height: .82; white-space: nowrap; pointer-events: none; }
+.hero-word span { display: inline-block; }
+.ruler { position: absolute; color: var(--ink-3); pointer-events: none; }
+.ruler.x { left: 44px; right: 0; bottom: 0; height: 56px; border-top: 1px solid var(--line); }
+.ruler.y { left: 0; top: 0; bottom: 56px; width: 44px; border-right: 1px solid var(--line); }
+.tick { position: absolute; background: var(--line); }
+.ruler.x .tick { bottom: 38px; width: 1px; height: 6px; }
+.ruler.x .tick.big { height: 12px; background: var(--ink-3); }
+.ruler.x .lab { position: absolute; bottom: 12px; transform: translateX(-50%); white-space: nowrap; pointer-events: auto; cursor: pointer; background: none; border: 0; padding: 2px 4px; color: var(--ink-3); }
+.ruler.x .lab:hover, .ruler.x .lab.on { color: var(--ink); }
+.ruler.y .tick { right: 0; height: 1px; width: 6px; }
+.ruler.y .tick.big { width: 12px; background: var(--ink-3); }
+.ruler.y .lab { position: absolute; right: 16px; transform: translateY(-50%); white-space: nowrap; font-size: 10px; }
+.mark { position: absolute; background: var(--ember); }
+.ruler.x .mark { top: -1px; width: 2px; height: 20px; margin-left: -1px; }
+.ruler.y .mark { right: -1px; height: 2px; width: 20px; margin-top: -1px; }
+.readout { position: absolute; right: 16px; top: 16px; text-align: right; color: var(--ink-2); line-height: 1.7; pointer-events: none; }
+.readout em { font-style: normal; color: var(--ink); }
+.hint { position: absolute; left: 60px; top: 16px; color: var(--ink-3); pointer-events: none; }
+@media (max-width: 760px) {
+  .hero-word { inset: 0 0 56px 0; }
+  .ruler.y { display: none; }
+  .ruler.x { left: 0; }
+  .ruler.x .lab .nm { display: none; }
+  .hint { left: 16px; max-width: 55%; }
+  .hero { height: 48vh; min-height: 360px; }
+  .glyphs { grid-template-columns: repeat(auto-fill, minmax(60px, 1fr)); }
+  .glyphs button { font-size: 32px; }
+  .u-og { padding-bottom: 44px; }
+}
+
+.intro { padding: 56px 0 24px; display: grid; grid-template-columns: 1.2fr 1fr; gap: 48px; align-items: end; border-bottom: 1px solid var(--line); }
+.intro h1 { margin: 0; font-size: clamp(40px, 6vw, 76px); line-height: .95; font-weight: 300; font-variation-settings: 'wdth' 100, 'wght' 300; }
+.intro h1 strong { font-weight: 600; font-variation-settings: 'wdth' 100, 'wght' 600; display: block; background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.intro p { margin: 0 0 6px; color: var(--ink-2); max-width: 46ch; }
+.facts { display: flex; flex-wrap: wrap; gap: 8px 22px; margin-top: 18px; color: var(--ink-3); }
+.facts span em { font-style: normal; color: var(--ink); }
+@media (max-width: 860px) { .intro { grid-template-columns: 1fr; gap: 20px; } }
+
+section { padding: 88px 0 0; }
+.eyebrow { color: var(--ink-3); text-transform: uppercase; letter-spacing: .12em; margin: 0 0 14px; }
+.sec-head { display: flex; justify-content: space-between; align-items: end; gap: 24px; flex-wrap: wrap; margin-bottom: 28px; }
+.sec-head h2 { margin: 0; font-size: clamp(34px, 4.4vw, 56px); line-height: 1; font-weight: 600; font-variation-settings: 'wdth' 80.5, 'wght' 600; }
+.sec-head p { margin: 0; color: var(--ink-2); max-width: 52ch; }
+
+/* tester */
+.tester { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; overflow: hidden; }
+.controls { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)) auto; gap: 18px 26px; padding: 18px 22px; border-bottom: 1px solid var(--line); align-items: end; }
+.ctl label { display: flex; justify-content: space-between; color: var(--ink-3); margin-bottom: 8px; }
+.ctl label output { color: var(--ink); }
+.chips { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+.chip { border: 1px solid var(--line); background: none; border-radius: 999px; padding: 3px 10px; font-size: 12px; cursor: pointer; color: var(--ink-2); }
+.chip:hover { color: var(--ink); border-color: var(--ink-3); }
+.chip.on { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.seg { display: flex; gap: 6px; }
+input[type=range] { -webkit-appearance: none; appearance: none; width: 100%; height: 22px; background: transparent; margin: 0; cursor: pointer; }
+input[type=range]::-webkit-slider-runnable-track { height: 2px; background: var(--line); border-radius: 2px; }
+input[type=range]::-moz-range-track { height: 2px; background: var(--line); }
+input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 16px; height: 16px; border-radius: 50%; background: var(--ink); margin-top: -7px; border: 3px solid var(--surface); box-shadow: 0 0 0 1px var(--ink-3); }
+input[type=range]::-moz-range-thumb { width: 12px; height: 12px; border-radius: 50%; background: var(--ink); border: 3px solid var(--surface); }
+.stage { position: relative; padding: 40px 28px 48px; min-height: 340px; transition: background .3s; }
+.stage.paper { background: #FBFAFB; color: #0C050F; }
+.stage.night { background: #0C050F; color: #F8F6F8; }
+.stage.grad .sample { background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent; }
+.sample { outline: none; overflow-wrap: break-word; line-height: .98; min-height: 1em; caret-color: var(--ember); }
+.css-line { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 12px 22px; border-top: 1px solid var(--line); color: var(--ink-2); flex-wrap: wrap; }
+.css-line code { overflow-wrap: anywhere; }
+.copy { border: 1px solid var(--line); background: var(--surface-2); border-radius: 8px; padding: 4px 10px; cursor: pointer; font-size: 12px; color: var(--ink); white-space: nowrap; }
+.copy:hover { border-color: var(--ink-3); }
+@media (max-width: 960px) { .controls { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 520px) { .controls { grid-template-columns: 1fr; } .stage { padding: 28px 18px 36px; } }
+
+/* x-ray */
+.xray { display: grid; grid-template-columns: minmax(0, 1fr) 320px; border: 1px solid var(--line); border-radius: 18px; overflow: hidden; background: var(--surface); }
+.xr-view { position: relative; aspect-ratio: 4 / 3; background: var(--bg); border-right: 1px solid var(--line); cursor: zoom-in; touch-action: manipulation; }
+.xr-view.zoomed { cursor: zoom-out; }
+.xr-view svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.xr-view .xr-load { position: absolute; inset: 0; display: grid; place-items: center; color: var(--ink-3); }
+.xr-tag { position: absolute; left: 14px; bottom: 12px; color: var(--ink-3); pointer-events: none; }
+.xr-side { padding: 20px 22px; display: flex; flex-direction: column; gap: 20px; }
+.xr-side .big { font-size: 96px; line-height: .9; height: 100px; }
+.legend { display: grid; gap: 8px; color: var(--ink-2); font-size: 13px; }
+.legend i { display: inline-block; width: 10px; height: 10px; margin-right: 8px; vertical-align: -1px; }
+.legend .on { background: var(--xr-on); }
+.legend .off { border: 1.5px solid var(--xr-off); border-radius: 50%; }
+.legend .out { border-top: 1.5px solid var(--xr-stroke); height: 0; width: 14px; vertical-align: 3px; }
+.toggles { display: flex; gap: 6px; flex-wrap: wrap; }
+.pick { display: flex; gap: 4px; overflow-x: auto; padding: 10px 12px; border-top: 1px solid var(--line); grid-column: 1 / -1; scrollbar-width: thin; }
+.pick button { flex: 0 0 auto; width: 40px; height: 44px; border: 1px solid transparent; border-radius: 8px; background: none; cursor: pointer; font-size: 26px; line-height: 1; color: var(--ink-2); font-family: 'AuthZed Display', Inter, sans-serif; font-variation-settings: 'wdth' 100, 'wght' 600; }
+.pick button:hover { color: var(--ink); background: var(--surface-2); }
+.pick button.on { border-color: var(--ember); color: var(--ink); }
+@media (max-width: 900px) { .xray { grid-template-columns: 1fr; } .xr-view { border-right: 0; border-bottom: 1px solid var(--line); } .xr-side .big { display: none; } }
+
+/* widths */
+.widths { border-top: 1px solid var(--line); }
+.wrow { display: grid; grid-template-columns: 180px minmax(0, 1fr); gap: 24px; padding: 22px 0 26px; border-bottom: 1px solid var(--line); align-items: center; }
+.wrow .meta { color: var(--ink-3); }
+.wrow .meta b { display: block; font: 600 15px/1.3 Inter, sans-serif; color: var(--ink); margin-bottom: 4px; letter-spacing: 0; }
+.wrow .meta span { display: block; font-family: Inter, sans-serif; font-size: 13px; letter-spacing: 0; color: var(--ink-2); margin-top: 6px; line-height: 1.4; }
+.wline { white-space: nowrap; line-height: .9; overflow: hidden; }
+@media (max-width: 760px) { .wrow { grid-template-columns: 1fr; gap: 10px; } }
+
+/* in use */
+.uses { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 16px; }
+.use { border-radius: 18px; overflow: hidden; border: 1px solid var(--line); position: relative; }
+.use figcaption { position: absolute; left: 18px; bottom: 14px; color: rgba(248, 246, 248, .6); }
+.use.paper figcaption { color: #7A727E; }
+.u-hero { grid-column: span 4; background: radial-gradient(120% 90% at 85% 10%, #2A1638 0%, #0C050F 62%); color: #F8F6F8; padding: 64px 48px 88px; }
+.u-hero .eb { font: 500 13px/1 Inter, sans-serif; color: #D46BB8; letter-spacing: .02em; margin-bottom: 22px; }
+.u-hero h3 { margin: 0; font-size: clamp(36px, 5.2vw, 72px); line-height: 1.02; font-weight: 300; font-variation-settings: 'wdth' 100, 'wght' 300; letter-spacing: -.012em; }
+.u-hero h3 b { font-weight: 600; font-variation-settings: 'wdth' 100, 'wght' 600; letter-spacing: 0; }
+.u-poster { grid-column: span 2; background: #0C050F; color: #F8F6F8; padding: 36px 28px 72px; display: flex; flex-direction: column; justify-content: flex-start; }
+.u-poster p { margin: 0; width: max-content; white-space: nowrap; font-size: 96px; line-height: .86; font-variation-settings: 'wdth' 58.5, 'wght' 600; text-transform: uppercase; }
+.u-poster p + p { background: linear-gradient(90deg, #FFB370 0%, #F9808A 50%, #6242E0 100%); -webkit-background-clip: text; background-clip: text; color: transparent; margin-top: 10px; }
+.u-og { grid-column: span 3; aspect-ratio: 1200 / 630; background: #FBFAFB; color: #0C050F; padding: 7% 7.5%; display: flex; flex-direction: column; justify-content: space-between; }
+.u-og .og-top { display: flex; justify-content: space-between; font: 500 13px/1 Inter, sans-serif; color: #7A727E; }
+.u-og h3 { margin: 0; font-size: clamp(30px, 4vw, 54px); line-height: 1; font-variation-settings: 'wdth' 80.5, 'wght' 600; font-weight: 600; max-width: 13ch; }
+.u-og .bar-g { height: 6px; border-radius: 3px; background: linear-gradient(90deg, #FFB370, #F9808A, #6242E0); width: 34%; }
+.u-wide { grid-column: span 3; background: var(--grad); color: #0C050F; display: grid; place-items: center; padding: 48px 24px 72px; }
+.u-wide p { margin: 0; font-size: clamp(56px, 9vw, 132px); line-height: .9; font-variation-settings: 'wdth' 165, 'wght' 600; }
+.u-wide figcaption { color: rgba(12, 5, 15, .6); }
+@media (max-width: 900px) { .uses { grid-template-columns: 1fr; } .uses > * { grid-column: auto !important; } .u-hero { padding: 44px 24px 72px; } }
+
+/* glyphs */
+.glyphs { display: grid; grid-template-columns: repeat(auto-fill, minmax(84px, 1fr)); border-top: 1px solid var(--line); border-left: 1px solid var(--line); }
+.glyphs button { aspect-ratio: 1; border: 0; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); background: none; cursor: pointer; display: grid; place-items: center; position: relative; font-size: 46px; line-height: 1; color: var(--ink); font-family: 'AuthZed Display', Inter, sans-serif; transition: background .15s; }
+.glyphs button:hover { background: var(--surface); }
+.glyphs button small { position: absolute; left: 6px; bottom: 5px; font: 400 10px/1 'JetBrains Mono', monospace; color: var(--ink-3); opacity: 0; transition: opacity .15s; }
+.glyphs button:hover small, .glyphs button:focus-visible small { opacity: 1; }
+.g-axes { display: flex; gap: 14px; align-items: center; color: var(--ink-3); flex-wrap: wrap; }
+.g-axes input { width: 160px; }
+
+/* use it */
+.install { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 22px 24px; }
+.card h3 { margin: 0 0 12px; font: 600 15px/1.3 Inter, sans-serif; }
+.code { display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; background: var(--bg); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; margin: 10px 0; }
+.code pre { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; font: 400 13px/1.6 'JetBrains Mono', monospace; color: var(--ink); }
+.rules { margin: 0; padding: 0; list-style: none; display: grid; gap: 12px; color: var(--ink-2); font-size: 14.5px; }
+.rules li { padding-left: 18px; position: relative; }
+.rules li::before { content: ''; position: absolute; left: 0; top: .62em; width: 8px; height: 2px; background: var(--ember); }
+.rules b { color: var(--ink); font-weight: 600; }
+@media (max-width: 860px) { .install { grid-template-columns: 1fr; } }
+
+footer { margin-top: 96px; border-top: 1px solid var(--line); padding: 28px 0 40px; color: var(--ink-3); font-size: 13px; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <div class="wrap">
+    <b>AuthZed Display</b>
+    <span class="mono ver">@authzed/fonts 0.4.0</span>
+    <nav aria-label="Sections">
+      <a href="#tester">Tester</a><a href="#notch">The notch</a><a href="#widths">Widths</a><a href="#in-use">In use</a><a href="#glyphs">Glyphs</a><a href="#use">Use it</a>
+    </nav>
+    <button class="theme" id="theme" aria-label="Switch light or dark">
+      <svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 1.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg>
+    </button>
+  </div>
+</header>
+
+<div class="hero" id="hero" tabindex="0" role="application" aria-label="Width and weight pad. Move the pointer, or use the arrow keys: left and right change width, up and down change weight.">
+  <span class="mono hint" id="hint">Move across to change width, up and down for weight</span>
+  <div class="mono readout" aria-live="off"><div>wdth <em id="r-w">100.0</em></div><div>wght <em id="r-g">600</em></div><div id="r-n">Normal</div></div>
+  <div class="hero-word disp" id="heroWord"><span>AuthZed</span></div>
+  <div class="ruler y mono" id="ry"></div>
+  <div class="ruler x mono" id="rx"></div>
+</div>
+
+<main class="wrap">
+  <div class="intro">
+    <h1 class="disp">One face, every width.<strong>Notched where strokes meet.</strong></h1>
+    <div>
+      <p>AuthZed's display face for headlines, heroes, social and print. Built from Inter, then re-cut: a notch at every join, five widths, and a weight range that runs from the light setup line to the semibold landing line.</p>
+      <div class="facts mono">
+        <span>wdth <em>58.5–165</em></span><span>wght <em>300–600</em></span><span><em>95</em> glyphs</span><span><em>158 KB</em> woff2</span><span>SIL OFL 1.1</span>
+      </div>
+    </div>
+  </div>
+
+  <section id="tester">
+    <div class="sec-head">
+      <h2 class="disp">Type tester</h2>
+      <p>Click the line and type. Everything below is live: the same variable font file the site loads.</p>
+    </div>
+    <div class="tester">
+      <div class="controls">
+        <div class="ctl">
+          <label class="mono" for="t-w">Width <output id="t-wo">100</output></label>
+          <input type="range" id="t-w" min="58.5" max="165" step="0.5" value="100">
+          <div class="chips" id="t-wc"></div>
+        </div>
+        <div class="ctl">
+          <label class="mono" for="t-g">Weight <output id="t-go">600</output></label>
+          <input type="range" id="t-g" min="300" max="600" step="1" value="600">
+          <div class="chips" id="t-gc"></div>
+        </div>
+        <div class="ctl">
+          <label class="mono" for="t-s">Size <output id="t-so">120px</output></label>
+          <input type="range" id="t-s" min="32" max="260" step="1" value="120">
+          <div class="chips"><button class="chip" data-tr="-0.025">Track −0.025</button><button class="chip on" data-tr="0">Track 0</button><button class="chip" data-tr="0.04">Track +0.04</button><button class="chip" id="t-bb" title="Named style: wdth 130, wght 370, +0.04em">Broad Book</button></div>
+        </div>
+        <div class="ctl">
+          <label class="mono">Set on</label>
+          <div class="seg chips" id="t-bg" style="margin-top:0">
+            <button class="chip on" data-bg="">Page</button><button class="chip" data-bg="night">Night</button><button class="chip" data-bg="paper">Paper</button><button class="chip" data-bg="grad">Gradient</button>
+          </div>
+          <div class="chips"><button class="chip" id="t-up" aria-pressed="false">ALL CAPS</button></div>
+        </div>
+        <div></div>
+      </div>
+      <div class="stage" id="stage">
+        <div class="sample disp" id="sample" contenteditable="true" spellcheck="false" role="textbox" aria-label="Sample text, editable" aria-multiline="true">Permissions Must Keep Up.</div>
+      </div>
+      <div class="css-line mono"><code id="t-css"></code><button class="copy" data-copy-from="t-css">Copy CSS</button></div>
+    </div>
+  </section>
+
+  <section id="notch">
+    <div class="sec-head">
+      <h2 class="disp">The notch</h2>
+      <p>Wherever two strokes join, the outline eases off each stroke into a small rounded node. It is tuned per letter and carried through every width and weight. Tap the glyph to zoom into a join.</p>
+    </div>
+    <div class="xray">
+      <div class="xr-view" id="xrView">
+        <div class="xr-load mono" id="xrLoad">Loading outlines…</div>
+        <svg id="xrSvg" aria-label="Outline of the selected glyph with its points" role="img"></svg>
+        <span class="xr-tag mono" id="xrTag"></span>
+      </div>
+      <div class="xr-side">
+        <div class="big disp" id="xrBig" aria-hidden="true">K</div>
+        <div class="ctl">
+          <label class="mono" for="x-w">Width <output id="x-wo">100</output></label>
+          <input type="range" id="x-w" min="58.5" max="165" step="0.5" value="100">
+          <div class="chips" id="x-wc"></div>
+        </div>
+        <div class="ctl">
+          <label class="mono" for="x-g">Weight <output id="x-go">600</output></label>
+          <input type="range" id="x-g" min="300" max="600" step="1" value="600">
+        </div>
+        <div class="toggles">
+          <button class="chip on" id="x-pts" aria-pressed="true">Points</button>
+          <button class="chip on" id="x-met" aria-pressed="true">Metrics</button>
+          <button class="chip" id="x-fill" aria-pressed="false">Solid</button>
+        </div>
+        <div class="legend">
+          <div><i class="on"></i>On-curve point</div>
+          <div><i class="off"></i>Off-curve handle</div>
+          <div><i class="out"></i>Outline</div>
+        </div>
+      </div>
+      <div class="pick" id="xrPick" role="listbox" aria-label="Choose a glyph"></div>
+    </div>
+  </section>
+
+  <section id="widths">
+    <div class="sec-head">
+      <h2 class="disp">Five widths</h2>
+      <p>The width axis runs continuously; these are the five named cuts, and each value is the CSS <span class="mono">font-stretch</span> percentage. Never mix widths inside one headline.</p>
+    </div>
+    <div class="widths" id="wrows"></div>
+  </section>
+
+  <section id="in-use">
+    <div class="sec-head">
+      <h2 class="disp">In use</h2>
+      <p>Light sets up, semibold lands. The gradient goes on the landing clause only.</p>
+    </div>
+    <div class="uses">
+      <figure class="use u-hero" style="margin:0">
+        <div class="eb">SpiceDB</div>
+        <h3 class="disp">AI Moves Fast.<br><b>Permissions Must Keep Up.</b></h3>
+        <figcaption class="mono">Homepage hero · Normal · 300 / 600</figcaption>
+      </figure>
+      <figure class="use u-poster" style="margin:0">
+        <p class="disp">Stop<br>maintaining<br>auth.</p>
+        <p class="disp">Start<br>shipping.</p>
+        <figcaption class="mono">Closer · Compressed caps</figcaption>
+      </figure>
+      <figure class="use u-og paper" style="margin:0">
+        <div class="og-top"><span>authzed.com/blog</span><span>AuthZed</span></div>
+        <h3 class="disp">What is Google Zanzibar?</h3>
+        <div class="bar-g"></div>
+        <figcaption class="mono">OG card · Condensed 600</figcaption>
+      </figure>
+      <figure class="use u-wide" style="margin:0">
+        <p class="disp">Zed</p>
+        <figcaption class="mono">Short line · Expanded 600</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section id="glyphs">
+    <div class="sec-head">
+      <h2 class="disp">Glyphs</h2>
+      <div class="g-axes mono">
+        <label for="g-w">wdth</label><input type="range" id="g-w" min="58.5" max="165" step="0.5" value="100">
+        <label for="g-g">wght</label><input type="range" id="g-g" min="300" max="600" step="1" value="600">
+      </div>
+    </div>
+    <div class="glyphs" id="glyphGrid"></div>
+  </section>
+
+  <section id="use">
+    <div class="sec-head">
+      <h2 class="disp">Use it</h2>
+      <p>Display only, 32px and up. Everything smaller stays Inter.</p>
+    </div>
+    <div class="install">
+      <div class="card">
+        <h3>Install</h3>
+        <div class="code"><pre id="c1">pnpm add @authzed/fonts</pre><button class="copy" data-copy-from="c1">Copy</button></div>
+        <div class="code"><pre id="c2">@import '@authzed/fonts/display.css';
+
+h1 {
+  font-family: var(--font-headline);
+  font-weight: 300;        /* sets up */
+  font-stretch: 100%;      /* 58.5% to 165% */
+}
+h1 strong { font-weight: 600; } /* lands */</pre><button class="copy" data-copy-from="c2">Copy</button></div>
+        <p class="mono" style="color:var(--ink-3);margin:12px 0 0">Next.js: <span style="color:var(--ink-2)">next/font/local</span> on the woff2. OG images and video: the ten static TTFs in the package.</p>
+      </div>
+      <div class="card">
+        <h3>Rules</h3>
+        <ul class="rules">
+          <li><b>32px and up.</b> Body, nav, buttons, labels and captions stay Inter; code stays JetBrains Mono.</li>
+          <li><b>300 sets up, 600 lands,</b> at the same size, with the 600 clause on its own line.</li>
+          <li><b>Normal by default.</b> Step down to Condensed before stepping down in size. Compressed is for all-caps heroes. Wide and Expanded are for a word or two.</li>
+          <li><b>No tracking</b> by default. −0.025em is the ceiling, on 300 only.</li>
+          <li><b>Gradient</b> on the 600 clause only.</li>
+          <li>Modified from Inter under the <b>SIL Open Font License 1.1</b>. Never call it Inter.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span>AuthZed Display · modified from Inter (SIL OFL 1.1) · AuthZed design, 2026</span>
+    <a href="https://github.com/authzed/design/tree/main/packages/fonts">packages/fonts on GitHub</a>
+  </footer>
+</main>
+
+<script>
+(() => {
+  const STOPS = [
+    { n: 'Compressed', w: 58.5 }, { n: 'Condensed', w: 80.5 }, { n: 'Normal', w: 100 },
+    { n: 'Wide', w: 117 }, { n: 'Expanded', w: 165 },
+  ];
+  const WMIN = 58.5, WMAX = 165, GMIN = 300, GMAX = 600;
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const vs = (w, g) => `'wdth' ${(+w).toFixed(1)}, 'wght' ${Math.round(g)}`;
+  const nameOf = w => {
+    const s = STOPS.find(s => Math.abs(s.w - w) < 0.6);
+    if (s) return s.n;
+    const i = STOPS.findIndex(s => s.w > w);
+    return `${STOPS[i - 1].n} → ${STOPS[i].n}`;
+  };
+  const $ = id => document.getElementById(id);
+
+  // theme
+  const root = document.documentElement;
+  try { const t = localStorage.getItem('azd-theme'); if (t) root.dataset.theme = t; } catch (e) {}
+  $('theme').addEventListener('click', () => {
+    const dark = root.dataset.theme ? root.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+    root.dataset.theme = dark ? 'light' : 'dark';
+    try { localStorage.setItem('azd-theme', root.dataset.theme); } catch (e) {}
+    xr.render();
+  });
+
+  // copy buttons
+  document.addEventListener('click', e => {
+    const b = e.target.closest('[data-copy-from]');
+    if (!b) return;
+    const text = $(b.dataset.copyFrom).textContent;
+    const done = () => { const o = b.textContent; b.textContent = 'Copied'; setTimeout(() => (b.textContent = o), 1200); };
+    try { navigator.clipboard.writeText(text).then(done, () => {}); } catch (err) {}
+  });
+
+  const chipRow = (el, items, onPick) => {
+    el.innerHTML = '';
+    items.forEach(it => {
+      const b = document.createElement('button');
+      b.className = 'chip'; b.textContent = it.label; b.dataset.v = it.v;
+      b.addEventListener('click', () => onPick(it.v));
+      el.appendChild(b);
+    });
+    return v => el.querySelectorAll('.chip').forEach(b => b.classList.toggle('on', Math.abs(b.dataset.v - v) < 0.3));
+  };
+
+  /* ---------- hero pad ---------- */
+  const hero = $('hero'), word = $('heroWord'), wordSpan = word.firstElementChild;
+  const rx = $('rx'), ry = $('ry');
+  const cur = { w: 100, g: 600 }, tgt = { w: 100, g: 600 };
+  let lastInput = -1e9, t0 = performance.now();
+  const fx = w => (w - WMIN) / (WMAX - WMIN);
+  const fy = g => 1 - (g - GMIN) / (GMAX - GMIN);
+
+  function buildRulers() {
+    rx.innerHTML = ''; ry.innerHTML = '';
+    for (let w = 60; w <= 165; w += 5) {
+      const t = document.createElement('i'); t.className = 'tick'; t.style.left = fx(w) * 100 + '%'; rx.appendChild(t);
+    }
+    STOPS.forEach(s => {
+      const t = document.createElement('i'); t.className = 'tick big'; t.style.left = fx(s.w) * 100 + '%'; rx.appendChild(t);
+      const b = document.createElement('button'); b.className = 'lab stop'; b.innerHTML = `<span class="nm">${s.n} </span>${s.w}`; b.dataset.n = s.n;
+      b.style.left = fx(s.w) * 100 + '%';
+      if (s.w === WMIN) b.style.transform = 'translateX(-4px)';
+      if (s.w === WMAX) b.style.transform = 'translateX(calc(-100% + 4px))';
+      b.addEventListener('click', e => { e.stopPropagation(); tgt.w = s.w; lastInput = performance.now(); });
+      b.addEventListener('pointerdown', e => e.stopPropagation());
+      rx.appendChild(b);
+    });
+    for (let g = 300; g <= 600; g += 25) {
+      const t = document.createElement('i'); t.className = 'tick' + (g % 100 === 0 ? ' big' : ''); t.style.top = fy(g) * 100 + '%'; ry.appendChild(t);
+      if (g % 100 === 0) { const l = document.createElement('span'); l.className = 'lab'; l.textContent = g; l.style.top = `clamp(8px, ${fy(g) * 100}%, calc(100% - 8px))`; ry.appendChild(l); }
+    }
+    const mx = document.createElement('i'); mx.className = 'mark'; mx.id = 'mx'; rx.appendChild(mx);
+    const my = document.createElement('i'); my.className = 'mark'; my.id = 'my'; ry.appendChild(my);
+  }
+  buildRulers();
+
+  let heroSize = 200;
+  function fitHero() {
+    // size so the widest, heaviest setting fills the pad; narrower settings then show the stretch
+    const box = word.getBoundingClientRect();
+    wordSpan.style.fontVariationSettings = vs(WMAX, GMAX);
+    wordSpan.style.fontSize = '100px';
+    const w = wordSpan.getBoundingClientRect().width;
+    heroSize = Math.max(56, Math.min(100 * (box.width * 0.94) / w, box.height * 0.78));
+    wordSpan.style.fontSize = heroSize + 'px';
+  }
+
+  function padFromEvent(e) {
+    const r = word.getBoundingClientRect();
+    const x = Math.min(1, Math.max(0, (e.clientX - r.left) / r.width));
+    tgt.w = WMIN + x * (WMAX - WMIN);
+    if (e.pointerType === 'mouse') {
+      const y = Math.min(1, Math.max(0, (e.clientY - r.top) / r.height));
+      tgt.g = GMAX - y * (GMAX - GMIN);
+    }
+    lastInput = performance.now();
+    $('hint').style.opacity = 0;
+  }
+  let dragging = false, downAt = null;
+  hero.addEventListener('pointermove', e => { if (e.pointerType === 'mouse' || dragging) padFromEvent(e); });
+  hero.addEventListener('pointerdown', e => { dragging = e.pointerType !== 'mouse'; downAt = { x: e.clientX, y: e.clientY, t: performance.now() }; if (e.pointerType === 'mouse') padFromEvent(e); });
+  hero.addEventListener('pointerup', e => {
+    if (e.pointerType !== 'mouse' && downAt && Math.hypot(e.clientX - downAt.x, e.clientY - downAt.y) < 8) {
+      tgt.g = tgt.g > 450 ? GMIN : GMAX; lastInput = performance.now(); // tap flips the weight on touch
+    }
+    dragging = false; downAt = null;
+  });
+  hero.addEventListener('pointercancel', () => { dragging = false; });
+  hero.addEventListener('keydown', e => {
+    const k = { ArrowLeft: [-2.5, 0], ArrowRight: [2.5, 0], ArrowUp: [0, 25], ArrowDown: [0, -25] }[e.key];
+    if (!k) return;
+    e.preventDefault();
+    tgt.w = Math.min(WMAX, Math.max(WMIN, tgt.w + k[0] * (e.shiftKey ? 4 : 1)));
+    tgt.g = Math.min(GMAX, Math.max(GMIN, tgt.g + k[1] * (e.shiftKey ? 4 : 1)));
+    lastInput = performance.now();
+  });
+
+  let lastName = '';
+  function heroFrame(now) {
+    const idle = now - lastInput > 3500;
+    if (idle && !reduce) {
+      const t = (now - t0) / 1000;
+      tgt.w = 111.75 + 53.25 * Math.sin(t * 0.42);
+      tgt.g = 450 + 150 * Math.sin(t * 0.27 + 1.2);
+    }
+    const k = idle ? 0.06 : 0.18;
+    cur.w += (tgt.w - cur.w) * k; cur.g += (tgt.g - cur.g) * k;
+    wordSpan.style.fontVariationSettings = vs(cur.w, cur.g);
+    $('r-w').textContent = cur.w.toFixed(1);
+    $('r-g').textContent = Math.round(cur.g);
+    const n = nameOf(cur.w);
+    if (n !== lastName) {
+      $('r-n').textContent = n; lastName = n;
+      rx.querySelectorAll('.lab.stop').forEach(b => b.classList.toggle('on', b.dataset.n === n));
+    }
+    $('mx').style.left = fx(cur.w) * 100 + '%';
+    $('my').style.top = fy(cur.g) * 100 + '%';
+    requestAnimationFrame(heroFrame);
+  }
+
+  /* ---------- tester ---------- */
+  const T = { w: 100, g: 600, s: 120, tr: 0, up: false, bg: '' };
+  const sample = $('sample'), stage = $('stage');
+  const tW = chipRow($('t-wc'), STOPS.map(s => ({ label: s.n, v: s.w })), v => { T.w = v; $('t-w').value = v; tester(); });
+  const tG = chipRow($('t-gc'), [{ label: 'Light 300', v: 300 }, { label: 'Semibold 600', v: 600 }], v => { T.g = v; $('t-g').value = v; tester(); });
+  function tester() {
+    sample.style.fontVariationSettings = vs(T.w, T.g);
+    sample.style.fontWeight = Math.round(T.g);
+    sample.style.fontSize = T.s + 'px';
+    sample.style.letterSpacing = T.tr + 'em';
+    sample.style.textTransform = T.up ? 'uppercase' : 'none';
+    stage.className = 'stage' + (T.bg ? ' ' + T.bg : '');
+    $('t-wo').textContent = (+T.w).toFixed(1).replace(/\.0$/, '') + ' · ' + nameOf(+T.w);
+    $('t-go').textContent = Math.round(T.g);
+    $('t-so').textContent = T.s + 'px';
+    tW(T.w); tG(T.g);
+    $('t-bb').classList.toggle('on', T.w === 130 && Math.round(T.g) === 370 && T.tr === 0.04);
+    const css = [`font-family: var(--font-headline);`, `font-stretch: ${(+T.w).toFixed(1).replace(/\.0$/, '')}%;`, `font-weight: ${Math.round(T.g)};`, `font-size: ${T.s}px;`];
+    if (T.tr) css.push(`letter-spacing: ${T.tr}em;`);
+    if (T.up) css.push('text-transform: uppercase;');
+    $('t-css').textContent = css.join(' ');
+  }
+  $('t-w').addEventListener('input', e => { T.w = +e.target.value; tester(); });
+  $('t-g').addEventListener('input', e => { T.g = +e.target.value; tester(); });
+  $('t-s').addEventListener('input', e => { T.s = +e.target.value; tester(); });
+  document.querySelectorAll('[data-tr]').forEach(b => b.addEventListener('click', () => {
+    T.tr = +b.dataset.tr; document.querySelectorAll('[data-tr]').forEach(x => x.classList.toggle('on', x === b)); tester();
+  }));
+  // named style Broad Book (an instance in the font): wdth 130, wght 370, +0.04em
+  $('t-bb').addEventListener('click', () => {
+    T.w = 130; T.g = 370; T.tr = 0.04; $('t-w').value = 130; $('t-g').value = 370;
+    document.querySelectorAll('[data-tr]').forEach(x => x.classList.toggle('on', +x.dataset.tr === 0.04)); tester();
+  });
+  $('t-bg').querySelectorAll('[data-bg]').forEach(b => b.addEventListener('click', () => {
+    T.bg = b.dataset.bg; $('t-bg').querySelectorAll('.chip').forEach(x => x.classList.toggle('on', x === b)); tester();
+  }));
+  $('t-up').addEventListener('click', e => { T.up = !T.up; e.currentTarget.classList.toggle('on', T.up); e.currentTarget.setAttribute('aria-pressed', T.up); tester(); });
+  sample.addEventListener('paste', e => { e.preventDefault(); const t = (e.clipboardData || window.clipboardData).getData('text/plain'); document.execCommand('insertText', false, t); });
+  if (innerWidth < 600) { T.s = 52; $('t-s').value = 52; }
+  if (matchMedia('(pointer: coarse)').matches) $('hint').textContent = 'Drag across to change width, tap to flip the weight';
+  tester();
+
+  /* ---------- widths ---------- */
+  const ROWS = [
+    { n: 'Compressed', w: 58.5, txt: 'STOP MAINTAINING AUTH.', use: 'All-caps hero lines, tall and stacked. Its lowercase is not for use.' },
+    { n: 'Condensed', w: 80.5, txt: 'Permissions Must Keep Up.', use: 'Long headlines that must fit: OG titles, narrow phone heroes.' },
+    { n: 'Normal', w: 100, txt: 'AI Moves Fast.', use: 'The default for every headline.' },
+    { n: 'Wide', w: 117, txt: 'Relationships', use: 'Short lines only: a word or two.' },
+    { n: 'Expanded', w: 165, txt: 'SpiceDB', use: 'Short lines only, at the largest sizes.' },
+  ];
+  const wrows = $('wrows');
+  ROWS.forEach(r => {
+    const row = document.createElement('div'); row.className = 'wrow';
+    row.innerHTML = `<div class="meta mono"><b>${r.n}</b>wdth ${r.w} · font-stretch ${r.w}%<span>${r.use}</span></div><div class="wline disp" style="font-variation-settings:${vs(r.w, 600)};font-weight:600"><span>${r.txt}</span></div>`;
+    wrows.appendChild(row);
+  });
+  function fitRows() {
+    wrows.querySelectorAll('.wline').forEach(l => {
+      const s = l.firstElementChild; s.style.fontSize = '100px';
+      const w = s.getBoundingClientRect().width;
+      l.style.fontSize = Math.min(150, 100 * (l.clientWidth - 2) / w) + 'px';
+      s.style.fontSize = '';
+    });
+  }
+
+  // the closer poster: size the caps so its longest word fills the card
+  function fitPoster() {
+    const card = document.querySelector('.u-poster'), ps = card.querySelectorAll('p');
+    const inner = card.clientWidth - 56;
+    ps.forEach(p => (p.style.fontSize = '100px'));
+    const widest = Math.max(...[...ps].map(p => p.getBoundingClientRect().width));
+    ps.forEach(p => (p.style.fontSize = Math.min(120, 100 * inner / widest) + 'px'));
+  }
+
+  /* ---------- glyph grid ---------- */
+  const CHARS = '!"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[]abcdefghijklmnopqrstuvwxyz{|}–—’“”→';
+  const grid = $('glyphGrid');
+  [...CHARS].forEach(ch => {
+    const b = document.createElement('button');
+    b.textContent = ch; b.setAttribute('aria-label', `${ch}, open in the outline view`);
+    const sm = document.createElement('small'); sm.textContent = 'U+' + ch.codePointAt(0).toString(16).toUpperCase().padStart(4, '0');
+    b.appendChild(sm);
+    b.addEventListener('click', () => { xr.set(ch, +$('g-w').value, +$('g-g').value); $('notch').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' }); });
+    grid.appendChild(b);
+  });
+  const gridAxes = () => { grid.style.fontVariationSettings = vs($('g-w').value, $('g-g').value); };
+  $('g-w').addEventListener('input', gridAxes); $('g-g').addEventListener('input', gridAxes); gridAxes();
+
+  /* ---------- x-ray ---------- */
+  // Points for every glyph at the 10 masters (5 widths x 2 weights). The masters sit on a full grid
+  // and the font has no avar, so bilinear interpolation reproduces any instance (checked to 0.5 units).
+  const xr = (() => {
+    const svg = $('xrSvg'), view = $('xrView');
+    const S = { ch: 'K', w: 100, g: 600, pts: true, met: true, fill: false, zoom: 1, fx: 0, fy: 0 };
+    let D = null;
+    const NS = 'http://www.w3.org/2000/svg';
+    const xW = chipRow($('x-wc'), STOPS.map(s => ({ label: String(s.w), v: s.w })), v => { S.w = v; $('x-w').value = v; render(); });
+
+    function inst(m) {
+      const W = D.meta.wdth;
+      let i = 0; while (i < W.length - 2 && S.w > W[i + 1]) i++;
+      const t = (S.w - W[i]) / (W[i + 1] - W[i]), u = (S.g - GMIN) / (GMAX - GMIN);
+      const a = m[i], b = m[i + 1], c = m[5 + i], d = m[5 + i + 1], out = new Array(a.length);
+      for (let k = 0; k < a.length; k++) {
+        const lo = a[k] + (b[k] - a[k]) * t, hi = c[k] + (d[k] - c[k]) * t;
+        out[k] = lo + (hi - lo) * u;
+      }
+      return out;
+    }
+    function contours(G, v) {
+      const pts = [], on = [...G.f].map(c => c === '1');
+      for (let k = 1; k < v.length; k += 2) pts.push([v[k], -v[k + 1]]);
+      const cs = []; let s = 0;
+      G.e.forEach(e => { cs.push({ p: pts.slice(s, e + 1), o: on.slice(s, e + 1) }); s = e + 1; });
+      return cs;
+    }
+    const mid = (a, b) => [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2];
+    const P = p => `${p[0].toFixed(1)} ${p[1].toFixed(1)}`;
+    function pathOf(c) {
+      let p = c.p, o = c.o; const n = p.length;
+      if (!n) return '';
+      const s = o.indexOf(true);
+      if (s < 0) { p = [mid(p[n - 1], p[0]), ...p]; o = [true, ...o]; }
+      else { p = p.slice(s).concat(p.slice(0, s)); o = o.slice(s).concat(o.slice(0, s)); }
+      let d = 'M' + P(p[0]), ctrl = null;
+      for (let i = 1; i <= p.length; i++) {
+        const q = p[i % p.length], on = o[i % p.length];
+        if (on) { d += ctrl ? `Q${P(ctrl)} ${P(q)}` : `L${P(q)}`; ctrl = null; }
+        else { if (ctrl) d += `Q${P(ctrl)} ${P(mid(ctrl, q))}`; ctrl = q; }
+      }
+      return d + 'Z';
+    }
+    const el = (tag, attrs) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); return e; };
+
+    function render() {
+      $('x-wo').textContent = (+S.w).toFixed(1).replace(/\.0$/, '') + ' · ' + nameOf(+S.w);
+      $('x-go').textContent = Math.round(S.g);
+      xW(S.w);
+      const big = $('xrBig'); big.textContent = S.ch; big.style.fontVariationSettings = vs(S.w, S.g);
+      $('xrPick').querySelectorAll('button').forEach(b => { const on = b.dataset.ch === S.ch; b.classList.toggle('on', on); b.setAttribute('aria-selected', on); });
+      view.classList.toggle('zoomed', S.zoom > 1);
+      if (!D) return;
+      const G = D.glyphs[S.ch]; if (!G) return;
+      const v = inst(G.m), adv = v[0], M = D.meta;
+      const cs = contours(G, v);
+      // frame: the em box, padded; zoom about the tapped point
+      const H = (M.asc - M.desc) * 1.18, box = view.getBoundingClientRect();
+      const Wv = H * (box.width / box.height);
+      let vw = Wv / S.zoom, vh = H / S.zoom;
+      let cx = S.zoom > 1 ? S.fx : adv / 2, cy = S.zoom > 1 ? S.fy : -(M.asc + M.desc) / 2;
+      svg.setAttribute('viewBox', `${cx - vw / 2} ${cy - vh / 2} ${vw} ${vh}`);
+      const upx = vh / box.height; // font units per css pixel
+      const cs2 = getComputedStyle(root);
+      const col = n => cs2.getPropertyValue(n).trim();
+      svg.innerHTML = '';
+      if (S.met) {
+        const g = el('g', { stroke: col('--xr-metric'), 'stroke-width': upx, fill: 'none' });
+        [[0, 'baseline'], [M.x, 'x-height'], [M.cap, 'cap height'], [M.asc, 'ascender'], [M.desc, 'descender']].forEach(([y, n]) => {
+          g.appendChild(el('line', { x1: cx - vw, x2: cx + vw, y1: -y, y2: -y }));
+          const t = el('text', { x: adv + 14 * upx, y: -y - 5 * upx, fill: col('--ink-3'), stroke: 'none', 'font-size': 10.5 * upx, 'font-family': 'JetBrains Mono, monospace' });
+          t.textContent = n; g.appendChild(t);
+        });
+        [0, adv].forEach(x => g.appendChild(el('line', { x1: x, x2: x, y1: -M.asc - 40, y2: -M.desc + 40, 'stroke-dasharray': `${4 * upx} ${4 * upx}` })));
+        svg.appendChild(g);
+      }
+      const d = cs.map(pathOf).join('');
+      svg.appendChild(el('path', { d, fill: S.fill ? col('--xr-stroke') : col('--xr-fill'), 'fill-rule': 'nonzero', stroke: S.fill ? 'none' : col('--xr-stroke'), 'stroke-width': 1.25 * upx }));
+      if (S.pts && !S.fill) {
+        const hs = el('g', { stroke: col('--xr-off'), 'stroke-width': upx, fill: 'none', opacity: .75 });
+        const dots = el('g', {});
+        const r = Math.max(2.2, Math.min(4, 3.2 * Math.sqrt(S.zoom))) * upx;
+        cs.forEach(c => {
+          const n = c.p.length;
+          let last = null;
+          c.p.forEach((p, i) => {
+            // the compatible masters carry extra points along straight runs; they don't shape anything, so skip them
+            const pr = c.p[(i - 1 + n) % n], nx = c.p[(i + 1) % n];
+            if (n > 3 && last && Math.hypot(p[0] - last[0], p[1] - last[1]) < 2.4 * r) return;
+            const ux = nx[0] - pr[0], uy = nx[1] - pr[1], ul = Math.hypot(ux, uy);
+            if (ul > 1 && Math.abs((p[0] - pr[0]) * uy - (p[1] - pr[1]) * ux) / ul < Math.max(0.6, upx) && ((p[0] - pr[0]) * ux + (p[1] - pr[1]) * uy) / (ul * ul) > 0 && ((p[0] - pr[0]) * ux + (p[1] - pr[1]) * uy) / (ul * ul) < 1) return;
+            last = p;
+            if (c.o[i]) {
+              dots.appendChild(el('rect', { x: p[0] - r, y: p[1] - r, width: 2 * r, height: 2 * r, fill: col('--xr-on') }));
+            } else {
+              [c.p[(i - 1 + n) % n], c.p[(i + 1) % n]].forEach((q, j) => {
+                const qo = c.o[(i + (j ? 1 : -1) + n) % n];
+                const end = qo ? q : mid(p, q);
+                hs.appendChild(el('line', { x1: p[0], y1: p[1], x2: end[0], y2: end[1] }));
+              });
+              dots.appendChild(el('circle', { cx: p[0], cy: p[1], r: r * 0.85, fill: col('--bg'), stroke: col('--xr-off'), 'stroke-width': 1.4 * upx }));
+            }
+          });
+        });
+        svg.appendChild(hs); svg.appendChild(dots);
+      }
+      const n = cs.reduce((a, c) => a + c.p.length, 0);
+      $('xrTag').textContent = `${S.ch}  ·  ${n} points  ·  advance ${Math.round(adv)}${S.zoom > 1 ? '  ·  ' + S.zoom + '× · tap to zoom out' : ''}`;
+    }
+
+    view.addEventListener('click', e => {
+      if (!D) return;
+      if (S.zoom > 1) { S.zoom = 1; render(); return; }
+      const vb = svg.viewBox.baseVal, r = view.getBoundingClientRect();
+      S.fx = vb.x + (e.clientX - r.left) / r.width * vb.width;
+      S.fy = vb.y + (e.clientY - r.top) / r.height * vb.height;
+      S.zoom = 4; render();
+    });
+    $('x-w').addEventListener('input', e => { S.w = +e.target.value; render(); });
+    $('x-g').addEventListener('input', e => { S.g = +e.target.value; render(); });
+    [['x-pts', 'pts'], ['x-met', 'met'], ['x-fill', 'fill']].forEach(([id, k]) => $(id).addEventListener('click', e => {
+      S[k] = !S[k]; e.currentTarget.classList.toggle('on', S[k]); e.currentTarget.setAttribute('aria-pressed', S[k]); render();
+    }));
+    const pick = $('xrPick');
+    [...CHARS].forEach(ch => {
+      const b = document.createElement('button'); b.textContent = ch; b.dataset.ch = ch; b.setAttribute('role', 'option');
+      b.addEventListener('click', () => { S.ch = ch; S.zoom = 1; render(); });
+      pick.appendChild(b);
+    });
+    let loading = null;
+    function load() {
+      if (loading) return loading;
+      loading = fetch('xray.json').then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+        .then(j => { D = j; $('xrLoad').remove(); render(); })
+        .catch(() => { $('xrLoad').textContent = 'Outlines did not load. Reload the page to try again.'; loading = null; });
+      return loading;
+    }
+    new IntersectionObserver((es, o) => { if (es.some(e => e.isIntersecting)) { load(); o.disconnect(); } }, { rootMargin: '600px' }).observe(view);
+    addEventListener('resize', () => render());
+    return {
+      render,
+      set(ch, w, g) { S.ch = ch; S.w = w; S.g = g; S.zoom = 1; $('x-w').value = w; $('x-g').value = g; load(); render(); },
+    };
+  })();
+  xr.render();
+
+  /* ---------- go ---------- */
+  document.fonts.load("600 100px 'AuthZed Display'").then(() => {
+    fitHero(); fitRows(); fitPoster();
+    requestAnimationFrame(heroFrame);
+  });
+  let rt; addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => { fitHero(); fitRows(); fitPoster(); }, 120); });
+})();
+</script>
+</body>
+</html>

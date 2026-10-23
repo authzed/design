@@ -1,0 +1,5 @@
+/* AuthZed Display: AuthZed display face, variable wdth 58.5-165%, wght 300-600. Modified from Inter (SIL OFL 1.1); renamed, since Inter is a Reserved Font Name, and stays OFL. Display only, 32px and up. */
+@font-face { font-family: 'AuthZed Display'; font-weight: 300 600; font-stretch: 58.5% 165%; font-style: normal; font-display: swap; src: url('../fonts/AuthZedDisplay[wdth,wght].woff2') format('woff2-variations'); }
+:root { --font-headline: 'AuthZed Display', 'Inter', system-ui, sans-serif; --az-broad-book-stretch: 130%; --az-broad-book-weight: 370; --az-broad-book-tracking: 0.04em; --az-broad-book-leading: 0.9; }
+/* Named style Broad Book (the font's own instance at wdth 130, wght 370): the v2 closer line. */
+.az-display-broad-book { font-family: var(--font-headline); font-stretch: 130%; font-weight: 370; letter-spacing: 0.04em; line-height: 0.9; }
