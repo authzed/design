@@ -79,6 +79,18 @@ export default function TypographyPage() {
           This combination delivers optimal legibility across all screen sizes while maintaining a professional, 
           modern aesthetic that aligns with our brand identity.
         </p>
+        <a
+          href="/specimen/authzed-display/index.html"
+          className="flex items-center justify-between gap-4 rounded-lg border p-6 transition-colors hover:bg-muted"
+        >
+          <div>
+            <div className="text-lg font-semibold">AuthZed Display specimen</div>
+            <p className="text-muted-foreground">
+              The display face for headlines: type tester, outlines, the five widths and the glyph set.
+            </p>
+          </div>
+          <span aria-hidden="true">→</span>
+        </a>
       </div>
 
       <div className="space-y-12">
